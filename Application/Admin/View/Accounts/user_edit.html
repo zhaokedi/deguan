@@ -1,0 +1,48 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>编辑用户</h2>
+    </div>
+    <div class="tab-wrap">
+        <!--<ul class="tab-nav nav">-->
+            <!--<li data-tab="tab1" class="current"><a href="javascript:void(0);">账户信息</a></li>-->
+            <!--<li data-tab="tab2"><a href="{:U('Accounts/profile_edit',array('id'=>$info['id']))}">基础资料</a></li>-->
+        <!--</ul>-->
+        <div class="tab-content">
+            <form action="{:U()}" method="post" class="form-horizontal">
+                <div class="form-item">
+                    <label class="item-label">用户名</label>
+                    <div class="controls">
+                        <span>{$info.username}</span>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">密码</label>
+                    <div class="controls">
+                        <input type="password" class="text input-large" name="password" value="">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">确认密码</label>
+                    <div class="controls">
+                        <input type="password" class="text input-large" name="repassword" value="">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label"></label>
+                    <input type="hidden" name="id" value="{$info.id|default=''}">
+                    <button type="submit" id="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+                    <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Accounts/user')}');
+    </script>
+</block>

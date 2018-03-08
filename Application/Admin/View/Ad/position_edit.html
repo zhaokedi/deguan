@@ -1,0 +1,125 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<div class="main-title cf">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<!--<ul class="tab-nav nav">-->
+			<!--<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>-->
+			<!--<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>-->
+		<!--</ul>-->
+		<div class="tab-content">
+			<!-- 表单 -->
+			<form id="form" action="{:U('position_update')}" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+					<div class="form-item cf">
+						<label class="item-label">图片位名称<span class="check-tips"></span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="position_name" value="{$info.position_name}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">图片位宽度<span class="check-tips"></span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="ad_width" value="{$info.ad_width}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">图片位高度<span class="check-tips"></span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="ad_height" value="{$info.ad_height}">
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">图片位描述<span class="check-tips"></span></label>
+						<div class="controls">
+							<input type="text" class="text input-large" name="position_desc" value="{$info.position_desc}">
+						</div>
+					</div>
+
+					<div class="form-item cf">
+						<label class="item-label">是否启用<span class="check-tips"></span></label>
+						<div class="controls">
+							<select name="is_open">
+								<option value="1">开启</option>
+								<option value="0">关闭</option>
+							</select>
+						</div>
+					</div>
+                    </div>
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls edit_sort_btn">
+						<input type="hidden" name="position_id" value="{$info['position_id']}"/>
+						<!--<input type="hidden" name="model_id" value="{$info['model_id']}"/>-->
+						<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+//导航高亮
+highlight_subnav("{:U('Ad/index')}");
+Think.setValue('type', "{$info.type|default=''}");
+Think.setValue('is_show', "{$info.is_show|default=1}");
+
+
+//$(function(){
+//	showTab();
+//})
+<eq name="ACTION_NAME" value="add">
+$(function(){
+	$('#data-type').change(function(){
+		$('#data-field').val($(this).find('option:selected').attr('rule'));
+	});
+})
+</eq>
+</script>
+	<script type="text/javascript">
+        //上传图片
+        /* 初始化上传插件 */
+        $("#upload_picture_code").uploadify({
+            "height"          : 30,
+            "swf"             : "__STATIC__/uploadify/uploadify.swf",
+            "fileObjName"     : "download",
+            "buttonText"      : "上传图片",
+            "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+            "width"           : 120,
+            'removeTimeout'   : 1,
+            'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+            "onUploadSuccess" : uploadPicturecover_id,
+            'onFallback' : function() {
+                alert('未检测到兼容版本的Flash。');
+            }
+        });
+        function uploadPicturecover_id(file, data){
+            var data = $.parseJSON(data);
+            var src = '';
+            if(data.status){
+                $("#cover_id_cover_id").val(data.path);
+                src = data.url || '__ROOT__' + data.path
+                $("#cover_id_cover_id").parent().find('.upload-img-box').html(
+                    '<div class="upload-pre-item"><img src="__ROOT__' + src + '"/></div>'
+                );
+            } else {
+                updateAlert(data.info);
+                setTimeout(function(){
+                    $('#top-alert').find('button').click();
+                    $(that).removeClass('disabled').prop('disabled',false);
+                },1500);
+            }
+        }
+	</script>
+
+</block>
+

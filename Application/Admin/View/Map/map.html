@@ -1,0 +1,116 @@
+<extend name="Public/base" />
+<!--<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=2UABZ-L5TR5-OKAIW-QFN3I-GAV4Q-IZF7J"></script>-->
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Xyn9WgYtwP5mO5PlbtnwCG5QBZVbDhiY"></script>-->
+
+<block name="style">
+    <style>
+        .upload-img-box .upload-pre-item{
+            display: inline-block;
+        }
+        #container {width: 800px;height: 500px;overflow: hidden;margin:0 auto;font-family:"微软雅黑";}
+		/*#container span{*/
+			/*width: 10px;!important;*/
+			/*height: 15px;!important;*/
+		/*}*/
+    </style>
+</block>
+<block name="body">
+	<div class="main-title cf">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<!-- 表单 -->
+
+			<form id="form" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+                    <div id="container"></div>
+				</div>
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<!--<label class="item-label"></label>-->
+					<!--<div class="controls edit_sort_btn">-->
+						<!--&lt;!&ndash;<input type="hidden" name="id" value="{$info.id}">&ndash;&gt;-->
+						<!--<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">发送</button>-->
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					<!--</div>-->
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" >
+        //导航高亮
+        highlight_subnav('{:U("Accounts/requirement")}');
+	</script>
+<script type="text/javascript" charset="utf-8">
+    var lng={$info.lng};
+    var lat={$info.lat};
+    var data ={$data};
+    var map = new BMap.Map("container");
+    var point = new BMap.Point(lng,lat);
+    map.centerAndZoom(point, 12);
+    map.enableScrollWheelZoom(true);
+    var myIcon = new BMap.Icon("http://hyxuexiba.com/Public/markers.png", new BMap.Size(18,23));
+    var myIcon2 = new BMap.Icon("http://hyxuexiba.com/Public/mk2.png", new BMap.Size(10,15));
+    var marker = new BMap.Marker(point,{icon:myIcon});        // 创建标注
+    map.addOverlay(marker);
+    var title="昵称："+"{$userinfo.nickname}"+"<br/>手机号："+"{$userinfo.username}"+"<br/>课程："+"{$info.course_text}";
+    var rcontent="需求："+"{$info.content}"+"<br/>地址:"+"{$info.address}";
+    var opts = {
+        width : 200,     // 信息窗口宽度
+        height: 150,     // 信息窗口高度
+        title : title , // 信息窗口标题
+        enableMessage:true,//设置允许信息窗发送短息
+    }
+
+    var infoWindow = new BMap.InfoWindow(rcontent, opts);  // 创建信息窗口对象
+    marker.addEventListener("click", function(){
+        map.openInfoWindow(infoWindow,point); //开启信息窗口
+    });
+
+    for (var i = 0; i < data.length; i ++) {
+
+        var marker = new BMap.Marker(new BMap.Point(data[i]['lng'], data[i]['lat']),{icon:myIcon2});
+        console.log(data[i]['nickname']);
+        map.addOverlay(marker);
+        var opts = {
+            width : 200,     // 信息窗口宽度
+            height: 100,     // 信息窗口高度
+            title : "<a href='"+data[i]['url']+"'>昵称："+data[i]['nickname']+"</a><br/>手机号："+data[i]['username'] , // 信息窗口标题
+            enableMessage:true,//设置允许信息窗发送短息
+            message:"123"
+        }
+        var coantent="特长:"+data[i]['speciality'];
+
+        addClickHandler(coantent,marker,opts);
+
+    }
+
+
+    function addMarker(point){
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+    }
+    function addClickHandler(content,marker,opts){
+        marker.addEventListener("click",function(e){
+            openInfo(content,e,opts)}
+        );
+    }
+    function openInfo(content,e,opts){
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+        map.openInfoWindow(infoWindow,point); //开启信息窗口
+    }
+// 	map1();
+//    add_markers();
+
+
+</script>
+</block>
+

@@ -1,0 +1,150 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<div class="main-title cf">
+		<h2>{$meta_title}</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<!--<ul class="tab-nav nav">-->
+			<!--<li data-tab="tab1" class="current"><a href="javascript:void(0);">基 础</a></li>-->
+			<!--<li data-tab="tab2"><a href="javascript:void(0);">高 级</a></li>-->
+		<!--</ul>-->
+		<div class="tab-content">
+			<!-- 表单 -->
+			<form id="form" action="" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+					<!--<div class="form-item cf">-->
+						<!--<label class="item-label">昵称<span class="check-tips"></span></label>-->
+						<!--<div class="controls">-->
+							<!--<input type="text" class="text input-large" name="nickname" value="{$info.nickname}">-->
+						<!--</div>-->
+					<!--</div>-->
+					<!--<div class="form-item cf">-->
+						<!--<label class="item-label">电话<span class="check-tips"></span></label>-->
+						<!--<div class="controls">-->
+							<!--<input type="text" class="text input-large" name="tel" value="{$info.tel}">-->
+						<!--</div>-->
+					<!--</div>-->
+
+					<div class="form-item">
+						<label class="item-label">地区</label>
+						<div class="controls">
+							<!--<input type="text" class="text input-large" name="email" value="">-->
+							<!--<div class="row" style="display: block;">-->
+							<!--<label>用户地区：</label>-->
+							<div id="city" style="display: inline-block;">
+								<select class="prov" name="province"></select>
+								<select class="city" name="city" disabled="disabled"></select>
+								<select class="dist" name="state" disabled="disabled"></select>
+							</div>
+							<span class="check-tips">(代理商必须填写)</span>
+							<!--</div>-->
+						</div>
+
+
+					</div>
+					<!--<div class="form-item cf">-->
+						<!--<label class="item-label">默认排序<span class="check-tips"></span></label>-->
+						<!--<div class="controls">-->
+							<!--<input type="text" class="text input-large" placeholder="数字越大越靠前" name="orderby" value="{$info.orderby}" id="data-field">-->
+						<!--</div>-->
+					<!--</div>-->
+
+					<!--<div class="form-item cf">-->
+						<!--<label class="item-label">是否显示<span class="check-tips"></span></label>-->
+						<!--<div class="controls">-->
+							<!--<select name="is_show">-->
+								<!--<option value="1">显示</option>-->
+								<!--<option value="0">不显示</option>-->
+							<!--</select>-->
+						<!--</div>-->
+					<!--</div>-->
+                    </div>
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls edit_sort_btn">
+						<input type="hidden" name="id" value="{$info['id']}"/>
+						<!--<input type="hidden" name="model_id" value="{$info['model_id']}"/>-->
+						<button class="btn submit-btn ajax-post no-refresh" type="submit" target-form="form-horizontal">确 定</button>
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/cityselect/jquery.cityselect.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="utf-8">
+//导航高亮
+highlight_subnav("{:U('Custom/customservice')}");
+Think.setValue('type', "{$info.type|default=''}");
+
+
+
+//$(function(){
+//	showTab();
+//})
+<eq name="ACTION_NAME" value="add">
+$(function(){
+	$('#data-type').change(function(){
+		$('#data-field').val($(this).find('option:selected').attr('rule'));
+	});
+})
+</eq>
+
+</script>
+	<script type="text/javascript">
+        //上传图片
+        /* 初始化上传插件 */
+//        $("#upload_picture_code").uploadify({
+//            "height"          : 30,
+//            "swf"             : "__STATIC__/uploadify/uploadify.swf",
+//            "fileObjName"     : "download",
+//            "buttonText"      : "上传图片",
+//            "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+//            "width"           : 120,
+//            'removeTimeout'   : 1,
+//            'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+//            "onUploadSuccess" : uploadPicturecover_id,
+//            'onFallback' : function() {
+//                alert('未检测到兼容版本的Flash。');
+//            }
+//        });
+        function uploadPicturecover_id(file, data){
+            var data = $.parseJSON(data);
+            var src = '';
+            if(data.status){
+                $("#cover_id_cover_id").val(data.path);
+                src = data.url || '__ROOT__' + data.path
+                $("#cover_id_cover_id").parent().find('.upload-img-box').html(
+                    '<div class="upload-pre-item"><img src="__ROOT__' + src + '"/></div>'
+                );
+            } else {
+                updateAlert(data.info);
+                setTimeout(function(){
+                    $('#top-alert').find('button').click();
+                    $(that).removeClass('disabled').prop('disabled',false);
+                },1500);
+            }
+        }
+
+        $(function(){
+            $("#city").citySelect({
+                url:"__STATIC__/cityselect/city.min.js",
+                nodata:"none",
+                prov:<notempty name="province">"{$province|default='null'}"<else/>null</notempty>,
+                city:<notempty name="city">"{$city|default='null'}"<else/>null</notempty>,
+                dist:<notempty name="state">"{$state|default='null'}"<else/>null</notempty>,
+                required:false
+        });
+        });
+	</script>
+
+</block>
+

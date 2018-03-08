@@ -1,0 +1,116 @@
+body,ul,ol,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,th,td,figure,figcaption
+{
+    padding: 0;
+    margin: 0;
+}
+li{list-style-type:none;}
+a,a:hover,a:visited{ color:inherit; text-decoration:none;}
+.clear{ clear:both; float:none !important; width:0 !important; height:0 !important; margin:0 !important; padding:0 !important; border:none !important;}
+h1,h2,h3,h4{font-weight:normal;font-size:1.5em;}
+#box{
+    margin: 5px 10px 5px 10px;
+    width: 95%;
+    height: 37rem;
+    background: url("../image/border.png") no-repeat;
+    background-size: 100% 100%;
+}
+.mobile_top{
+    width: 56%;
+    height: 8%;
+    position: relative;
+    left: 22%;
+    top: 2.3rem;
+}
+.mobile_top img{
+
+    width: 100%;
+    height: 110%;
+}
+.mobile_top p{
+    color: #393a33;
+    font-size: 0.85rem;
+    text-align: center;
+
+}
+
+.mobile_content{
+    width: 75%;
+    /*padding: 0 20px 0 20px;*/
+    height: 20rem;
+    position: relative;
+    top: 14%;
+    left: 12.5%;
+
+}
+.mobile_content .list{
+    width: 100%;
+    height: 21%;
+    padding-top: 0.9rem;
+    border-bottom: 1px solid #32342c;
+}
+
+.mobile_content .app{
+    position: relative;
+    float: left;
+    width: 33%;
+    height: 40%;
+}
+.mobile_content .app .idiv{
+    width:2.0rem;
+    height: 2.0rem;
+    text-align:center;
+    padding:0 1rem ;
+}
+.mobile_content .app img{
+    /*width:2.0rem;*/
+
+    position: relative;
+    float: left;
+    display: block;
+}
+.mobile_content .app span{
+    position: relative;
+    display: block;
+    font-size: 0.4rem;
+    color: #0e44a5;
+    padding-top: 0.7rem;
+    text-align: center;
+}
+
+
+
+.mobile_content img{
+    /*width: 100%;*/
+    height: 100%;
+}
+
+.mobile_content2{
+    position: relative;
+    top: 7rem;
+    /*bottom: 3.3rem;*/
+    left: 30%;
+}
+.mobile_content2 .download{
+    display: block;
+    /*width: 5rem;*/
+    height: 2rem;
+    /*background: url("./Public/static/share/image/down.png");*/
+}
+.mobile_content2 img{
+    width: 45%;
+}
+.mobile_bottom{
+    position: relative;
+    width: 87%;
+    top: 8rem;
+    /*left: 33%;*/
+}
+.mobile_bottom span{
+    display: block;
+    width: 100%;
+    height: 1rem;
+    font-size: 0.5rem;
+    text-align: right;
+    font-weight:bold;
+    /*left: 33%;*/
+}

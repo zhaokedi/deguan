@@ -1,0 +1,185 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title cf">
+        <h2>查看订单</h2>
+    </div>
+
+    <!-- 标签页导航 -->
+    <div class="tab-wrap">
+        <div class="tab-content">
+            <!-- 表单 -->
+            <form id="form" method="post" class="form-horizontal doc-modal-form">
+                <!-- 基础 -->
+                <div id="tab1" class="tab-pane in tab1">
+                    <div class="form-item cf">
+                        <label class="item-label">教师</label>
+                        <div class="controls">
+                            <span>{:get_user_name($info['teacher_id'])}</span>
+                        </div>
+                    </div>
+                    <div class="form-item cf">
+                        <label class="item-label">下单人</label>
+                        <div class="controls">
+                            <span>{:get_user_name($info['placer_id'])}</span>
+                        </div>
+                    </div>
+                    <div class="form-item cf">
+                        <label class="item-label">原因</label>
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea readonly="readonly">{$refundinfo.reason}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-item cf">
+                        <label class="item-label">说明</label>
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea readonly="readonly">{$refundinfo.desc}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-item cf">
+                        <label class="item-label">金额</label>
+                        <div class="controls">
+                            <span>{$info.fee}</span>
+                        </div>
+                    </div>
+                    <div class="form-item cf">
+                        <label class="item-label">状态</label>
+                        <div class="controls">
+                            <span>{$info.status_text}</span>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">图片1</label>
+                        <div class="controls">
+                            <div class="upload-img-box">
+                                <notempty name="refundinfo['imgs1']">
+                                    <div class="upload-pre-item">
+                                        <a href="{$refundinfo.imgs1}" target="_blank">
+                                        <img src="{$refundinfo.imgs1}">
+                                        </a>
+                                    </div>
+                                </notempty>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">图片2</label>
+                        <div class="controls">
+                            <div class="upload-img-box">
+                                <notempty name="refundinfo['imgs2']">
+                                    <div class="upload-pre-item">
+                                        <a href="{$refundinfo.imgs2}" target="_blank">
+                                        <img src="{$refundinfo.imgs2}">
+                                        </a>
+                                    </div>
+                                </notempty>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">图片3</label>
+                        <div class="controls">
+                            <div class="upload-img-box">
+                                <notempty name="refundinfo['imgs3']">
+                                    <div class="upload-pre-item">
+                                        <a href="{$refundinfo.imgs3}" target="_blank">
+                                        <img src="{$refundinfo.imgs3}">
+                                        </a>
+                                    </div>
+                                </notempty>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">图片4</label>
+                        <div class="controls">
+                            <div class="upload-img-box">
+                                <notempty name="refundinfo['imgs4']">
+                                    <div class="upload-pre-item">
+                                        <a href="{$refundinfo.imgs4}" target="_blank">
+                                        <img src="{$refundinfo.imgs4}">
+                                        </a>
+                                    </div>
+                                </notempty>
+                            </div>
+                        </div>
+                    </div>
+                    <if condition="$info['refund_fee']">
+                        <div class="form-item cf">
+                            <label class="item-label">退款金额</label>
+                            <div class="controls">
+                                <span>{$info.refund_fee}</span>
+                                <eq name="info.refund_status" value="1">已同意</eq>
+                                <eq name="info.refund_status" value="2">已拒绝</eq>
+                                <if condition=" $info['status'] == 6">
+
+                                    <a href="{:U('Order/order_refund',array('id'=>$info['id'],'type'=>1))}"
+                                       class="authorize">同意</a>
+                                    <a href="{:U('Order/order_refund',array('id'=>$info['id'],'type'=>2))}"
+                                       class="authorize">拒绝</a>
+                                </if>
+                                (同意：退款金额打入学生账号余额。拒绝：订单金额打入教师账号余额）
+                            </div>
+                        </div>
+                    </if>
+                    <eq name="info.status" value="3">
+                        <div class="form-item cf">
+                            <label class="item-label">综合评价</label>
+                            <div class="controls">
+                                <span>{$info.rank}</span>
+                            </div>
+                        </div>
+                        <div class="form-item cf">
+                            <label class="item-label">教学质量</label>
+                            <div class="controls">
+                                <span>{$info.rank1}</span>
+                            </div>
+                        </div>
+                        <div class="form-item cf">
+                            <label class="item-label">备课评分</label>
+                            <div class="controls">
+                                <span>{$info.rank2}</span>
+                            </div>
+                        </div>
+                        <div class="form-item cf">
+                            <label class="item-label">教学范围</label>
+                            <div class="controls">
+                                <span>{$info.rank3}</span>
+                            </div>
+                        </div>
+                        <div class="form-item cf">
+                            <label class="item-label">评价内容</label>
+                            <div class="controls">
+                                <span>{$info.content}</span>
+                            </div>
+                        </div>
+                    </eq>
+                </div>
+
+                <!-- 按钮 -->
+                <div class="form-item cf">
+                    <label class="item-label"></label>
+                    <div class="controls edit_sort_btn">
+                        <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" charset="utf-8">
+        //导航高亮
+        highlight_subnav('{:U('
+        Order / order
+        ')}'
+        )
+        ;
+
+    </script>
+</block>
+

@@ -1,0 +1,156 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>新增代理商</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+                <div class="form-item">
+                    <label class="item-label">用户名</label>
+                    <div class="controls">
+                        <input type="text" name="username" class="text input-large" value="{$info.username|default=''}">
+                        【默认密码123456】用户名与后台代理商用户名必须一致
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">昵称</label>
+                    <div class="controls">
+                        <input type="text" name="nickname" class="text input-large" value="{$info.nickname|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">姓名</label>
+                    <div class="controls">
+                        <input type="text" name="name" class="text input-large" value="{$info.name|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">性别</label>
+                    <div class="controls">
+                        <select name="gender">
+                            <volist name="Think.config.GENDER_CHOOSE" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">年龄</label>
+                    <div class="controls">
+                        <input type="text" name="age" class="text input-large" value="{$info.age|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">手机号</label>
+                    <div class="controls">
+                        <input type="text" name="mobile" class="text input-large" value="{$info.mobile|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">电子邮件</label>
+                    <div class="controls">
+                        <input type="text" name="email" class="text input-large" value="{$info.email|default=''}">
+                    </div>
+                </div>
+                <!--<div>-->
+                <div class="form-item">
+                <label class="item-label">负责地区 </label>
+                <select name="province_id" id="province_id" style="width:150px;">
+                    <option>请选择</option>
+                    <volist name="province_list" id="province">
+                        <option  value="{$province.id}">{$province.name}</option>
+                    </volist>                                                  
+                 </select>
+                 <select name="city_id"  id="city_id" style="width:150px;" >
+                     <option>请选择</option>
+                     <volist name="city_list" id="city">
+                        <option value="{$city.id}" selected="selected">{$city.name}</option>
+                     </volist>                                                  
+                  </select>
+                  <select name="district_id"  id="district_id" style="width:150px;" >
+                      <option value="0">请选择</option>
+                      <volist name="dis_list" id="dis">
+                       <option value="{$dis.id}" selected="selected">{$dis.name}</option>
+                      </volist>                                              
+                   </select>  
+                </div>
+                <div class="form-item">
+                    <label class="item-label">是否审核通过</label>
+                    <div class="controls">
+                        <select name="is_passed">
+                            <volist name="Think.config.PASSED_CHOOSE" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label"></label>
+                    <input type="hidden" name="id" value="{$info.id|default=''}">
+                    <button type="submit" id="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+                    <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </div>
+            </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Accounts/agency')}');
+    </script>
+    <script>
+    $("#province_id").change(function(){
+    var province_id=$(this).val();
+    $.ajax({
+        url:'{:U('Accounts/get_citys')}',
+        Type:"POST",
+        data:"province_id="+province_id,
+        dataType:"json",
+        success:function(data){
+            var city = data.city;
+            var option=$("<option></option>");
+            $(option).val("0");
+            $(option).html("请选择");
+            var option1=$("<option></option>");
+            $(option1).val("0");
+            $(option1).html("请选择");
+            $("#city_id").html(option);
+            $("#district_id").html(option1);
+            for(var i in city){
+                var option=$("<option></option>");
+                $(option).val(city[i]['id']);
+                $(option).html(city[i]['name']);
+                $("#city_id").append(option);
+                 }
+            }
+            
+        });
+    });
+    </script>
+    <script>
+    $("#city_id").change(function(){
+        var city_id=$(this).val();
+        $.ajax({
+            url:'{:U('Accounts/get_district')}',
+            Type:"POST",
+            data:"city_id="+city_id,
+            dataType:"json",
+            success:function(data){
+                var district = data.district;
+                var option=$("<option></option>");
+                $(option).val("0");
+                $(option).html("请选择");
+                $("#district_id").html(option);
+                for(var i in district){
+                    var option=$("<option></option>");
+                    $(option).val(district[i]['id']);
+                    $(option).html(district[i]['name']);
+                    $("#district_id").append(option);
+                }
+            }
+        });
+    });
+    </script>
+</block>
+
+

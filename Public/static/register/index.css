@@ -1,0 +1,726 @@
+body,html{
+	max-width: 750px;
+	background:#f3f3f3;
+}
+.loading-svg{
+	height:100vh;
+	padding-top: 50%;
+}
+/*bgTop*/
+.bgTop{
+	height:5.68rem;
+	background:url("../img/bg.png");
+	background-size: 100% 100%;
+}
+/*myCard*/
+.myCard{
+	width:14.04rem;
+	margin:0 auto;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	padding:1rem 0 1.08rem 1.24rem;
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+	-o-justify-content: space-between;
+	-moz-justify-content: space-between;
+	position:absolute;
+	top:0.8rem;
+	left:0.48rem;
+	background:#fff;
+	border-radius: 0.2rem;
+	box-shadow: 0px 1px 3px #ccc;
+}
+.myCard2{
+	width:14.04rem;
+	margin:0 auto;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	padding:0.4rem 0.3rem 0.4rem 0.5rem;
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+	-o-justify-content: space-between;
+	-moz-justify-content: space-between;
+	position:absolute;
+	top:6.8rem;
+	left:0.48rem;
+	background:#BEBEBE;
+	border-radius: 0.2rem;
+	box-shadow: 0px 1px 3px #ccc;
+}
+.certification{
+	width:0.72rem;
+	height:0.72rem;
+	margin:0 0.32rem;
+}
+.rating{
+	width:0.56rem;
+	height:0.56rem;
+}
+.myPhoto{
+	font-size: 0.48rem;
+	color:#999;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	justify-content: center;
+	-webkit-justify-content: center;
+	-o-justify-content: center;
+	-moz-justify-content: center;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	-o-flex-direction: column;
+	-moz-flex-direction: column;
+	padding-right: 0.8rem;
+}
+
+.logoContainer{
+	position: relative;
+	width:3.2rem;
+	height:auto;
+}
+.myPhoto img.sexImg{
+	width:0.64rem;
+	height:0.64rem;
+	position: absolute;
+	bottom:0.2rem;
+	right:0.24rem;
+}
+.slNum{
+	margin-top: 0.56rem;
+}
+.myPhoto img{
+	width:3.2rem;
+	height:3.2rem;
+	border-radius: 50%;
+}
+.restInfo{
+	font-size: 0.48rem;
+	color:#999;
+	margin-bottom: 0.4rem;
+	width:8rem;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+}
+.restInfo:last-child{
+	margin-bottom: 0;
+}
+.myName{
+	font-size: 0.72rem;
+	color:#333;
+	margin-bottom: 0.4rem;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+}
+.myPhoto2{
+	font-size: 0.48rem;
+	height:2.3rem;
+	color:#999;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	justify-content: center;
+	-webkit-justify-content: center;
+	-o-justify-content: center;
+	-moz-justify-content: center;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	-o-flex-direction: column;
+	-moz-flex-direction: column;
+	padding-left: 0.0rem;
+}
+
+.logoContainer2{
+	position: relative;
+	width:1.5rem;
+	/*top:-3rem;*/
+}
+.myInfo2{
+
+}
+.myPhoto2 img.sexImg{
+	width:0.64rem;
+	height:0.64rem;
+	position: absolute;
+	bottom:0.2rem;
+	right:0.24rem;
+}
+.slNum2{
+	margin-top: 0.56rem;
+}
+.myPhoto2 img{
+	width:1.5rem;
+	height:1.5rem;
+	border-radius: 50%;
+}
+.restInfo2{
+	font-size: 0.48rem;
+	color:#999;
+	margin-bottom: 0.4rem;
+	width:8rem;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+}
+.restInfo2:last-child{
+	margin-bottom: 0;
+}
+.myName2{
+	font-size: 0.5rem;
+	width: 11.8rem;
+	color:#333;
+	/*margin-bottom: 0.4rem;*/
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+}
+.icon-liebiaojiantou{
+	color:#999;
+}
+.rateContainer{
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+	border:1px solid #C4A475;
+	border-radius: 0.08rem;
+	margin-left: 0.4rem;
+}
+.rateContainer.colors1{
+	border:1px solid #d4d7d8;
+	color:#d4d7d8;
+}
+.rateContainer.colors2{
+	border:1px solid #b6ced6;
+	color:#b6ced6;
+}
+.rateContainer.colors3{
+	border:1px solid #e3af71;
+	color:#e3af71;
+}
+.rateContainer.colors4{
+	border:1px solid #ffc600;
+	color:#ffc600;
+}
+.rateContainer.colors5{
+	border:1px solid #ffab3f;
+	color:#ffab3f;
+}
+.myName .rateNum{
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+	font-size: 0.48rem;
+	padding:0 0.16rem;
+	height:0.56rem;
+}
+.icon-companyx1,.icon-profassionalx,.icon-addressx,.icon-phonex{
+	font-size: 0.48rem;
+	color:#ccc;
+}
+.jobKind{
+    font-size: 0.35rem;
+    color: #999;
+    border: 1px solid #999;
+    border-radius: 0.5rem;
+    padding: 0 0.2rem;
+    display: inline-block;
+    margin-left: 0.2rem;
+    max-width: 2rem;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+.jobName{
+	display:inline-block;
+	max-width: 6.5rem;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+/*myShop*/
+.myShop{
+	background:#fff;
+	padding-top: 10rem;
+	margin-bottom: 0.48rem;
+	width:100%;
+}
+.myshopTip{
+	padding:1.4rem 0.72rem 0.4rem 0.96rem;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+	-o-justify-content: space-between;
+	-moz-justify-content: space-between;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+	position: relative;
+}
+.myshopTip.noShow{
+	display:none;
+}
+.shopLogoContainer{
+	position: relative;
+	width:1.76rem;
+	height:auto;
+}
+.myshopTip img.shopCertify{
+	position: absolute;
+	bottom:0.15rem;
+	right:-0.15rem;
+	display:block;
+	width:0.48rem;
+	height:0.56rem;
+	margin-right: 0;
+}
+.myshopTip span{
+	font-size: 0.6rem;
+	color:#333;
+	margin:0 0.5rem;
+	max-width: 8rem;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+.myshopTip img.shopRate{
+	width:1.68rem;
+	height:0.56rem;
+}
+.myShopContainer{
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+}
+.blankHolder{
+	width:1.68rem;
+	height:0.56rem;
+	margin:0 5.7rem 0 0.48rem; 
+}
+.myshopTip img{
+	width:1.76rem;
+	margin-right: 0.48rem;
+}
+.giveortake li{
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+	-o-justify-content: space-between;
+	-moz-justify-content: space-between;
+	align-items: center;
+	-webkit-align-items: center;
+	-o-align-items: center;
+	-moz-align-items: center;
+	padding:0.64rem 0.5rem;
+}
+.giveortake li p{
+	font-size: 0.56rem;
+	color: #a8a8a8;
+	line-height: 0.8rem;
+	width:88%;
+}
+.giveortake li p.color9{
+	color:#999;
+}
+.giveContent{
+	position: relative;
+}
+.giveContent:after{
+	content:'';
+	position:absolute;
+	bottom:-0.64rem;
+	left:0;
+	width:100%;
+	height: 1px;
+	background-color:#EFDAAF;
+	transform:scale(1,.5);
+	-webkit-transform:scale(1,.5);
+}
+.give{
+	display: block;
+	width:1.96rem;
+	height:0.96rem;
+	margin-right: 0.48rem;
+	text-align: center;
+	color:#E7D47F ;
+
+}
+/*selfTag*/
+.selfTag{
+	padding:0.64rem 0.96rem 2rem 0.96rem;
+	background:#fff;
+	margin-bottom: 0.48rem;
+}
+.tipContent{
+	font-size: 0.6rem;
+	color:#333;
+	padding-bottom: 0.64rem;
+	position: relative;
+}
+.tipContent:after{
+	content:'';
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height: 1px;
+	background-color:#EFDAAF;
+	transform:scale(1,.5);
+	-webkit-transform:scale(1,.5);
+}
+.label{
+	width: 48%;
+	display:inline-block;
+	position: relative;
+	left: 10%;
+	/*text-align: center;*/
+}
+.labelBor{
+	display:inline-block;
+	width:100%;
+	height:0.1rem;
+	background:#E7D47F;
+	position: absolute;
+	left: 0;
+	bottom:-0.6rem;
+}
+.tagContent{
+	padding-top: 0.16rem;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+	-o-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+}
+.tagContent li{
+	margin-right: 0.5rem;
+}
+.tagContent li span{
+	display:inline-block;
+	min-width: 2.56rem;
+	text-align: center;
+	margin-top: 0.48rem;
+	padding:0 0.28rem;
+	line-height: 0.8rem;
+	height:0.8rem;
+	background:rgba(231,200,137,.2);
+	color:#C79E61;
+	font-size: 0.48rem;
+	border-radius: 0.08rem;
+	margin-right: 0.2rem;
+}
+/*connection*/
+.connection{
+	padding:0.96rem 1.88rem 1.28rem 1.88rem;
+	margin-bottom: 0.2rem;
+	background:#fff;
+}
+
+.color9{
+	color:#999;
+}
+.icon-dingwei-lanse{
+	font-size: 0.48rem;
+	color:#ccc;
+	margin-right: 0.2rem;
+}
+.icon-phonex{
+	margin-right: 0.1rem;
+}
+.blankHoldernew{
+	background:#f3f3f3;
+	height:0.48rem;
+	margin-top: 1rem;
+}
+.blankHoldernew.marT{
+	margin-top: 0;
+	background:#fff;
+}
+.blankHoldernew.marTNo{
+	margin-top: 0;
+	background:#f3f3f3;
+}
+
+
+.myCard3{
+	width:13rem;
+	margin:0 auto;
+	display:flex;
+	display:-o-flex;
+	display:-moz-flex;
+	display:-webkit-flex;
+	padding:2.8rem 0 6rem 1.5rem;
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+	-o-justify-content: space-between;
+	-moz-justify-content: space-between;
+	position:relative;
+	top:0.8rem;
+	/*left:0.48rem;*/
+	background:#fff;
+	border-radius: 0.2rem;
+	box-shadow: -3px 4px 9px #ccc;
+}
+
+
+.mobile_conter_content{
+	/*margin: 0 auto;*/
+	width: 90%;
+}
+.mobile_conter_content h2{
+	padding-top: 2rem;
+}
+.phone_border{
+	position: relative;
+	color: #fff;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+	color:    #DCD9D9;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color:    #DCD9D9;
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color:    #DCD9D9;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+	color:    #DCD9D9;
+}
+input{
+
+}
+.phone_code{
+	position: relative;
+	top: 0;
+	left: 0;
+
+}
+.icon_phone{
+    margin-top: 0.2rem;
+    margin-left: 0.2rem;
+	position: absolute;left: 0;z-index:5;
+	background-image: url("ph.png"); /*引入图片图片*/
+	background-repeat: no-repeat; /*设置图片不重复*/
+	background-position: 0px 0px; /*图片显示的位置*/
+    background-size: cover;
+	width: 0.4rem; /*设置图片显示的宽*/
+	height: 0.6rem; /*图片显示的高*/
+    font-size: 0.5rem;
+
+}
+.icon_pw{
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*z-index:5;*/
+    position: absolute;left: 0;z-index:5;
+    margin-top: 0.6rem;
+    margin-left: 1.7rem;
+    background-image: url("lock.png"); /*引入图片图片*/
+    background-repeat: no-repeat; /*设置图片不重复*/
+    background-position: 0px 0px; /*图片显示的位置*/
+    background-size: cover;
+    width: 0.4rem; /*设置图片显示的宽*/
+    height: 0.6rem; /*图片显示的高*/
+    font-size: 0.5rem;
+
+}
+.icon_yzm{
+    position: absolute;
+    left: 0;
+    z-index:5;
+    margin-top: 1.2rem;
+    margin-left: 0.2rem;
+    background-image: url("safe.png"); /*引入图片图片*/
+    background-repeat: no-repeat; /*设置图片不重复*/
+    background-position: 0px 0px; /*图片显示的位置*/
+    background-size: cover;
+    width: 0.4rem; /*设置图片显示的宽*/
+    height: 0.6rem; /*图片显示的高*/
+
+
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color: #5a5756; opacity:0.8;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color: #5a5756;opacity:0.8;
+}
+
+input:-ms-input-placeholder{
+	color: #5a5756;opacity:0.8;
+}
+
+input::-webkit-input-placeholder{
+	color: #5a5756;opacity:0.8;
+}
+.phone{
+	border: 0px;
+	width: 100%;
+    /*color: #5a5756;!important;*/
+	background: rgba(255, 255, 255, 0.4);
+	/*font-size: 0.9rem;*/
+	/*border-radius: 8px;*/
+	position: relative;
+	outline: 1px;
+	padding: 0.2rem 0.2rem 0.2rem 1rem;
+	/*background:url("ph.png") fixed left no-repeat;*/
+	border-left:0px;border-top:0px;border-right:0px;
+	border-bottom:2px solid #FCF9EB;
+}
+.password{
+	width: 100%;
+	/*height: 2.2rem;*/
+	background: rgba(255, 255, 255, 0.4);
+	/*font-size: 0.9rem;*/
+	/*border-radius: 8px;*/
+    color: rgb(196, 196, 196);
+	position: relative;
+	top: 0.5rem;
+	/*border: 2px solid #cccccc;*/
+	outline: 0;
+	padding: 0.2rem 0.2rem 0.2rem 1rem;
+	border-left:0px;border-top:0px;border-right:0px;
+	border-bottom:2px solid #FCF9EB;
+
+}
+.code{
+
+	width: 100%;
+    color: rgb(145, 145, 145);
+	/*height: 2.2rem;*/
+	background: rgba(255, 255, 255, 0.4);
+	/*font-size: 0.9rem;*/
+	/*border-radius: 8px;*/
+	position: relative;
+	/*border: 2px solid #cccccc;*/
+	top: 1rem;
+	outline: 0;
+	padding: 0.2rem 0.2rem 0.2rem 1rem;
+	border-left:0px;border-top:0px;border-right:0px;
+	border-bottom:2px solid #FCF9EB;
+
+}
+
+.yzm{
+	/*width: 35px;*/
+	/*height: 25px;*/
+	color: #fff;
+	background: rgba(133, 133, 130, 0.4);
+	border-radius: 3px;
+	position: absolute;
+	padding: 0.2rem 0.3rem 0.2rem 0.3rem;
+	top: 90%;
+	right: 0;
+	/*background: url("../image/yzm.png") no-repeat;*/
+}
+
+.right_buttom{
+    position: relative;
+    top: 3rem;
+    left: 0;
+
+}
+.btn{
+    background-color: #E7D47F;
+    width: 100%;
+    color: #fff;
+}
+.bottom{
+    text-align: center;
+    font-size: 0.5rem;
+    position: relative;
+    top: 5rem;
+    left: 0;
+}
+.hrLine{
+    color: #F9F4DF;
+    vertical-align:middle; display:inline-block;
+}
+.check_yes{
+	display: block;
+	position: absolute;
+	left: 0;
+	z-index:5;
+	/*margin-top: 0.1rem;*/
+	margin-left: 1.9rem;
+	background-image: url("add03.png"); /*引入图片图片*/
+	background-repeat: no-repeat; /*设置图片不重复*/
+	background-position: 0px 0px; /*图片显示的位置*/
+	background-size: cover;
+	width: 0.7rem; /*设置图片显示的宽*/
+	height: 0.7rem; /*图片显示的高*/
+
+
+}
+.check_yes.checked{
+	background-image: url("radio_c.png");
+	width: 0.7rem; /*设置图片显示的宽*/
+	height: 0.7rem; /*图片显示的高*/
+}

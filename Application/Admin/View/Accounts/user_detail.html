@@ -1,0 +1,332 @@
+<extend name="Public/base"/>
+<block name="style">
+    <style>
+        .upload-img-box .upload-pre-item{
+            display: inline-block;
+        }
+        .form-item{
+            margin-bottom: 0px!important;
+        }
+    </style>
+</block>
+<block name="body">
+    <div class="main-title">
+        <h2>用户详情</h2>
+    </div>
+    <div class="tab-wrap">
+
+        <div class="tab-content" style="width: 50%;float: left">
+            <form action="{:U()}" method="post" class="form-horizontal">
+
+
+                <div class="form-item">
+                    <label class="item-label">姓名</label>
+                    <div class="controls">
+                        {$info.name|default=''}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">昵称</label>
+                    <div class="controls">
+                        {$info.nickname|default=''}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">年龄</label>
+                    <div class="controls">
+                        {$info.age|default=''}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">手机号</label>
+                    <div class="controls">
+                        {$info.mobile|default=''}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">会员等级</label>
+                    <div class="controls">
+                        {$level[$info['level']]}
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <label class="item-label">余额</label>
+                    <div class="controls">
+                        {$finance['fee']}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">冻结金额</label>
+                    <div class="controls">
+                        {$finance['brozen_fee']}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">课时券</label>
+                    <div class="controls">
+                        {$finance['reward_fee']}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">代金券</label>
+                    <div class="controls">
+                        {$finance['credit']}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">性别</label>
+                    <div class="controls">
+                        <select name="gender" disabled>
+
+                            <volist name="Think.config.GENDER_CHOOSE" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">角色</label>
+                    <div class="controls">
+                        <select name="role" disabled>
+                            <volist name="Think.config.ROLE_CHOOSE" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">学历</label>
+                    <div class="controls">
+                        <select name="education_id" disabled>
+                            <volist name="educations" id="vo">
+                                <option value="{$vo.id}">{$vo.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-content" style="width: 50%;float: left">
+
+            <form action="{:U()}" method="post" class="form-horizontal">
+                <div class="form-item">
+                    <label class="item-label">头像</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="info['headimg']">
+                                <div class="upload-pre-item">
+                                    <img src="{$info.headimg}">
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">个人签名</label>
+                    <div class="controls">
+                        {$info.signature|default=''}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">当前定位地址</label>
+                    <div class="controls">
+                        <span>{$info.province}{$info.city}{$info.state}</span>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">注册地址</label>
+                    <div class="controls">
+                        <span>{$info.register_province}{$info.register_city}{$info.register_state}</span>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">详细地址</label>
+                    <div class="controls">
+                        <span>{$info.address}</span>
+                    </div>
+                </div>
+                <notempty name="specialitys">
+                    <div class="form-item">
+                        <label class="item-label">发布课程</label>
+                        <div class="controls">
+                            <span>
+                                <volist name="specialitys" id="vo">
+                                 {$vo.grade_id|get_grade_name} {$vo.course_id|get_course_name} 老师上门:{$vo.visit_fee} 学生上门:{$vo.unvisit_fee}<br/>
+                                </volist>
+                            </span>
+                        </div>
+                    </div>
+
+                </notempty>
+            </form>
+        </div>
+
+    </div>
+
+    <!--充值记录-->
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+
+                <th class="" width="100">充值记录</th>
+                <th class="">ID</th>
+                <th class="">充值金额</th>
+                <th class="">充值平台</th>
+                <th class="">充值状态</th>
+                <th class="">时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="list">
+                <volist name="list" id="vo">
+                    <tr>
+                        <td> </td>
+                        <td>{$vo.id} </td>
+                        <td>{$vo.fee}</td>
+                        <td>{$vo.type}</td>
+                        <td>成功</td>
+                        <td><span>{$vo.addtime|time_format}</span></td>
+                    </tr>
+                </volist>
+                <else/>
+                <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$page}
+    </div>
+
+    <!--奖励明细-->
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="" width="100">优惠券</th>
+                <th class="">ID</th>
+                <th class="">金额</th>
+                <th class="">奖励方式</th>
+                <th class="">奖励说明</th>
+                <th class="">时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="list1">
+                <volist name="list1" id="vo">
+                    <tr>
+                        <td> </td>
+                        <td>{$vo.id} </td>
+                        <td>{$vo.fee}</td>
+                        <td>{$vo.type}</td>
+                        <td>{$vo.remark}</td>
+                        <td><span>{$vo.create_date|time_format}</span></td>
+                    </tr>
+                </volist>
+                <else/>
+                <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$page1}
+    </div>
+    <!--流水明细-->
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="" width="100">流水明细</th>
+                <th class="">ID</th>
+                <th class="">财务类型</th>
+                <th class="">收支类型</th>
+                <th class="">入账金额</th>
+                <th class="">变更前余额</th>
+                <th class="">账户结余</th>
+                <th class="">类型</th>
+                <!--<th class="">奖励说明</th>-->
+                <th class="">时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="list2">
+                <volist name="list2" id="vo">
+                    <tr>
+                        <td> </td>
+                        <td>{$vo.id} </td>
+                        <td>{$vo.financetype_text}</td>
+                        <td>{$vo.paymentstype_text}</td>
+                        <td>{$vo.fee}</td>
+                        <td>{$vo.beforefee}</td>
+                        <td>{$vo.balancefee}</td>
+                        <!--<td>{$vo.type}</td>-->
+                        <!--<td>{$vo.remark}</td>-->
+                        <td><if condition="$vo.type eq 0 ">余额<else/>冻结金额</if></td>
+                        <td><span>{$vo.created|time_format}</span></td>
+                    </tr>
+                </volist>
+                <else/>
+                <td colspan="8" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$page2}
+    </div>
+    <!-- 交易记录-->
+    <div class="data-table table-striped">
+        <table class="">
+            <thead>
+            <tr>
+                <th class="" width="100">交易记录</th>
+                <th class="">订单号</th>
+                <th class="">交易时间</th>
+                <th class="">科目</th>
+                <th class="">交易对象</th>
+                <th class="">课时数</th>
+                <th class="">交易金额</th>
+                <!--<th class="">奖励说明</th>-->
+                <!--<th class="">时间</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="list3">
+                <volist name="list3" id="vo">
+                    <tr>
+                        <td> </td>
+                        <td>{$vo.id} </td>
+                        <td>{$vo.completetime|time_format}</td>
+                        <td>{$vo.course_id|get_course_name}</td>
+                        <td>{$vo.obj}</td>
+                        <td>{$vo.duration}</td>
+                        <td>{$vo.order_price}</td>
+                        <!--<td>{$vo.type}</td>-->
+                        <!--<td>{$vo.remark}</td>-->
+                        <!--<td><span>{$vo.created|time_format}</span></td>-->
+                    </tr>
+                </volist>
+                <else/>
+                <td colspan="8" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        {$page3}
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        Think.setValue("role", {$info.role|default=1});
+        Think.setValue("gender", {$info.gender|default=1});
+        Think.setValue("education_id", {$info.education_id|default=1});
+        Think.setValue("is_passed", {$info.is_passed|default=1});
+        //导航高亮
+        highlight_subnav('{:U('Accounts/user')}');
+    </script>
+</block>

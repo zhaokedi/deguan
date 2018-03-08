@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.o2osl.com/businessCard/GTTUFVom.htm -->
+<html lang="zh-cn" style="font-size: 50px;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- 图片上传地址 -->
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/common.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/public.css">
+    <script type="text/javascript" src="__STATIC__/register/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/register/jsencrypt.min.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <title>学习吧</title>
+    <script type="text/javascript" src="__STATIC__/register/fsize-news.js"></script>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/common.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/public.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/index.css">
+
+</head>
+<body style="">
+<div class="cardContainer">
+
+    <section class="selfTag">
+        <p class="tipContent">
+            <span class="label" onclick="tabchoose(this,1)">查询<span class="labelBor bor1" style="display: block"></span>        </span>
+
+            <span class="label" onclick="tabchoose(this,2)">核销<span class="labelBor bor2" style="display: none"></span>        </span>
+
+        </p>
+        <section class="myCard3 tab1" >
+            <div class="mobile_conter_content">
+                <input  type="hidden"   name="type" class="type" value="1"/>
+                <input  type="hidden"   name="Invitation" class="Invitation" value="{$tel}"/>
+                <div class="phone_border">
+                    <span class="icon_phone"></span>
+                    <input class="phone" type="text"  maxlength="11" name="phone" placeholder="请输入手机号"/>
+                </div>
+                <!--<div class="right_password">-->
+                    <!--<span class="icon_pw"></span>-->
+                    <!--<input id="password" class="password" type="password"  maxlength="16" name="password" placeholder="请设置密码(长度6~16位)"/>-->
+                <!--</div>-->
+                <!--<div class="phone_code">-->
+                    <!--<span class="icon_yzm"></span>-->
+                    <!--<input class="code" type="text"  maxlength="6" name="code" placeholder="请输入验证码"/>-->
+                    <!--<input type="button" class="yzm" value="获取验证码"  />-->
+                <!--</div>-->
+                <div class="right_buttom">
+                   <button class="btn"  >查询</button>
+                </div>
+                <!--<div class="bottom" >-->
+                    <!--<p style="color: #3a3a3a">-->
+                        <!--<input id="qqq" type="checkbox" autocomplete="off" name="agree" style="display:none;" value="1" onclick="check_agreement(this)">-->
+
+                        <!--<label for="qqq"> <span id="sppp" class="check_yes">-->
+                    <!--</span></label>-->
+                        <!--同意<span style="color: #E7D47F" onclick="desc()">学习吧用户协议</span></p>-->
+                <!--</div>-->
+
+        </div>
+        </section>
+        <section class="myCard3 tab2" style="display: none">
+            <div class="mobile_conter_content">
+                <input  type="hidden"   name="type" class="type" value="1"/>
+                <input  type="hidden"   name="Invitation" class="Invitation" value="{$tel}"/>
+                <div class="phone_border">
+                    <span class="icon_phone"></span>
+                    <input class="phone" type="text"  maxlength="11" name="phone" placeholder="请输入手机号"/>
+                </div>
+                <!--<div class="right_password">-->
+                <!--<span class="icon_pw"></span>-->
+                <!--<input id="password" class="password" type="password"  maxlength="16" name="password" placeholder="请设置密码(长度6~16位)"/>-->
+                <!--</div>-->
+                <!--<div class="phone_code">-->
+                <!--<span class="icon_yzm"></span>-->
+                <!--<input class="code" type="text"  maxlength="6" name="code" placeholder="请输入验证码"/>-->
+                <!--<input type="button" class="yzm" value="获取验证码"  />-->
+                <!--</div>-->
+                <div class="right_buttom">
+                    <button class="btn"  >核销</button>
+                </div>
+                <!--<div class="bottom" >-->
+                <!--<p style="color: #3a3a3a">-->
+                <!--<input id="qqq" type="checkbox" autocomplete="off" name="agree" style="display:none;" value="1" onclick="check_agreement(this)">-->
+
+                <!--<label for="qqq"> <span id="sppp" class="check_yes">-->
+                <!--</span></label>-->
+                <!--同意<span style="color: #E7D47F" onclick="desc()">学习吧用户协议</span></p>-->
+                <!--</div>-->
+
+            </div>
+        </section>
+    </section>
+
+</div>
+
+<!--<script type="text/javascript" src="__STATIC__/register/mob-public.js"></script>-->
+<!--<script type="text/javascript" src="__STATIC__/layer_mobile/layer.js"></script>-->
+<script type="text/javascript" >
+
+    function tabchoose(obj,type) {
+
+        if(type==1){
+            $('.bor1').show();
+            $('.bor2').hide();
+            $("input[name='type']").val(1);
+            $('.tab1').show();
+            $('.tab2').hide();
+        }else {
+            $('.bor2').show();
+            $('.bor1').hide();
+            $("input[name='type']").val(2);
+            $('.tab2').show();
+            $('.tab1').hide();
+        }
+    }
+
+    $(function(){
+        var yzm=$('.yzm');//获取发送验证码按钮
+        var numbers = /^1\d{10}$/;
+        //总时间
+        var countdown=60;
+        yzm.click(function () {
+            var phone=$('.phone');//获取输入的手机ID
+            var uid= phone.val();    //获取手机号码
+            var val =phone .val().replace(/\s+/g,""); //获取输入手机号码
+            if(!numbers.test(val) || val.length ==0){
+                alert("您的手机号码输入有误！");
+                return false;
+            }
+            //调用记时
+            settime(this);
+            //这里是数据
+            var user={
+                mobile:uid,
+                ftype:'signup'
+            };
+//向后台发送处理数据
+            $.ajax({
+                type: "POST", //用POST方式传输
+                dataType: "JSON", //数据格式:JSON
+                url: 'http://hyxuexiba.com/index.php?s=/Home/Accounts/check_mobile', //目标地址
+                data: user,
+                success: function (msg){
+                    //成功返回之后参数为msg
+                    console.log(msg)}
+            });
+        });
+        //倒计时逻辑
+        function settime(obj) {
+            if (countdown == 0) {
+                obj.removeAttribute("disabled");
+                obj.value="获取验证码";
+                countdown = 60;
+                return;
+            } else {
+                obj.setAttribute("disabled", true);
+                obj.value="" + countdown + "秒";
+                countdown--;
+            }
+            setTimeout(function() {
+                    settime(obj) }
+                ,1000)
+        }
+//    注册
+        var btn=$(".btn");
+        btn.click(function(){
+            var phone=$('.phone').val();//获取输入的手机ID
+            var type=$('.type').val();//获取输入的手机ID
+            var flag=0;
+            if(flag==1){
+                return;
+            }
+            //获取页面参数值
+            var id={
+                mobile:phone,
+                type:type,
+            };
+
+            if(phone.length ==0){
+                alert("请输入手机号码！");
+            }else{
+                flag=1;
+                $.ajax({
+                    type: "POST", //用POST方式传输
+                    dataType: "JSON", //数据格式:JSON
+//                    url: 'http://hyxuexiba.com/index.php?s=/Service/Accounts/signup', //目标地址
+                    url: "{:U('check')}", //目标地址
+                    data: id,
+                    success: function (msg){
+                        //成功返回之后参数为msg
+                        // console.log(msg.error);
+
+                        if(msg.error=="no"){
+                            alert(msg.errmsg);
+
+                        }else if(msg.error=="ok"){
+                            flag=0;
+                            alert(msg.errmsg);
+
+                        }
+                        console.log(msg);
+                    }
+                });
+            }
+        })
+
+
+    });
+
+
+    function check_agreement(obj) {
+
+        $("#sppp").toggleClass('checked');
+
+    }
+
+    //显示用户协议
+    function desc() {
+        var url = "{:U('Home/Users/desc')}";
+        window.location.href=url;
+    }
+
+
+</script>
+
+</body>
+</html>

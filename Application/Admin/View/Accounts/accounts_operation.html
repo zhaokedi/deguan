@@ -1,0 +1,268 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <div class="cf">
+        <div class="fl">
+            <!--<a class="btn" href="{:U('Accounts/user_add')}">新 增</a>-->
+            <!--<button class="btn ajax-post confirm" target-form="ids" url="{:U('Accounts/user_del')}">删 除</button>-->
+        </div>
+
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+            <div class="sleft">
+                <input type="text" name="username" class="search-input" value="{:I('username')}" placeholder="请输入用户名或者ID">
+                <a class="sch-btn" href="javascript:;" id="search" url="{:U('Accounts/accounts_login')}">搜 索</a>
+            </div>
+<!-- linw -->
+            <div class="btn-group-click adv-sch-pannel fl">
+                <button class="btn">高 级<i class="btn-arrowdown"></i></button>
+                <div class="dropdown cf">
+                    <div class="row" style="display: block;">
+                        <label>登录时间：</label>
+                        <input type="text" id="time-start" name="timestart" class="text input-2x" value="{$Think.get.timestart}" placeholder="起始时间" /> -
+                        <div class="input-append date" id="datetimepicker"  style="display:inline-block">
+                            <input type="text" id="time-end" name="timeend" class="text input-2x" value="{$Think.get.timeend}" placeholder="结束时间" />
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+
+
+                    <!--<div class="row" style="display: block;">-->
+                        <!--<label>地区筛选：</label>-->
+                        <!--<div id="city" style="display: inline-block;"> -->
+                            <!--<select class="prov"></select>-->
+                            <!--<select class="city" disabled="disabled"></select>-->
+                            <!--<select class="dist" disabled="disabled"></select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                </div>
+                <!--<a class="btn" href="javascript:;" id="export" url="{:U('Accounts/export')}">导出</a>-->
+            </div>
+<!-- linw -->
+        </div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+    <table class="">
+    <thead>
+        <tr>
+        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+        <th class="">ID</th>
+        <th class="">用户名</th>
+        <th class="">昵称</th>
+        <th class="">姓名</th>
+        <th class="">登录时间</th>
+        <th class="">地区</th>
+        <th class="">经度</th>
+        <th class="">纬度</th>
+        <!--<th class="">操作</th>-->
+        </tr>
+    </thead>
+    <tbody>
+        <notempty name="_list">
+        <volist name="_list" id="vo">
+        <tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+            <td>{$vo.id} </td>
+
+            <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['username'],'type'=>2))}">{$vo.username}</a></td>
+            <td> {$vo.nickname} </td>
+            <td> {$vo.name} </td>
+            <td> {$vo.login_time|time_format} </td>
+
+            <td>{$vo.province}{$vo.city}{$vo.state}</td>
+            <td>{$vo.lng}</td>
+            <td>{$vo.lat}</td>
+
+
+
+            <!--<td><if condition="$vo.reward_auth eq 1">是<else/> /</if></td>-->
+            <!--<td><span>{$vo.remark}</span></td>-->
+            <!--<td>-->
+                <!--<a href="{:U('Accounts/user_edit',array('id'=>$vo['id']))}" class="authorize">修改密码</a>-->
+                <!--<a href="{:U('Accounts/profile_edit',array('id'=>$vo['id']))}"  class="authorize">编辑</a>-->
+                <!--<a href="javascript:;" onclick="com(this);"  data-href="{:U('Accounts/profile_edit',array('id'=>$vo['id']))}" class="authorize">编辑</a>-->
+                <!--<a href="{:U('Accounts/nextuser',array('username'=>$vo['username']))}" class="authorize">下级</a>-->
+
+                <!--<a href="{:U('Sns/friendship',array('id'=>$vo['id']))}" class="authorize">好友</a>-->
+                <!--<a href="{:U('Accounts/user_del&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>-->
+            <!--</td>-->
+        </tr>
+        </volist>
+        <else/>
+        <td colspan="14" class="text-center"> aOh! 暂时还没有内容! </td>
+        </notempty>
+    </tbody>
+    </table>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+    <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+    <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+    <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="__STATIC__/cityselect/jquery.cityselect.js" charset="UTF-8"></script>
+
+    <script type="text/javascript">
+//Think.setValue("is_worth", {$Think.get.is_worth|default=0});
+
+
+    //搜索功能
+    $("#search").click(function(){
+        var role = $('.role').val();
+        var gender=$('.gender').val();
+        var province = $(".prov").val();
+        var city = $(".city").val();        
+        var state = $(".dist").val();
+
+        var timeStart=$("input[name='time-start']").val();       
+        var timeEnd=$("input[name='time-end']").val();
+
+        var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+//        if(role != ''){
+//            query = 'role=' + role + "&" + query;
+//        }
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+
+        if (province != '' && province!=null) {
+            url += '&' + 'province=' + province;
+        }
+
+        if (city != '' && city != null) {
+            city=city.substring(0,city.length-1);
+            url += '&' + 'city=' + city;
+        }
+        if (state != '' && state != null) {
+            state=state.substring(0,state.length-1);
+            url += '&' + 'state=' + state;
+        }
+//        if (timeStart != '' && timeStart != null) {
+//            timeStart=get_unix_time(timeStart);
+//            url += '&' + 'timestart=' + timeStart;
+//        }
+//        if (timeEnd != '' && timeEnd != null) {
+//            timeEnd=get_unix_time(timeEnd);
+//            url += '&' + 'timeend=' + timeEnd;
+//        }
+
+        window.location.href = url;
+    });
+    //回车搜索
+    $(".search-input").keyup(function(e){
+        if(e.keyCode === 13){
+            $("#search").click();
+            return false;
+        }
+    });
+    //导航高亮
+    highlight_subnav('{:U('Accounts/accounts_operation')}');
+
+
+//----------------linw----------------------
+    
+    function get_unix_time(dateStr){
+        var newstr = dateStr.replace(/-/g,'/'); 
+        var date =  new Date(newstr); 
+        var time_str = date.getTime().toString();
+        return time_str.substr(0, 10);
+    }
+
+    $("#export").click(function(){
+        var url = $(this).attr('url');
+        var role= $('.role').val();
+        var gender=$('.gender').val();
+        var province = $(".prov").val();
+        var city = $(".city").val();        
+        var state = $(".dist").val();
+        var is_passed=$(".is_passed").val();
+        var is_worth=$(".is_worth").val();
+        var timeStart=$("input[name='time-start']").val();       
+        var timeEnd=$("input[name='time-end']").val();
+        if( url.indexOf('?')>0 ){
+            url += '&'; 
+        }else{
+            url += '?';
+        }
+        if(role!=null && role!=''){
+            url+='role='+role;
+        }
+        if(gender!=null && gender!=''){
+            url+= '&' + 'gender='+gender;
+        }
+        if (province != '' && province!=null) {
+            url += '&' + 'province=' + province;
+        }
+        if (city != '' && city != null) {
+            city=city.substring(0,city.length-1);
+            url += '&' + 'city=' + city;
+        }
+        if (state != '' && state != null) {
+            state=state.substring(0,state.length-1);
+            url += '&' + 'state=' + state;
+        }
+        if (timeStart != '' && timeStart != null) {
+            timeStart=get_unix_time(timeStart);
+            url += '&' + 'timestart=' + timeStart;
+        }
+        if (timeEnd != '' && timeEnd != null) {
+            timeEnd=get_unix_time(timeEnd);
+            url += '&' + 'timeend=' + timeEnd;
+        }
+
+        if (is_passed != '' && is_passed != null) {
+            url += '&' + 'is_passed=' + is_passed;
+        }
+        if (is_worth != '' && is_worth!=null) {
+            url += '&' + 'is_worth=' + is_worth;
+        }
+
+        location.href=url;
+    })
+
+    $('#time-start').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+
+    $('#datetimepicker').datetimepicker({
+       format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true,
+        pickerPosition:'bottom-left'
+    })
+
+    $(function(){
+
+        $("#city").citySelect({
+            url:"__STATIC__/cityselect/city.min.js",
+            nodata:"none",
+            prov:<notempty name="province">"{$province|default='null'}"<else/>null</notempty>,
+            city:<notempty name="city">"{$city|default='null'}"<else/>null</notempty>,
+            dist:<notempty name="state">"{$state|default='null'}"<else/>null</notempty>,
+            required:false
+        });
+
+    });
+
+    </script>
+</block>

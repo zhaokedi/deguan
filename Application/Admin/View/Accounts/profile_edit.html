@@ -1,0 +1,258 @@
+<extend name="Public/base"/>
+<block name="style">
+
+    <style>
+        .upload-img-box .upload-pre-item{
+            display: inline-block;
+        }
+    </style>
+</block>
+<block name="body">
+    <div class="main-title">
+        <h2>编辑用户</h2>
+    </div>
+    <div class="tab-wrap">
+        <!--<ul class="tab-nav nav">-->
+            <!--<li data-tab="tab1"><a href="{:U('Accounts/user_edit',array('id'=>$info['id']))}">账户信息</a></li>-->
+            <!--<li data-tab="tab2" class="current"><a href="javascript:void(0);">基础资料</a></li>-->
+        <!--</ul>-->
+        <div class="tab-content">
+            <form action="{:U()}" method="post" class="form-horizontal">
+                <div class="form-item">
+                    <label class="item-label">角色</label>
+                    <div class="controls">
+                        <select name="role">
+                            <volist name="Think.config.ROLE_CHOOSE" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">昵称</label>
+                    <div class="controls">
+                        <input type="text" name="nickname" class="text input-large" value="{$info.nickname|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">个人签名</label>
+                    <div class="controls">
+                        <input type="text" name="signature" class="text input-large" value="{$info.signature|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">头像</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="info['headimg']">
+                                <div class="upload-pre-item" >
+                                    <img src="{$info.headimg}" >
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">姓名</label>
+                    <div class="controls">
+                        <input type="text" name="name" class="text input-large" value="{$info.name|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">性别</label>
+                    <div class="controls">
+                        <select name="gender">
+                            <volist name="Think.config.GENDER_CHOOSE" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">年龄</label>
+                    <div class="controls">
+                        <input type="text" name="age" class="text input-large" value="{$info.age|default=''}">
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <label class="item-label">学历</label>
+                    <div class="controls">
+                        <select name="education_id">
+                            <volist name="educations" id="vo">
+                                <option value="{$vo.id}">{$vo.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">手机号</label>
+                    <div class="controls">
+                        <input type="text" name="mobile" class="text input-large" value="{$info.mobile|default=''}">
+                    </div>
+                </div>
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">会员到期时间</label>-->
+                    <!--<div class="controls">-->
+                        <!--<span>{$info.endtime}</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">延长天数(负数会扣除天数)</label>-->
+                    <!--<div class="controls">-->
+                        <!--<input type="text" name="addday" class="text input-large" value="">天-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">电子邮件</label>-->
+                    <!--<div class="controls">-->
+                        <!--<input type="text" name="email" class="text input-large" value="{$info.email|default=''}">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="form-item">
+                    <label class="item-label">所在地址</label>
+                    <div class="controls">
+                        <span>{$info.province}{$info.city}{$info.state}{$info.address}</span>
+                    </div>
+                </div>
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">籍贯地址</label>-->
+                    <!--<div class="controls">-->
+                        <!--<span>{$info.home_province}{$info.home_city}</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="form-item">
+                    <label class="item-label">身份证</label>
+                    <div class="controls">
+                        <input type="text" name="idcard" class="text input-large" value="{$info.idcard|default=''}">
+                    </div>
+                </div>
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">身份证正面</label>-->
+                    <!--<div class="controls">-->
+                        <!--<div class="upload-img-box">-->
+                            <!--<notempty name="info['cert_p']">-->
+                                <!--<div class="upload-pre-item">-->
+                                    <!--<img src="{$info.cert_p}">-->
+                                <!--</div>-->
+                            <!--</notempty>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">身份证反面</label>-->
+                    <!--<div class="controls">-->
+                        <!--<div class="upload-img-box">-->
+                            <!--<notempty name="info['cert_f']">-->
+                                <!--<div class="upload-pre-item">-->
+                                    <!--<img src="{$info.cert_f}">-->
+                                <!--</div>-->
+                            <!--</notempty>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">拥有证书</label>-->
+                    <!--<div class="controls">-->
+                        <!--<volist name="Think.config.CERT_CHOOSE" id="vo">-->
+                            <!--<label class="checkbox">-->
+                                <!--<input type="checkbox" value="{$key}" name="certs[]" <in name="key" value="$info[certs]" >checked="checked" {$key}</in>>{$vo}-->
+                            <!--</label>-->
+                        <!--</volist>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-item">-->
+                    <!--<label class="item-label">是否审核通过</label>-->
+                    <!--<div class="controls">-->
+                        <!--<select name="is_passed">-->
+                            <!--<volist name="Think.config.PASSED_CHOOSE" id="vo">-->
+                                <!--<option value="{$key}">{$vo}</option>-->
+                            <!--</volist>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="form-item">
+                    <label class="item-label">加入黑名单</label>
+                    <div class="controls">
+                        <select name="is_forbid">
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">限制功能</label>
+                    <div class="controls">
+                        <input type="checkbox" name="limit[]"  value="1"  <if condition="stripos($info[limit_function],'1') nheq false">checked</if>>通话
+                        <input type="checkbox" name="limit[]"  value="2" <if condition="stripos($info[limit_function],'2') nheq false">checked</if>>聊天
+                        <input type="checkbox" name="limit[]"  value="3"<if condition="stripos($info[limit_function],'3') nheq false">checked</if>>购买课程
+                        <input type="checkbox" name="limit[]"  value="4"<if condition="stripos($info[limit_function],'4') nheq false">checked</if>>登录
+                        <input type="checkbox" name="limit[]"  value="5"<if condition="stripos($info[limit_function],'5') nheq false">checked</if>>提现
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <label class="item-label">是否有效推广人员</label>
+                    <div class="controls">
+                        <select name="reward_auth">
+
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                            <!--<option value="2">否</option>-->
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">推广现金券设定</label>
+                    <div class="controls">
+                        <input type="text" name="reward" class="text input-large" value="{$info.reward}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">备注</label>
+                    <div class="controls">
+                        <select name="is_worth">
+                                <volist name="wortharr" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                                </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">详细</label>
+                    <div class="controls">
+                        <textarea name="remark" role="10" cols="55">{$info.remark|default=''}</textarea>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label"></label>
+                    <input type="hidden" name="id" value="{$info.id|default=''}">
+                    <button type="submit" id="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+                    <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+
+
+    <script type="text/javascript">
+        Think.setValue("role", {$info.role|default=1});
+        Think.setValue("gender", {$info.gender|default=1});
+        Think.setValue("education_id", {$info.education_id|default=1});
+        Think.setValue("is_passed", {$info.is_passed|default=1});
+        Think.setValue("is_worth", {$info.is_worth|default=0});
+        Think.setValue("reward_auth", {$info.reward_auth|default=0});
+        Think.setValue("is_forbid", {$info.is_forbid|default=0});
+        //导航高亮
+        highlight_subnav('{:U('Accounts/user')}');
+
+
+    </script>
+
+</block>
+
+

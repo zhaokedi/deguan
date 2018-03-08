@@ -1,0 +1,240 @@
+<extend name="Public/base" />
+<!--<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=2UABZ-L5TR5-OKAIW-QFN3I-GAV4Q-IZF7J"></script>-->
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Xyn9WgYtwP5mO5PlbtnwCG5QBZVbDhiY"></script>-->
+
+<block name="style">
+    <style>
+        .upload-img-box .upload-pre-item{
+            display: inline-block;
+        }
+        #container {width: 80%;height: 700px;overflow: hidden;margin:0 auto;font-family:"微软雅黑";}
+		/*#container span{*/
+			/*width: 10px;!important;*/
+			/*height: 15px;!important;*/
+		/*}*/
+    </style>
+</block>
+<block name="body">
+	<div class="main-title cf">
+		<h2>{$meta_title}</h2>
+	</div>
+	<div class="cf" style="padding: 10px 3px 20px 3px;background-color: #f4f4f4;width: 100%">
+		紫色：老师<br/>
+		蓝色：学生
+		<!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('Map/alluser_map')}">搜 索</a>
+			</div>
+			<!-- linw -->
+			<div class="btn-group-click adv-sch-pannel fl">
+				<button class="btn">高 级<i class="btn-arrowdown"></i></button>
+				<div class="dropdown cf" style="z-index: 1">
+					<div class="row">
+						<label>角色筛选:</label>
+
+						<div class="input-append date"  style="display:inline-block">
+							<select class="role">
+								<option value=''>选择角色</option>
+								<foreach name="role" item="val">
+									<option value="{$key}">{$val}</option>
+								</foreach>
+							</select>
+						</div>
+					</div>
+
+					<!--<div class="row" style="display: block;">-->
+						<!--<label>注册时间：</label>-->
+						<!--<input type="text" id="time-start" name="timestart" class="text input-2x" value="{$Think.get.timestart}" placeholder="起始时间" /> - -->
+						<!--<div class="input-append date" id="datetimepicker"   style="display:inline-block">-->
+							<!--<input type="text" id="time-end" name="timeend" class="text input-2x" value="{$Think.get.timeend}" placeholder="结束时间" />-->
+							<!--<span class="add-on"><i class="icon-th"></i></span>-->
+						<!--</div>-->
+					<!--</div>-->
+					<!--<div class="row" style="display: block;">-->
+						<!--<label>登录时间：</label>-->
+						<!--<input type="text" id="ltime-start" name="ltimestart" class="text input-2x" value="{$Think.get.ltimestart}" placeholder="起始时间" /> - -->
+						<!--<div class="input-append date"  id="datetimepicker1"  style="display:inline-block">-->
+							<!--<input type="text" id="ltime-end" name="ltimeend" class="text input-2x" value="{$Think.get.ltimeend}" placeholder="结束时间" />-->
+							<!--<span class="add-on"><i class="icon-th"></i></span>-->
+						<!--</div>-->
+					<!--</div>-->
+
+						<div class="row" style="display: block;">
+							<label>地区筛选：</label>
+							<div id="city" style="display: inline-block;">
+								<input type="hidden" name="province" value="{$Think.get.province}">
+								<input type="hidden" name="city" value="{$Think.get.city}">
+								<input type="hidden" name="state" value="{$Think.get.state}">
+								<select class="prov" ></select>
+								<select class="city"  disabled="disabled"></select>
+								<select class="dist"  disabled="disabled"></select>
+							</div>
+						</div>
+
+				</div>
+			</div>
+			<!-- linw -->
+		</div>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<!-- 表单 -->
+
+			<form id="form" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1" >
+                    <div id="container"></div>
+				</div>
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<!--<label class="item-label"></label>-->
+					<!--<div class="controls edit_sort_btn">-->
+						<!--&lt;!&ndash;<input type="hidden" name="id" value="{$info.id}">&ndash;&gt;-->
+						<!--<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">发送</button>-->
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					<!--</div>-->
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/cityselect/jquery.cityselect.js" charset="UTF-8"></script>
+	<script type="text/javascript" >
+        //搜索功能
+        $("#search").click(function(){
+            var role = $('.role').val();
+            var province = $(".prov").val();
+            var city = $(".city").val();
+            var state = $(".dist").val();
+
+//        var timeStart=$("input[name='timestart']").val();
+//        var timeEnd=$("input[name='timeend']").val();
+
+            var url = $(this).attr('url');
+            var query  = $('.search-form').find('input').serialize();
+            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+            query = query.replace(/^&/g,'');
+            if(role != ''){
+                query = 'role=' + role + "&" + query;
+            }
+            if( url.indexOf('?')>0 ){
+                url += '&' + query;
+            }else{
+                url += '?' + query;
+            }
+
+            if (province != '' && province!=null) {
+                url += '&' + 'province=' + province;
+            }
+
+            if (city != '' && city != null) {
+                city=city.substring(0,city.length-1);
+                url += '&' + 'city=' + city;
+            }
+            if (state != '' && state != null) {
+                state=state.substring(0,state.length-1);
+                url += '&' + 'state=' + state;
+            }
+
+
+
+            window.location.href = url;
+        });
+        //回车搜索
+        $(".search-input").keyup(function(e){
+            if(e.keyCode === 13){
+                $("#search").click();
+                return false;
+            }
+        });
+
+        //导航高亮
+        highlight_subnav('{:U("Map/alluser_map")}');
+        $(function(){
+
+            $("#city").citySelect({
+                url:"__STATIC__/cityselect/city.min.js",
+                nodata:"none",
+                prov:<notempty name="province">"{$province|default='null'}"<else/>null</notempty>,
+                city:<notempty name="city">"{$city|default='null'}"<else/>null</notempty>,
+                dist:<notempty name="state">"{$state|default='null'}"<else/>null</notempty>,
+                required:false
+        });
+
+        });
+	</script>
+<script type="text/javascript" charset="utf-8">
+
+    var tdata ={$tdata};
+    var udata ={$udata};
+		console.log(tdata);
+		console.log(udata);
+//    var map = new BMap.Map("container");
+//    var point = new BMap.Point(lng,lat);
+//    map.centerAndZoom(point, 12);
+//    map.enableScrollWheelZoom(true);
+
+
+
+    var map = new BMap.Map("container", {});                        // 创建Map实例
+    map.centerAndZoom(new BMap.Point(105.000, 38.000), 5);     // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom();                        //启用滚轮放大缩小
+
+
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
+    /*缩放控件type有四种类型:
+    BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+    map.addControl(top_right_navigation);
+
+
+    if (document.createElement('canvas').getContext) {  // 判断当前浏览器是否支持绘制海量点
+        var points = [];  // 添加海量点数据
+        for (var i = 0; i < tdata.length; i++) {
+
+            points.push(new BMap.Point(tdata[i]['lng'], tdata[i]['lat']));
+        }
+        var options = {
+            size: BMAP_POINT_SIZE_SMALL,
+            shape: BMAP_POINT_SHAPE_STAR,
+            color: '#d340c3'
+        }
+        var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
+        pointCollection.addEventListener('click', function (e) {
+            alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
+        });
+        map.addOverlay(pointCollection);  // 添加Overlay
+
+
+
+        var upoints = [];  // 添加海量点数据
+        for (var i = 0; i < udata.length; i++) {
+
+            upoints.push(new BMap.Point(udata[i]['lng'], udata[i]['lat']));
+        }
+        var options = {
+            size: BMAP_POINT_SIZE_SMALL,
+            shape: BMAP_POINT_SHAPE_STAR,
+            color: '#0403d3'
+        }
+        var pointCollection2 = new BMap.PointCollection(upoints, options);  // 初始化PointCollection
+        pointCollection2.addEventListener('click', function (e) {
+
+            alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
+        });
+        map.addOverlay(pointCollection2);
+    } else {
+        alert('请在chrome、safari、IE8+以上浏览器查看本示例');
+    }
+</script>
+</block>
+

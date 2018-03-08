@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2888592e-a02f-47c3-86fe-fe3de5b24ced" name="test" url="http://183.247.192.118">
+        <fileTransfer host="183.247.192.118" port="21" rootFolder="/deguan">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="bbe42f88-6c1b-460d-b5cc-aae8d932b3da" name="hanya" url="http://hyu2449060001.my3w.com">
+        <fileTransfer host="hyu2449060001.my3w.com" port="21" rootFolder="/htdocs">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

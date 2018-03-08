@@ -1,0 +1,102 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>{$model['title']}列表</h2>
+    </div>
+	<div class="cf">
+		<div class="fl">
+		<empty name="model.extend">
+			<div class="tools">
+				<a class="btn" href="{:U('add?model='.$model['id'])}">新 增</a>				
+			</div>
+		</empty>
+		</div>
+		<!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="{$model['search_key']|default='title'}" class="search-input" value="{:I('title')}" placeholder="请输入关键字">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('Think/lists','model='.$model['name'],false)}">搜 索</a>
+			</div>
+
+		</div>
+	</div>
+
+
+    <!-- 数据列表 -->
+    <div class="data-table">
+        <div class="data-table table-striped">
+            <table>
+                <!-- 表头 -->
+                <thead>
+                    <tr>
+                        <foreach name="newgrids" item="grids">
+                            <th>{$grids.title}</th>          
+                        </foreach>
+                    </tr>
+                </thead>
+
+                <!-- 列表 -->
+                <tbody id='courseshow' >
+                    <foreach name="courseData" item="val">
+                        <tr name="{$val.pid}" >                            
+                            <td>  
+
+                            {:str_repeat('&nbsp;',$val['deep']*6)}
+                            <if condition="$val.isHaveChild eq 1">
+                            <a class="foldst" title="{$val.id}">+</a>
+                            </if>
+                            {:$val['name']}
+                            </td>
+                            <if condition="($val.is_valid eq 1)">
+                            <td>是</td>
+                            <else/>
+                            <td>否</td>
+                            </if>
+                            <td>{:date('Y-m-d',$val['created'])}</td>
+                            <td>
+                                <a href="javascript:void(0)" title="删除" onclick="location.href='<?php echo U('edit',array('id'=>$val['id'],'model'=>5))?>'">编辑</a>&nbsp;&nbsp;
+                                <a href="javascript:void(0)" title="删除" onclick="if(confirm('你确定删除吗？'))location.href='<?php echo U('courseDel',array('id'=>$val['id']))?>'">删除</a>
+                            </td>
+                        </tr>
+                    </foreach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+<script type="text/javascript">
+    (function($){
+        $("#courseshow tr").css('display','none');
+        $("#courseshow").find("[name=0]").slideDown("slow");
+        $('.foldst').click(function(){
+            var htmlCon=$(this).text();
+            var cid=$(this).attr('title');
+            if(htmlCon=='-'){
+                $(this).html('+');
+                foldfunc(cid);
+            }else{
+                $(this).html('-');
+                $("#courseshow").find("[name="+cid+"]").slideDown("slow");
+            }
+            
+        });
+
+        function foldfunc(cid){
+            var foldObj= $("#courseshow").find("[name="+cid+"]");
+            foldObj.slideUp("slow");
+            var sonObj=$(foldObj).children().eq(0).children().eq(0);
+            $(sonObj).html('+');
+            var sonCid=$(sonObj).attr('title');
+            if(sonCid != undefined) {
+                foldfunc(sonCid);
+            }
+        }
+    })(jQuery);
+</script>
+</block>
+
+

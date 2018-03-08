@@ -1,0 +1,96 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>新增用户</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">用户名</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="username" value="">
+                <span class="check-tips">（用户名会作为默认的昵称）</span>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">密码</label>
+            <div class="controls">
+                <input type="password" class="text input-large" name="password" value="">
+                <span class="check-tips">（用户密码不能少于6位）</span>
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">确认密码</label>
+            <div class="controls">
+                <input type="password" class="text input-large" name="repassword" value="">
+            </div>
+        </div>
+        <div class="form-item">
+            <label class="item-label">邮箱</label>
+            <div class="controls">
+                <input type="text" class="text input-large" name="email" value="">
+                <span class="check-tips">（用于找回密码等安全操作）</span>
+            </div>
+
+        </div>
+        <div class="form-item">
+            <label class="item-label">地区</label>
+            <div class="controls">
+                <!--<input type="text" class="text input-large" name="email" value="">-->
+                <!--<div class="row" style="display: block;">-->
+                    <!--<label>用户地区：</label>-->
+                    <div id="city" style="display: inline-block;">
+                        <select class="prov" name="province"></select>
+                        <select class="city" name="city" disabled="disabled"></select>
+                        <select class="dist" name="state" disabled="disabled"></select>
+                    </div>
+                <span class="check-tips">(代理商必须填写)</span>
+                <!--</div>-->
+            </div>
+
+
+        </div>
+        <div class="form-item">
+            <label class="item-label">代理等级</label>
+            <div class="controls">
+                    <select  name="agent_level">
+                        <option value="1">省</option>
+                        <option value="2">市</option>
+                        <option value="3">区</option>
+                    </select>
+                <span class="check-tips">(代理商必须填写)</span>
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <div class="form-item">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/cityselect/jquery.cityselect.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('User/index')}');
+
+
+        $(function(){
+            $("#city").citySelect({
+                url:"__STATIC__/cityselect/city.min.js",
+                nodata:"none",
+                prov:<notempty name="province">"{$province|default='null'}"<else/>null</notempty>,
+                city:<notempty name="city">"{$city|default='null'}"<else/>null</notempty>,
+                dist:<notempty name="state">"{$state|default='null'}"<else/>null</notempty>,
+                required:false
+        });
+        });
+    </script>
+</block>

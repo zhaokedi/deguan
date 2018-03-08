@@ -1,0 +1,157 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>微博列表</h2>
+    </div>
+    <div class="cf">
+        <div class="fl">
+            <button class="btn ajax-post confirm" target-form="ids" url="{:U('Sns/weibo_del')}">删 除</button>
+        </div>
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+            <div class="sleft">
+                <div class="drop-down">
+                    <span id="sch-sort-txt" class="sort-txt" data="{$is_forbidden}"><if condition="get_forbidden_title($is_forbidden) eq ''">所有<else/>{:get_forbidden_title($is_forbidden)}</if></span>
+                    <i class="arrow arrow-down"></i>
+                    <ul id="sub-sch-menu" class="nav-list hidden">
+                        <li><a href="javascript:;" value="">所有</a></li>
+                        <li><a href="javascript:;" value="1">已屏蔽</a></li>
+                        <li><a href="javascript:;" value="2">未屏蔽</a></li>
+                    </ul>
+                </div>
+                <input type="text" name="username" class="search-input" value="{:I('username')}" placeholder="请输入发布者用户名">
+                <a class="sch-btn" href="javascript:;" id="search" url="{:U('Sns/weibo')}">搜 索</a>
+            </div>
+            <div class="btn-group-click adv-sch-pannel fl">
+                <button class="btn">高 级<i class="btn-arrowdown"></i></button>
+                <div class="dropdown cf">
+                    <div class="row">
+                        <label>发布时间：</label>
+                        <input type="text" id="time-start" name="time-start" class="text input-2x" value="" placeholder="起始时间" /> -                     
+                        <div class="input-append date" id="datetimepicker"  style="display:inline-block">
+                            <input type="text" id="time-end" name="time-end" class="text input-2x" value="" placeholder="结束时间" />
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+    <table class="">
+    <thead>
+        <tr>
+        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+        <th class="">发布者</th>
+        <th class="" style="width: 30%">内容</th>
+        <th class="">发布时间</th>
+        <th class="">转发数</th>
+        <th class="">评论数</th>
+        <th class="">点赞数</th>
+        <th class="">是否屏蔽</th>
+        <th class="">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <notempty name="_list">
+        <volist name="_list" id="vo">
+        <tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+            <td>{$vo.creator_id|get_user_name}</td>
+            <td>{$vo.content}</td>
+            <td>{$vo.created|time_format}</td>
+            <td>{$vo.retwitter_num}</td>
+            <td>{$vo.comment_num}</td>
+            <td>{$vo.up_num}</td>
+            <td>
+                <a href="{:U('Sns/weibo_toogleForbidden',array('id'=>$vo['id'],'value'=>$vo['is_forbidden']))}" class="ajax-get">
+                    {$vo.is_forbidden_text}
+                </a>
+            </td>
+            <td>
+                <a href="{:U('Sns/weibo_edit?id='.$vo['id'])}">详细</a>
+                <a href="{:U('Sns/up?weibo_id='.$vo['id'])}">点赞列表</a>
+                <a href="{:U('Sns/comment?weibo_id='.$vo['id'])}">评论列表</a>
+                <a href="{:U('Sns/weibo_del&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+            </td>
+        </tr>
+        </volist>
+        <else/>
+        <td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+        </notempty>
+    </tbody>
+    </table>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+//搜索功能
+$("#search").click(function(){
+    var url = $(this).attr('url');
+    var is_forbidden = $("#sch-sort-txt").attr("data");
+    var query  = $('.search-form').find('input').serialize();
+    query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+    query = query.replace(/^&/g,'');
+    if(is_forbidden != ''){
+        query = 'is_forbidden=' + is_forbidden + "&" + query;
+    }
+    if( url.indexOf('?')>0 ){
+        url += '&' + query;
+    }else{
+        url += '?' + query;
+    }
+    window.location.href = url;
+});
+
+/* 状态搜索子菜单 */
+$(".search-form").find(".drop-down").hover(function(){
+    $("#sub-sch-menu").removeClass("hidden");
+},function(){
+    $("#sub-sch-menu").addClass("hidden");
+});
+$("#sub-sch-menu li").find("a").each(function(){
+    $(this).click(function(){
+        var text = $(this).text();
+        $("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
+        $("#sub-sch-menu").addClass("hidden");
+    })
+});
+
+//回车自动提交
+$('.search-form').find('input').keyup(function(event){
+    if(event.keyCode===13){
+        $("#search").click();
+    }
+});
+
+$('#time-start').datetimepicker({
+    format: 'yyyy-mm-dd',
+    language:"zh-CN",
+    minView:2,
+    autoclose:true
+});
+
+$('#datetimepicker').datetimepicker({
+   format: 'yyyy-mm-dd',
+    language:"zh-CN",
+    minView:2,
+    autoclose:true,
+    pickerPosition:'bottom-left'
+})
+
+//导航高亮
+highlight_subnav('{:U('Sns/weibo')}');
+</script>
+</block>

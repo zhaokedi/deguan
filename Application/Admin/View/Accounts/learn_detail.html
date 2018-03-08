@@ -1,0 +1,149 @@
+<extend name="Public/base"/>
+<block name="style">
+    <style>
+        .upload-img-box .upload-pre-item{
+            display: inline-block;
+        }
+        .form-item{
+            margin-bottom: 0px!important;
+        }
+    </style>
+</block>
+<block name="body">
+    <div class="main-title">
+    </div>
+        <h2>学习圈详情</h2>
+    <div class="tab-wrap">
+        <div class="tab-content">
+            <form action="{:U()}" method="post" class="form-horizontal">
+
+                <div class="form-item">
+                    <label class="item-label">内容</label>
+                    <div class="controls">
+                        {$learninfo.content|default=''}
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片1</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img1']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img1}" target="_blank">
+                                    <img src="{$learninfo.img1}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片2</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img2']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img2}" target="_blank">
+                                    <img src="{$learninfo.img2}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片3</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img3']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img3}" target="_blank"> <img src="{$learninfo.img3}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片4</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img4']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img4}" target="_blank">  <img src="{$learninfo.img4}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片5</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img5']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img5}" target="_blank">  <img src="{$learninfo.img5}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片6</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img6']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img6}" target="_blank">  <img src="{$learninfo.img6}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片7</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img7']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img7}" target="_blank"><img src="{$learninfo.img7}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片8</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img8']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img8}" target="_blank">
+                                    <img src="{$learninfo.img8}">
+                                    </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">图片9</label>
+                    <div class="controls">
+                        <div class="upload-img-box">
+                            <notempty name="learninfo['img9']">
+                                <div class="upload-pre-item">
+                                    <a href="{$learninfo.img9}" target="_blank"><img src="{$learninfo.img9}">  </a>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        //导航高亮
+        highlight_subnav('{:U('Accounts/learn')}');
+    </script>
+</block>

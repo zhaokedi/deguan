@@ -1,0 +1,22 @@
+执行日期：2017-09-14 17:18:59 
+array (
+  'sendno' => '0',
+  'msg_id' => '234844126',
+)
+结束执行日期：2017-09-14 17:28:27 
+array (
+  'error' => 
+  array (
+    'message' => 'Unknown: android',
+    'code' => 1009,
+  ),
+)
+结束执行日期：2017-09-14 17:28:46 
+array (
+  'error' => 
+  array (
+    'message' => 'Unknown: android',
+    'code' => 1009,
+  ),
+)
+结束

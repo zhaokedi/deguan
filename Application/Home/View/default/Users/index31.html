@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.o2osl.com/businessCard/GTTUFVom.htm -->
+<html lang="zh-cn" style="font-size: 50px;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- 图片上传地址 -->
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/common.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/public.css">
+    <script type="text/javascript" src="__STATIC__/register/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/register/jsencrypt.min.js"></script>
+
+    <script type="text/javascript">
+        //验证提示
+        function alertFun(txt) {
+            var str = '<div class="m-alert Bounce"><span class="m-alert-info">错误提示</span></div>';
+            $('body').append(str);
+            var alertEl = $('.m-alert');
+            if (alertEl.is(':hidden')) {
+                alertEl.find('.m-alert-info').html(txt)
+                alertEl.show();
+                setTimeout(function () {
+                    alertEl.remove();
+                }, 1000);
+            }
+
+            return false;
+        }
+
+        window.onload = function () {
+            $.getScript("https://s95.cnzz.com/z_stat.php?id=1258715214&web_id=1258715214");
+
+        }
+        var rsaJavaPublicKey = '';
+    </script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <title>学习吧</title>
+    <script type="text/javascript" src="__STATIC__/register/fsize-news.js"></script>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/common.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/public.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/register/index.css">
+    <script src="__STATIC__/register/js/inde.js"></script>
+
+</head>
+<body style="">
+<div class="cardContainer">
+    <if condition="$hide eq 0">
+    <!--<section class="bgTop" style="background-color: #E7D47F">-->
+
+    <!--</section>-->
+
+        <!--<section class="myCard">-->
+            <!--<div class="myInfo">-->
+                <!--<div class="myName">-->
+                    <!--<span>{$info.nickname}</span>-->
+                <!--</div>-->
+                <!--<p class="restInfo"><span>用户：</span> <span class="jobName"><if condition="$info.role eq 1">学生<else/>教师</if></span></p>-->
+                <!--&lt;!&ndash;<p class="restInfo"><span>邀请码：</span> <span class="jobName">{$tel}</span></p>&ndash;&gt;-->
+                <!--<p class="restInfo"><span>我是学习吧的第{$id}位使用者</span></p>-->
+            <!--</div>-->
+            <!--<div class="myPhoto">-->
+                <!--<div class="logoContainer"><img src="{$info.headimg}" alt="">-->
+
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</section>-->
+    </if>
+    <if condition="$hide eq 0">
+        <!--<section class="myCard2">-->
+            <!--<div class="myPhoto2">-->
+                <!--<div class="logoContainer2"><img src="__STATIC__/register/logo.png" alt="">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="myInfo2">-->
+                <!--<div class="myName2">-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<p style="color: #fff;line-height:24px;font-size: 0.5rem"> 学习吧，拥有海量优质教师资源和学生辅导需求，通过平台双向沟通，达到课程和时间自由安排、教师和学生双向精准匹配，不断满足＂一对一＂教师上门（或学生上门）辅导服务，面对面教学，保证教学质量。</p>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<p style="color: #fff;line-height:24px;font-size: 0.5rem"> 学习吧，注册即送100元学习券，只为给您孩子全新的教学体验，服务好，效率高，费用低，支付更便捷。</p>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</section>-->
+    </if>
+
+    <section class="myShop"  <if condition="$hide eq 0">style="padding-top:0rem"  <else/>style="padding-top:0rem" </if>>
+        <div class="myshopTip noShow" data-url="/wap/HZJZ17022515115UZEB1/any/gwscIndex.htm?subbranchId=-1"></div>
+        <div class="blankHoldernew marT"></div>
+        <ul class="giveortake">
+            <li><img class="give" src="__STATIC__/register/stu.png" alt="">
+                <p class="giveContent ">适用于幼儿、小学、初中、高中等需要教师辅导的人群。</p></li>
+            <li><img class="give" src="__STATIC__/register/tea.png" alt="">
+                <p class="">适用于社会各界，拥有专科以上学历文化的人群，<span style="color: red">必备相关专业证书，以供后台审核之用。</span></p></li>
+        </ul>
+    </section>
+    <section class="selfTag">
+        <p class="tipContent">
+            <span class="label" onclick="tabchoose(this,1)">学生端注册
+                <input id="q1" type="radio" autocomplete="off" name="role" style="display:none;" value="1" onclick="check_agreement('sppp1')">
+                <label for="q1">
+                    <span id="sppp1" class="check_yes " style="display: inline-block;left: 20%"></span>
+                    <!--<span class="labelBor bor1" style="display: block"></span>-->
+                </label>
+            </span>
+
+            <span class="label" onclick="tabchoose(this,2)">教师端注册
+                <input id="q2" type="radio" autocomplete="off" name="role" style="display:none;" value="2" onclick="check_agreement('sppp2')">
+                <label for="q2">
+                    <span id="sppp2" class="check_yes " style="display: inline-block;left:30px"></span>
+                    <!--<span class="labelBor bor2" style="display: none"></span>-->
+                </label>
+            </span>
+
+        </p>
+        <section class="myCard3">
+
+            <div class="mobile_conter_content">
+                <!--<input  type="hidden"   name="role" class="role" value="1"/>-->
+                <input  type="hidden"   name="Invitation" class="Invitation" value="{$tel}"/>
+                <input  type="hidden"   name="hide" class="hide" value="{$hide}"/>
+
+                <div class="phone_border">
+                    <span class="icon_phone"></span>
+                    <input class="phone" type="text"  maxlength="11" name="phone" placeholder="请输入手机号"/>
+                </div>
+
+                <div class="right_password">
+                    <span class="icon_pw"></span>
+                    <input id="password" class="password" type="password"  maxlength="16" name="password" placeholder="请设置登入密码(长度6~16位)"/>
+
+                </div>
+                <div class="phone_code">
+                    <span class="icon_yzm"></span>
+                    <input class="code" type="text"  maxlength="6" name="code" placeholder="请输入验证码"/>
+                    <input type="button" class="yzm" value="获取验证码"  />
+                </div>
+                <div class="right_buttom">
+                   <button class="btn"  >注册</button>
+                </div>
+                <div class="bottom" >
+                    <p style="color: #3a3a3a">
+                        <input id="qqq" type="checkbox" autocomplete="off" name="agree" style="display:none;" value="1" onclick="check_agreement('sppp')">
+
+                        <label for="qqq"> <span id="sppp" class="check_yes"></span></label>
+                        同意<span style="color: #E7D47F" onclick="desc()">学习吧用户协议</span></p>
+                </div>
+
+
+        </div>
+        </section>
+    </section>
+
+</div>
+
+<!--<script type="text/javascript" src="__STATIC__/register/mob-public.js"></script>-->
+<!--<script type="text/javascript" src="__STATIC__/layer_mobile/layer.js"></script>-->
+<script type="text/javascript" >
+    function check_agreement(obj) {
+
+        $("#"+obj).toggleClass('checked');
+
+    }
+    function tabchoose(obj,role) {
+
+        if(role==1){
+            $('.bor1').show();
+            $('.bor2').hide();
+            $("input[name='role']").val(1)
+        }else {
+            $('.bor2').show();
+            $('.bor1').hide();
+            $("input[name='role']").val(2)
+        }
+    }
+
+    //显示用户协议
+    function desc()
+    {
+        var url = "{:U('Home/Users/desc')}";
+        window.location.href=url;
+//        layer.open({
+//            type: 2,
+//            title: false,
+//            shadeClose: true,
+//            shade: 0.6,
+//            area: ['90%', '90%'],
+//            content: url
+//        });
+    }
+
+
+</script>
+
+</body>
+</html>

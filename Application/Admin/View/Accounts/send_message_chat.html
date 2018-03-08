@@ -1,0 +1,223 @@
+<extend name="Public/base" />
+<block name="style">
+    <style>
+        .upload-img-box .upload-pre-item{
+            display: inline-block;
+        }
+    </style>
+</block>
+<block name="body">
+	<div class="main-title cf">
+		<h2>消息群发</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content" >
+			<!-- 表单 -->
+			<form id="form" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+
+                    <div class="form-item">
+                        <label class="item-label">发送人用户名</label>
+                        <div class="controls">
+                            <select name="username">
+                                <foreach name="list" item="val">
+                                    <option value="{$val.tel}">{$val.tel}({$val.province}{$val.city}{$val.state})</option>
+                                </foreach>
+                            </select>
+                            <!--<input type="text" name="title" class="text input-large" value="{$userinfo.username|default=''}">-->
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">对象</label>
+                        <div class="controls">
+                            <select name="type">
+                                <option value="1">全部</option>
+                                <option value="2">所有学生</option>
+                                <option value="5">学生未发布</option>
+                                <option value="6">学生已发布</option>
+                                <option value="3">已通过老师</option>
+                                <option value="4">未通过老师</option>
+                                <option value="8">未发布课程老师</option>
+                                <option value="7">所有老师</option>
+                            </select>
+                            <!--全部 <input type="radio" name="type" checked="checked" value="1">-->
+                            <!--学生 <input type="radio" name="type"  value="2">-->
+                            <!--学生未发布 <input type="radio" name="type"  value="5">-->
+                            <!--学生已发布 <input type="radio" name="type"  value="6">-->
+                            <!--已通过老师 <input type="radio" name="type"  value="3">-->
+                            <!--未通过老师 <input type="radio" name="type"  value="4">-->
+                            <!--所有老师 <input type="radio" name="type"  value="7">-->
+                        </div>
+                    </div>
+                    <if condition="$Think.session.isagent eq 0">
+                    <div class="form-item">
+                        <label class="item-label">排除代理商</label>
+                        <div class="controls">
+                            <input type="checkbox"  name="exclude"  value="1"/>
+                        </div>
+                    </div>
+                    </if>
+                    <div class="form-item">
+                        <label class="item-label">地区</label>
+                        <div class="controls">
+                            <div id="city" style="display: inline-block;">
+                                <select class="prov" name="province"></select>
+                                <select class="city" name="city" disabled="disabled"></select>
+                                <select class="dist" name="state" disabled="disabled"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">注册时间</label>
+                        <div class="controls">
+
+
+                            <input type="text" id="time-start" name="timestart" class="text input-2x" value="" placeholder="起始时间" /> -
+                            <div class="input-append date" id="datetimepicker"   style="display:inline-block">
+                                <input type="text" id="time-end" name="timeend" class="text input-2x" value="" placeholder="结束时间" />
+                                <span class="add-on"><i class="icon-th"></i></span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">内容</label>
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="content">{$m.content}</textarea>
+                            </label>
+                        </div>
+                    </div>
+
+				</div>
+
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls edit_sort_btn">
+						<!--<input type="hidden" name="id" value="{$info.id}">-->
+						<button type="submit" class="btn submit-btn ajax-post confirm" target-form="form-horizontal">发送</button>
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					</div>
+				</div>
+
+
+			</form>
+		</div>
+
+	</div>
+    <div class="tab-wrap">
+        <div class="tab-content" style="width:48%;display:block;float: left">
+            <form id="form1" method="post" class="form-horizontal doc-modal-form">
+                <div class="form-item">
+                    <label class="item-label">教师端消息发送模板</label>
+                    <div class="controls">
+                        <h3>版本更新消息：</h3>
+                        <p>尊敬的用户，您好！学习吧已更新版本，感谢您的支持及给我们建议回馈，祝您生活愉快！</p>
+                        <h3>未完善教师信息推送：</h3>
+                        <p>您好，欢迎使用学习吧！我是客服小美^-^亲的的个人信息和简介内容尚未完善哦！快来展现更好的自己吧！</p>
+                        <h3>未通过审核信息推送：</h3>
+                        <p>1、您好，根据学习吧平台数据显示，目前基础科目的辅导需求居高，您还未通过审核哦，赶快上传相关资料，通过审核后，就可以发布课程接单咯。
+                            2、老师您好！您身边又有新用户出现，请留意需求信息哦！
+                        </p>
+                        <h3>已通过审核消息推送：</h3>
+                        <p>您好！亲已通过审核，可以发布课程了！ </p>
+                        <h3>未发布课程消息推送：</h3>
+                        <p>您好！您已通过教师审核，只有发布课程家长才能看到您哦。 </p>
+                        <h3>已发布课程消息推送：</h3>
+                        <p>您好！您已发布课程，可以主动在平台上查找对应需求的家长哦。主动出击才能更快接单 </p>
+                        <h3>未开定位消息推送：</h3>
+                        <p>您好！您的定位功能没有开启，会影响您周边搜索功能，需求方也不能及时发现与您的距离，开启定位功能需打开手机设置-应用管理-开启定位。 </p>
+                        <h3>日常消息推送：</h3>
+                        <p>1、您好！您的资料越完善，被购买课程的几率就越大。您可以与发布需求的家长主动沟通，了解对方的详细需求，以便更好的帮助孩子解决学习上的困扰。
+                            2、尊敬的用户：在您感觉学习吧平台不错的时候，不要忘记推荐给您的伙伴们哦！发送二维码或链接到QQ、微信及微博等，即可注册得红包哦！
+                            3、感谢您加入学习吧点亮孩子的心灵，您的每一次付出不但给予孩子知识上的帮助，更弥补了家长对孩子在陪伴上的缺失，让孩子感受到朋友一样的关怀，孩子因您的出现而找到学习进步的方向，孩子的成长因您的加入更加自信阳光。学习吧！感谢您为孩子所付出的这份爱！
+                        </p>
+                        <h3>节日提醒：</h3>
+                        <p>17年的紧张已成过去，18年美好的生活将随着学习吧一起开始！学习吧平台全体工作人员祝福天下父母一切顺心！孩子们学习进步！老师们年轻活力！新的一年里健康快乐、新景象！
+                        </p>
+                        <h3>假期提醒：</h3>
+                        <p>学习吧是个开放式的平台，您的个人魅力将展示给所有需求用户，所以不能小视哦！寒假就来了，寒假期间您能帮助多少小伙伴们呢！
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-content" style="width:48% ;display: block;float: left">
+            <form id="form2" method="post" class="form-horizontal doc-modal-form">
+
+                <div class="form-item">
+                    <label class="item-label">学生端消息发送模板</label>
+                    <div class="controls">
+                        <h3>未发布需求提醒：</h3>
+                        <p>1、您好，欢迎使用学习吧！我是客服小美^-^亲还没有发布需求哦，老师还看不到你呢。点中间发布键输入您的需求内容，周边老师就会主动与您对接哦！把您对孩子的关爱，直接表达出来吧！
+                            2、根据数据显示，平台家教订单初步以周末居多，中小学基础科目课时费从30元/小时至80元/小时不等（区域消费差异性），一对一老师上门辅导的家庭支出成本平均为49.17元/小时。
+                        </p>
+                        <h3>已发布需求提醒：</h3>
+                        <p>您好，您已发布需求，可以主动在平台上查找对应课程的老师哦。主动出击，才能更快找到老师！</p>
+                        <h3>日常提醒：</h3>
+                        <p>1、您好，欢迎使用学习吧！我是客服小美^-^亲要留意身边有新老师出现哦！
+                            2、您好！欢迎使用学习吧共享平台！您可以将找家教的需求在平台发布，以便周边老师发现并与您联系！
+                            3、亲爱的家长您好！为保障孩子的学习品质，在购买课程前请与老师进行沟通交流，让老师了解孩子的学习情况，以便老师更好地辅导孩子学习。＂学习吧＂希望给予更多孩子在学习上的帮助，感谢您对学习吧的支持！
+                            4、尊敬的用户，别忘了将学习吧推荐给您的小伙伴哦！发送二维码或链接到QQ、微信及微博等，注册就有红包哦！
+
+                        </p>
+                        <h3>系统更新提醒：</h3>
+                        <p>尊敬的用户，您好！学习吧已更新版本。感谢您的支持及给我们建议回馈，祝您生活愉快！ </p>
+                        <h3>新年/节日提醒：</h3>
+                        <p>17年的紧张已成过去，18年美好的生活将随着学习吧一起开始！学习吧平台全体工作人员祝福天下父母一切顺心！孩子们学习进步！老师们年轻活力！新的一年里健康快乐、新景象！ </p>
+                        <h3>假期提醒：</h3>
+                        <p>寒假/暑假/国庆假期/....即将来临，您知道孩子这段时间知识收获了多少吗？孩子需要补充的重点内容是什么吗？考试的分数代表了什么？缺失的百分比如何找回？来学习吧找个老师，帮孩子找到每个时间段里没有理解的知识点。查漏补缺，日积月累。每天进步一点点，一月、一季、一年，将会大丰收…… 学习吧！点滴进步看得见！</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</block>
+<block name="script">
+    <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+    <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+    <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="__STATIC__/cityselect/jquery.cityselect.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="utf-8">
+Think.setValue("apply_course_id", {$info.apply_course_id|default=1});
+Think.setValue("apply_grade_id", {$info.apply_grade_id|default=1});
+Think.setValue("is_passed", {$info.is_passed|default=2});
+//导航高亮
+highlight_subnav('{:U('Accounts/send_message_chat')}');
+
+$('#time-start').datetimepicker({
+    format: 'yyyy-mm-dd',
+    language:"zh-CN",
+    minView:2,
+    autoclose:true
+});
+
+
+$('#datetimepicker').datetimepicker({
+    format: 'yyyy-mm-dd',
+    language:"zh-CN",
+    minView:2,
+    autoclose:true,
+    pickerPosition:'bottom-left'
+})
+
+$(function(){
+    $("#city").citySelect({
+        url:"__STATIC__/cityselect/city.min.js",
+        nodata:"none",
+        prov:<notempty name="province">"{$province|default='null'}"<else/>null</notempty>,
+        city:<notempty name="city">"{$city|default='null'}"<else/>null</notempty>,
+        dist:<notempty name="state">"{$state|default='null'}"<else/>null</notempty>,
+        required:false
+});
+});
+</script>
+</block>
+

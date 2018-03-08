@@ -1,0 +1,15 @@
+<?php
+require_once 'decode.php';
+
+$data ="RU5DUllQVEVEm40TBzOi3qD1zAu3x2K8gx85p9T/ybdohXaVoNEPk9xFXAdn+NMqysd5KOkg/ND91FMrngUU7UpbhdDNwWbZh+9ToSte10cPzS7rdeVvoeLWQjT7B8nIS7nPGlGUss7KHaJXyKLojyRHkcqOQiOlDNncElaBwTvuPh9ePz7rPynuChUCRMAdLWGlG1YwoSpCEP/7PL1IaLiRZUHG8BcE/S9v0Vdw7ImoHwL8/0QMJ+lBE23u5rt0vUKXlxMpwloguQgqgFi/t7iqEY9vIkJuHLfEQGKZ8TTybR+8KLclRVzlTmqIyoUsyP3UL4jkYRnXW+O8+9yNOvro0qNC0HUiyZCQUpK9dUD5OhteqUhOT5Ee/bSl0wZJ3CuYCyHeUom0T1Uuv59k5SvGDCgpRWubetchPwwzoCx1QCBu3fqUJ2V/3BfaXVabgzIZ5EQIkrWlhV8nep1OJz2ItZsnjsi+rHG5NV/KbVa8cgDxnhuWc428B1NEQ6W2eCYfHT/XjGxC";
+$data="RU5DUllQVEVExp3JTSTie6eI6I8L4M/hx1QUmrr+HUoYKerz1BfChFI/dQVYo1WJZPLzLpNom9UrqsZ393hKX0k76pmIkit+OznO4t74YFt9X+S+cdgpPVHu53SIN6C+PJLBFLLqHjj90VU81lsPPueiKVkaIrAuDeXmxw92U6+CAhOiqWgh2GiVtqcC4KlDhX+6nWxom0nE5PSHs5E/YpyhblgRpgrOpG91zrIH9fWKQALEosrHsuWw8j4FeLy3M5K3SsaoWa54i7pkiaCFk45ARCtbR0nMK70c6pPKvFLado5fX6dZmo8EAOZgL4XaYmFHf1Nr2KVlHurhN89etTS7J7oUnGGdagy3LN1MltnBYA79iMZshNvfrDKmCp2Xag6pLrPuBpn4pvVcUUBtXVo=";
+$data = substr($data, 12);
+
+$info = TV_decode($data);
+
+echo "Crypt data:      $data" . PHP_EOL;
+echo "Decripted data:  " . PHP_EOL;
+print_r($info);
+
+
+?>

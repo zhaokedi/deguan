@@ -1,0 +1,111 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<div class="main-title cf">
+		<h2>订单详情</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<!-- 表单 -->
+			<form id="form" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+					<div class="form-item cf">
+						<label class="item-label">订单ID</label>
+						<div class="controls">
+							<span>{$complete.order_id}</span>
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">教学内容</label>
+						<div class="controls">
+							<span>{$complete.content}</span>
+						</div>
+					</div>
+					<div class="form-item cf">
+						<label class="item-label">成长建议</label>
+						<div class="controls">
+							<span>{$complete.evaluate}</span>
+						</div>
+					</div>
+
+					<div class="form-item">
+						<label class="item-label">图片1</label>
+						<div class="controls">
+							<div class="upload-img-box">
+								<notempty name="complete['img1']">
+									<div class="upload-pre-item">
+										<a href="{$complete.img1}" target="_blank">
+											<img src="{$complete.img1}">
+										</a>
+									</div>
+								</notempty>
+							</div>
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">图片2</label>
+						<div class="controls">
+							<div class="upload-img-box">
+								<notempty name="complete['img2']">
+									<div class="upload-pre-item">
+										<a href="{$complete.img2}" target="_blank">
+											<img src="{$complete.img2}">
+										</a>
+									</div>
+								</notempty>
+							</div>
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">图片3</label>
+						<div class="controls">
+							<div class="upload-img-box">
+								<notempty name="complete['img3']">
+									<div class="upload-pre-item">
+										<a href="{$complete.img3}" target="_blank">
+											<img src="{$complete.img3}">
+										</a>
+									</div>
+								</notempty>
+							</div>
+						</div>
+					</div>
+					<div class="form-item">
+						<label class="item-label">图片4</label>
+						<div class="controls">
+							<div class="upload-img-box">
+								<notempty name="complete['img4']">
+									<div class="upload-pre-item">
+										<a href="{$complete.img4}" target="_blank">
+											<img src="{$complete.img4}">
+										</a>
+									</div>
+								</notempty>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls edit_sort_btn">
+						<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+//导航高亮
+highlight_subnav('{:U('Order/order_detail')}');
+
+</script>
+</block>
+

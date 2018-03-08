@@ -1,0 +1,333 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>教师列表</h2>
+    </div>
+    <div class="cf">
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+            <div class="sleft">
+                <div class="drop-down" style="width: 85px;">
+                    <select class="order" name="order" >
+                        <option value='id'>用户id</option>
+                        <option value="a.date_joined">注册时间</option>
+                    </select>
+                </div>
+                <div class="drop-down" style="width: 85px;">
+                    <select class="order_type" name="order_type" >
+                        <option value='desc'>降序</option>
+                        <option value="asc">升序</option>
+                    </select>
+                </div>
+                <input type="text" name="username" class="search-input" value="{:I('username')}" placeholder="请输入用户名">
+                <a class="sch-btn" href="javascript:;" id="search" url="{:U('Accounts/teacher')}">搜 索</a>
+            </div>
+            <div class="btn-group-click adv-sch-pannel fl">
+                <button class="btn">高 级<i class="btn-arrowdown"></i></button>
+                <div class="dropdown cf">
+                    <!--<div class="row">-->
+                        <!--<label>发布时间：</label>-->
+                        <!--<input type="text" id="time-start" name="timestart" class="text input-2x" value="{$Think.get.timestart}" placeholder="起始时间" /> - -->
+                        <!--<div class="input-append date" id="datetimepicker"  style="display:inline-block">-->
+                            <!--<input type="text" id="time-end" name="timeend" class="text input-2x" value="{$Think.get.timeend}" placeholder="结束时间" />-->
+                            <!--<span class="add-on"><i class="icon-th"></i></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="row" style="display: block;">
+                        <label>登录时间：</label>
+                        <input type="text" id="ltime-start" name="ltimestart" class="text input-2x" value="{$Think.get.ltimestart}" placeholder="起始时间" /> -
+                        <div class="input-append date"  id="datetimepicker1"  style="display:inline-block">
+                            <input type="text" id="ltime-end" name="ltimeend" class="text input-2x" value="{$Think.get.ltimeend}" placeholder="结束时间" />
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+                    <div class="row" style="display: block;">
+                        <label>通过时间：</label>
+                        <input type="text" id="timestart" name="ptimestart" class="text input-2x" value="{$Think.get.ptimestart}" placeholder="起始时间" /> -
+                        <div class="input-append date " id="datetimepicker"  style="display:inline-block">
+                            <input type="text" id="timeend" name="ptimeend" class="text input-2x" value="{$Think.get.ptimeend}" placeholder="结束时间" />
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+                    <!--<div class="row" style="display: block;">-->
+                        <!--<label>用户地区：</label>-->
+                        <!--<div id="city" style="display: inline-block;">-->
+                            <!--<select class="prov"></select>-->
+                            <!--<select class="city" disabled="disabled"></select>-->
+                            <!--<select class="dist" disabled="disabled"></select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <if condition="$Think.session.isagent eq 0">
+                        <div class="row" style="display: block;">
+                            <label>地区筛选：</label>
+                            <div id="city" style="display: inline-block;">
+                                <input type="hidden" name="province" value="{$Think.get.province}">
+                                <input type="hidden" name="city" value="{$Think.get.city}">
+                                <input type="hidden" name="state" value="{$Think.get.state}">
+                                <select class="prov"></select>
+                                <select class="city" disabled="disabled"></select>
+                                <select class="dist" disabled="disabled"></select>
+                            </div>
+                        </div>
+                    </if>
+                    <div class="row">
+                        <label>审核状态:</label>
+
+                        <div class="input-append date"  style="display:inline-block">
+                            <select class="status" name="status" id="status">
+                                <option value=''>审核状态</option>
+                                <option value="0">未审核</option>
+                                <option value="1">已通过</option>
+                                <option value="2">未通过</option>
+                                <option value="3">已更新</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row" style="display:block">
+                        <label>发送状态:</label>
+                        <div class="input-append date"  style="display: inline-block;">
+                            <select class="is_send" name="is_send" >
+                                <option value='-1'>发送状态</option>
+                                <option value="0">未发送</option>
+                                <option value="1">已发送</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn" href="javascript:;" id="export" url="{:U('Accounts/export_teacher')}">导出</a>
+            </div>
+        </div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+    <table class="">
+    <thead>
+        <tr>
+        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+        <th class="">ID</th>
+        <th class="">用户名</th>
+        <th class="">昵称/姓名</th>
+        <!--<th class="">昵称</th>-->
+        <!--<th class="">邀请人</th>-->
+        <th class="">学历/毕业院校</th>
+        <th class="">教龄</th>
+        <th class="">课程数量</th>
+        <th class="">退款次数</th>
+        <th class="">被投诉次数</th>
+        <th class="">差评次数</th>
+        <th class="">星级</th>
+        <th class="">时间</th>
+        <th class="">地址</th>
+        <th class="">审核状态</th>
+        <th class="">备注</th>
+            <th class="">消息发送</th>
+            <th class="">黑名单</th>
+
+        <th class="">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <notempty name="_list">
+        <volist name="_list" id="vo">
+        <tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+            <td>{$vo.id} </td>
+            <td>用户名 <a href="{:U('Accounts/user_detail',array('id'=>$vo['user_id'],'type'=>1))}">{$vo.user_id|get_user_name}</a><br/>
+                邀请人 <if condition="$vo.recom_username eq 88888888888">无<else/> {$vo.recom_username}</if>
+            </td>
+            <td>昵称 {$vo.nickname}<br/>
+                姓名 {$vo.name}
+            </td>
+            <!--<td><if condition="$vo.recom_username eq 88888888888">无<else/> {$vo.recom_username}</if></td>-->
+            <td>{$education_list[$vo[education_id]]} <br/>
+                {$vo.graduated_school}
+            </td>
+            <!--<td>{$vo.graduated_school}</td>-->
+            <td>{$vo.years}</td>
+            <td>{$vo.course_count}</td>
+            <td>{$vo.refund_counts}</td>
+            <td><a href="{:U('tip',array('buser_id'=>$vo['user_id']))}">{$vo.accounts_tip}</a></td>
+            <td><a href="{:U('Order/bad_comment',array('teacher_id'=>$vo['user_id']))}">{$vo.badcomment_counts}</a></td>
+            <td>{$vo.order_rank}</td>
+            <td>最后登入 {$vo.last_login}<br/>
+                通过时间 {$vo.pass_time}<br/>
+                注册时间 {$vo.date_joined|time_format}
+            </td>
+            <td>{$vo.province}{$vo.city}{$vo.state}</td>
+            <td>
+                <!--<a href="{:U('Accounts/teacher_tooglePassed',array('id'=>$vo['id'],'value'=>$vo['is_passed']))}" class="ajax-get">-->
+                    {$vo.is_passed_text|default=否}
+                <!--</a>-->
+            </td>
+            <td>{$vo.worth_text}</td>
+            <td>{$vo.is_send}</td>
+            <td>{$vo.is_forbid}</td>
+            <td>
+                <!--<a href="{:U('Accounts/shenhe_edit',array('id'=>$vo['id']))}" class="authorize">审核</a>-->
+                <a href="{:U('Accounts/send_singlemessage',array('username'=>$vo['username']))}" class="authorize">发送消息</a>
+                <a href="{:U('Accounts/teacher_edit',array('id'=>$vo['id'],'user_id'=>$vo['user_id']))}" class="authorize">编辑</a>
+                <a href="{:U('Action/optionlog',array('model'=>'teacher_information','record_id'=>$vo['id']))}" class="authorize">操作记录</a>
+            </td>
+        </tr>
+        </volist>
+        <else/>
+        <td colspan="16" class="text-center"> aOh! 暂时还没有内容! </td>
+        </notempty>
+    </tbody>
+    </table>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+    <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+    <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+    <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="__STATIC__/cityselect/jquery.cityselect.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+    //搜索功能
+    $("#search").click(function(){
+        var url = $(this).attr('url');
+        var province = $(".prov").val();
+        var city = $(".city").val();
+        var state = $(".dist").val();
+        var is_send=$(".is_send").val();
+        var query  = $('.search-form').find('input').serialize();
+        var order=$(".order").val();
+        var order_type=$(".order_type").val();
+        var status = $(".status").get(0).value;
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if (status != '') {
+            url += '&' + 'status=' + status;
+        }
+        if (province != '' && province!=null) {
+            url += '&' + 'province=' + province;
+        }
+
+        if (city != '' && city != null) {
+            city=city.substring(0,city.length-1);
+            url += '&' + 'city=' + city;
+        }
+        if (state != '' && state != null) {
+            state=state.substring(0,state.length-1);
+            url += '&' + 'state=' + state;
+        }
+        if (is_send != '' && is_send!=null) {
+            url += '&' + 'is_send=' + is_send;
+        }
+        if (order != '' && order != null) {
+            url += '&' + 'order=' + order;
+        }
+        if (order_type != '' && order_type != null) {
+            url += '&' + 'order_type=' + order_type;
+        }
+        window.location.href = url;
+    });
+    $("#export").click(function(){
+        var url = $(this).attr('url');
+        var province = $(".prov").val();
+        var city = $(".city").val();
+        var state = $(".dist").val();
+        var is_send=$(".is_send").val();
+        var query  = $('.search-form').find('input').serialize();
+        var order=$(".order").val();
+        var order_type=$(".order_type").val();
+        var status = $(".status").get(0).value;
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if (status != '') {
+            url += '&' + 'status=' + status;
+        }
+        if (province != '' && province!=null) {
+            url += '&' + 'province=' + province;
+        }
+
+        if (city != '' && city != null) {
+            city=city.substring(0,city.length-1);
+            url += '&' + 'city=' + city;
+        }
+        if (state != '' && state != null) {
+            state=state.substring(0,state.length-1);
+            url += '&' + 'state=' + state;
+        }
+        if (is_send != '' && is_send!=null) {
+            url += '&' + 'is_send=' + is_send;
+        }
+        if (order != '' && order != null) {
+            url += '&' + 'order=' + order;
+        }
+        if (order_type != '' && order_type != null) {
+            url += '&' + 'order_type=' + order_type;
+        }
+        window.location.href = url;
+    });
+    //回车搜索
+    $(".search-input").keyup(function(e){
+        if(e.keyCode === 13){
+            $("#search").click();
+            return false;
+        }
+    });
+    $('#timestart').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+
+    $('#datetimepicker').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true,
+        pickerPosition:'bottom-left'
+    })
+    $('#ltime-start').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    $('#datetimepicker1').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true,
+        pickerPosition:'bottom-left'
+    })
+    $(function(){
+
+        $("#city").citySelect({
+            url:"__STATIC__/cityselect/city.min.js",
+            nodata:"none",
+            prov:<notempty name="province">"{$province|default='null'}"<else/>null</notempty>,
+            city:<notempty name="city">"{$city|default='null'}"<else/>null</notempty>,
+            dist:<notempty name="state">"{$state|default='null'}"<else/>null</notempty>,
+            required:false
+    });
+
+    });
+    Think.setValue("order", "{$Think.get.order|default='id'}");
+    Think.setValue("order_type", "{$Think.get.order_type|default='desc'}");
+    //导航高亮
+    highlight_subnav('{:U('Accounts/teacher')}');
+    </script>
+</block>

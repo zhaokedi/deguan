@@ -1,0 +1,61 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>评论列表</h2>
+    </div>
+    <div class="cf">
+        <div class="fl">
+            <button class="btn ajax-post confirm" target-form="ids" url="{:U('Sns/comment_del')}">删 除</button>
+        </div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+    <table class="">
+    <thead>
+        <tr>
+        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+        <th class="">发布者</th>
+        <th class="">评论内容</th>
+        <th class="">是否屏蔽</th>
+        <th class="">评论时间</th>
+        <th class="">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <notempty name="_list">
+        <volist name="_list" id="vo">
+        <tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+            <td>{$vo.creator_id|get_user_name}</td>
+            <td>{$vo.content}</td>
+            <td>
+                <a href="{:U('Sns/comment_toogleForbidden',array('id'=>$vo['id'],'value'=>$vo['is_forbidden']))}" class="ajax-get">
+                    {$vo.is_forbidden_text}
+                </a>
+            </td>
+            <td>{$vo.created|time_format}</td>
+            <td>
+                <a href="{:U('Sns/comment_edit?id='.$vo['id'])}">详细</a>
+                <!-- <a href="{:U('Sns/comment_del&ids='.$vo['id'])}" class="confirm ajax-get">删除</a> -->
+            </td>
+        </tr>
+        </volist>
+        <else/>
+        <td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+        </notempty>
+    </tbody>
+    </table>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+//导航高亮
+highlight_subnav('{:U('Sns/weibo')}');
+</script>
+</block>

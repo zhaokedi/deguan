@@ -1,0 +1,235 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>{$meta_title}</h2>
+    </div>
+    <div class="cf">
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+            <div class="sleft">
+                <div class="drop-down" style="width: 85px;">
+                    <span id="sch-sort-txt" class="sort-txt" data="{$status}" style="width:60px;"><if condition="get_withdrawstatus_title($status) eq ''">所有<else/>{:get_withdrawstatus_title($status)}</if></span>
+                    <i class="arrow arrow-down"></i>
+                    <ul id="sub-sch-menu" class="nav-list hidden">
+                        <li><a href="javascript:;" value="">所有</a></li>
+                        <volist name="Think.config.WITHDRAW_STATUS" id="vo">
+                            <li><a href="javascript:;" value="{$key}">{$vo}</a></li>
+                        </volist>
+                    </ul>
+                </div>
+                <input type="text" name="username" class="search-input" value="{:I('username')}" placeholder="请输入用户名">
+                <a class="sch-btn" href="javascript:;" id="search" url="{:U('Finance/withdraw')}">搜 索</a>
+            </div>
+            <div class="btn-group-click adv-sch-pannel fl">
+                <button class="btn">高 级<i class="btn-arrowdown"></i></button>
+                <div class="dropdown cf">
+                    <div class="row" style="display: block;">
+                        <label>会员状态:</label>
+
+                        <div class="input-append date"  style="display:inline-block">
+                            <select name="level" class="level">
+                                <option value=''>选择类型</option>
+                                <option value="1">会员</option>
+                                <option value="2">非会员</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>提现类型:</label>
+
+                        <div class="input-append date"  style="display:inline-block">
+                            <select name="type" class="role">
+                                <option value=''>选择类型</option>
+                                <volist name="type" id="vo">
+                                    <option value="{$key}">{$vo}</option>
+                                </volist>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row" style="display: block;">
+                        <label>提现时间：</label>
+                        <input type="text" id="timestart" name="timestart" class="text input-2x" value="{$Think.get.timestart}" placeholder="起始时间" /> -
+                        <div class="input-append date" id="datetimepicker"  style="display:inline-block">
+                            <input type="text" id="timeend" name="timeend" class="text input-2x" value="{$Think.get.timeend}" placeholder="结束时间" />
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn" href="javascript:;" id="export" url="{:U('Finance/export')}">导出</a>
+            </div>
+        </div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+    <table class="">
+    <thead>
+        <tr>
+        <th class="">ID</th>
+        <th class="">用户名/会员等级</th>
+        <th class="">角色</th>
+        <th class="">联系电话</th>
+        <th class="">提现金额</th>
+        <th class="">手续费</th>
+        <th class="">所得金额</th>
+         <th class="">提现账号</th>
+        <th class="">用户名称</th>
+
+        <th class="">状态</th>
+        <th class="">提现时间</th>
+        <th class="">操作时间</th>
+        <th class="">提现类型</th>
+        <th class="">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <notempty name="_list">
+        <volist name="_list" id="vo">
+        <tr>
+            <td>{$vo.id} </td>
+            <td>{$vo.user_id|get_user_name}<br/>
+                {$vo.level_text}
+            </td>
+            <td>{$vo.role_text}</td>
+            <td>{$vo.user_id|get_user_mobile} </td>
+            <td>{$vo.fee}</td>
+            <td>{$vo.poundage}</td>
+            <td>{$vo.amount}</td>
+            <td>{$vo.bank_account}</td>
+            <td>{$vo.bank_name}</td>
+            <td>{$vo.status_text}</td>
+            <td>{$vo.created|time_format}</td>
+            <td>{$vo.optiondate}</td>
+            <td>{$vo.type}</td>
+            <td>
+                <if condition="$vo.status == 1">
+                <a data-href="{:U('Finance/withdraw_status',array('id'=>$vo['id'],'status'=>2))}" href="javascript:;" onclick="com(this);" class="authorize ">确定</a>
+                <a data-href="{:U('Finance/withdraw_status',array('id'=>$vo['id'],'status'=>3))}"  href="javascript:;" onclick="com(this);" class="authorize ">拒绝</a>
+                <else/>
+                    {$vo.status_text}
+                </if>
+            </td>
+        </tr>
+        </volist>
+        <else/>
+        <td colspan="12" class="text-center"> aOh! 暂时还没有内容! </td>
+        </notempty>
+    </tbody>
+    </table>
+    </div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>
+
+<block name="script">
+    <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+    <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+    <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        function com(obj) {
+            var href=$(obj).attr('data-href');
+            if(confirm("确定要执行此操作？")){
+                location.href=href;
+            }else {
+                return false;
+            }
+            return false;
+
+        }
+    //搜索功能
+    $("#search").click(function(){
+        var url = $(this).attr('url');
+        var type = $('.role').val();
+        var level=$(".level").val();
+        var status = $("#sch-sort-txt").attr("data");
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if(status != ''){
+            query = 'status=' + status + "&" + query;
+        }
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if (type != '' && type!=null) {
+            url += '&' + 'type=' + type;
+        }
+
+        if (level != '' && level != null) {
+            url += '&' + 'level=' + level;
+        }
+        window.location.href = url;
+    });
+    $("#export").click(function(){
+        var url = $(this).attr('url');
+        var type = $('.role').val();
+        var level=$(".level").val();
+        var status = $("#sch-sort-txt").attr("data");
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if(status != ''){
+            query = 'status=' + status + "&" + query;
+        }
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if (type != '' && type!=null) {
+            url += '&' + 'type=' + type;
+        }
+
+        if (level != '' && level != null) {
+            url += '&' + 'level=' + level;
+        }
+        window.location.href = url;
+    });
+    /* 状态搜索子菜单 */
+    $(".search-form").find(".drop-down").hover(function(){
+        $("#sub-sch-menu").removeClass("hidden");
+    },function(){
+        $("#sub-sch-menu").addClass("hidden");
+    });
+    $("#sub-sch-menu li").find("a").each(function(){
+        $(this).click(function(){
+            var text = $(this).text();
+            $("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
+            $("#sub-sch-menu").addClass("hidden");
+        })
+    });
+    //回车搜索
+    $(".search-input").keyup(function(e){
+        if(e.keyCode === 13){
+            $("#search").click();
+            return false;
+        }
+    });
+
+    $('#timestart').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+
+    $('#datetimepicker').datetimepicker({
+       format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true,
+        pickerPosition:'bottom-left'
+    })
+
+    //导航高亮
+    highlight_subnav('{:U('Finance/balance')}');
+    </script>
+</block>

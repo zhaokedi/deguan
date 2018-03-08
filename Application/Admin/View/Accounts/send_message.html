@@ -1,0 +1,87 @@
+<extend name="Public/base" />
+<block name="style">
+    <style>
+        .upload-img-box .upload-pre-item{
+            display: inline-block;
+        }
+    </style>
+</block>
+<block name="body">
+	<div class="main-title cf">
+		<h2>消息群发</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<!-- 表单 -->
+			<form id="form" method="post" class="form-horizontal doc-modal-form">
+				<!-- 基础 -->
+				<div id="tab1" class="tab-pane in tab1">
+					<!--<div class="form-item">-->
+                        <!--<label class="item-label">毕业院校</label>-->
+                        <!--<div class="controls">-->
+                            <!--<input type="text" name="graduated_school" class="text input-large" value="{$info.graduated_school|default=''}">-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-item">-->
+                        <!--<label class="item-label">在校时间</label>-->
+                        <!--&lt;!&ndash;<div class="controls">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<input type="text" name="starttime" class="text input-large" value="{$info.starttime|default=''}">&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                         <!--<input type="text"  name="starttime" class="text input-2x" value="{$info.starttime|default=''}" placeholder="" /> - -->
+                        <!--<div class="input-append date" id="datetimepicker"  style="display:inline-block">-->
+                            <!--<input type="text"  name="endtime" class="text input-2x" value="{$info.endtime|default=''}" placeholder="" />-->
+                            <!--<span class="add-on"><i class="icon-th"></i></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-item">
+                        <label class="item-label">标题</label>
+                        <div class="controls">
+                            <input type="text" name="title" class="text input-large" value="{$userinfo.title|default=''}">
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">内容</label>
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="content">{$info.content}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="item-label">备注</label>
+                        <div class="controls">
+                            <label class="textarea input-large">
+                                <textarea name="remark">{$info.remark}</textarea>
+                            </label>
+                        </div>
+                    </div>
+
+				</div>
+
+				<!-- 按钮 -->
+				<div class="form-item cf">
+					<label class="item-label"></label>
+					<div class="controls edit_sort_btn">
+						<!--<input type="hidden" name="id" value="{$info.id}">-->
+						<button type="submit" class="btn submit-btn ajax-post confirm" target-form="form-horizontal">发送</button>
+						<!--<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>-->
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+Think.setValue("apply_course_id", {$info.apply_course_id|default=1});
+Think.setValue("apply_grade_id", {$info.apply_grade_id|default=1});
+Think.setValue("is_passed", {$info.is_passed|default=2});
+//导航高亮
+highlight_subnav('{:U('Accounts/send_message')}');
+
+</script>
+</block>
+
