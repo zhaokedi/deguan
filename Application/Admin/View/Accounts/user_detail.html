@@ -18,7 +18,12 @@
         <div class="tab-content" style="width: 50%;float: left">
             <form action="{:U()}" method="post" class="form-horizontal">
 
-
+                <div class="form-item">
+                    <label class="item-label">用户ID</label>
+                    <div class="controls">
+                        {$info.id|default=''}
+                    </div>
+                </div>
                 <div class="form-item">
                     <label class="item-label">姓名</label>
                     <div class="controls">

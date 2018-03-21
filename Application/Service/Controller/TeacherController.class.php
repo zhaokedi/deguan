@@ -269,6 +269,7 @@ class TeacherController extends BaseController {
             'user_headimg'     => \Extend\Lib\PublicTool::complateUrl($information_user['headimg']),
             'gender'           => $information_user['gender'],
             'mobile'           => $information_user['mobile'],
+            'disturb'          =>$information_user['disturb'],//是否开启免打扰
             'education'        => $education_id ? get_education_name($education_id) : '未知',
             'address'          => $information_user['address'],
             'addr'             => $information_user['province'].$information_user['city'].$information_user['state'],

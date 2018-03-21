@@ -124,6 +124,7 @@ class FinanceController extends BaseController {
      *             financetype          : 财务类型 1:充值 2:消费 3:收入 4:提现 5:退款 6:手续费 7:返利
      *             paymentstype         : 收支类型 1:收入 2:支出
      *             created              : 入账时间
+     *            'goodsname'           : 商品名称
      *         }
      * }
      */

@@ -62,9 +62,9 @@
         <tr>
         <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
         <th class="">ID</th>
-        <th class="">用户名</th>
+        <th class="" style="width: 150px">用户名</th>
         <th class="">用户地址</th>
-        <th class="">被执行对象</th>
+        <th class="" style="width: 150px">被执行对象</th>
         <th class="">目标地址</th>
 
         <th class="">类型</th>
@@ -80,9 +80,13 @@
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
             <td>{$vo.id} </td>
 
-            <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['username'],'type'=>2))}">{$vo.username}</a></td>
+            <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['username'],'type'=>2))}">{$vo.username}</a><br/>
+                {$vo.nickname} ({$vo.role_text})
+            </td>
             <td> {$vo.uaddress} </td>
-            <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['content'],'type'=>2))}">{$vo.content}</a>  </td>
+            <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['content'],'type'=>2))}">{$vo.content}</a><br/>
+                {$vo.bnickname} ({$vo.brole_text})
+            </td>
             <td> {$vo.baddress} </td>
             <td> {$vo.typename} </td>
             <td> {$vo.created|time_format} </td>

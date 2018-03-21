@@ -1933,8 +1933,8 @@ class OrderController extends BaseController {
      */
     public function gets_temp_order() {
         $uid = $this->getRequestData('uid',0);
-        $lat =$this->getRequestData('lat','');
-        $lng =$this->getRequestData('lng','');
+        $lat =$this->getRequestData('lat',0);
+        $lng =$this->getRequestData('lng',0);
 
 //        $page = $this->getRequestData('page',1); //页面数
         $order_rank = $this->getRequestData('order_rank',0);//订单是否被评分 0 交易完成已评价 1获取待评价列表
@@ -1945,6 +1945,7 @@ class OrderController extends BaseController {
         $map['placer_id'] = $uid;
         $map['is_deal']=0;
         $map['status']=9;
+
         $field = '*,ROUND(6378.138*2*ASIN(SQRT(POW(SIN(('.$lat.'*PI()/180-lat*PI()/180)/2),2)+COS('.$lat.'*PI()/180)*COS(lat*PI()/180)*POW(SIN(('.$lng.'*PI()/180-lng*PI()/180)/2),2)))*1000) AS distance';
         $tmp = D('OrderOrder')->field($field)->where($map)->order('id desc')->limit(20)->select();
 
@@ -2085,4 +2086,207 @@ class OrderController extends BaseController {
 
     }
 
+
+    /**
+     * 首页接单提醒
+     * index.php?s=/Service/Order/notice_list
+     * @return json
+     * {
+     *     error        : "string"  // ok:成功 no:失败
+     *     errmsg       : "string"  // 错误信息
+     *     content      : "array"
+     *         {
+     *             teacher_id           : 教师id
+     *             teacher_name         : 教师昵称
+     *             placer_id            : 下单人id
+     *             placer_name          : 下单人昵称
+     *             requirement_id       : 需求id
+     *             requirement_content  : 需求内容
+     *             requirement_grade    : 需求年级
+     *             requirement_course   : 需求科目
+     *             id                   : 订单id
+     *             fee                  : 金额
+     *             status               : 订单状态  1:未付款 2:进行中 3:交易完成 4:申请退款 5:同意退款 6:拒绝退款
+     *             created              : 下单时间
+     *             rank1                : 教学质量
+     *             rank2                : 备课评分
+     *             rank3                : 教学范围
+     *             refund_fee           : 退款金额
+     *         }
+     * }
+     */
+    public function notice_list() {
+//        $uid = $this->getRequestData('uid',0);
+        $filter_type = $this->getRequestData('filter_type',0); //筛选条件
+        $status = $this->getRequestData('status',0); //订单状态
+//        $page = $this->getRequestData('page',1); //页面数
+        $requirement_id = $this->getRequestData('requirement_id',0);
+        $order_rank = $this->getRequestData('order_rank',0);//订单是否被评分 0 交易完成已评价 1获取待评价列表
+//        $user = get_user_info($uid); //获取用户信息
+//        if (!$user) { //用户不存在
+//            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '用户不存在'));
+//        }
+
+
+        $map['status'] =9;
+
+
+//        if($status==3){
+//            if($order_rank==1 && $status==3 ) {
+//                $map['is_pingjia']=0;
+//            }elseif($order_rank==0 && $status==3 ){
+//                $map['is_pingjia']=1;
+//            }else{
+//                $map['is_pingjia']=1;
+//            }
+//        }
+        $map['is_delete']=0;
+//        $this->ajaxReturn(array('error' => 'no', 'errmsg' => $map));
+
+//        if($status==2){
+//            $order=" field(status,4,6,7,2) asc,id desc ";
+//        }else{
+            $order="id desc";
+//        }
+        $tmp = D('OrderOrder')->where($map)->order($order)->limit(5)->select();
+        $orders = array();
+        foreach ($tmp as $k => $v) {
+            $placer = get_user_info($v['placer_id']);
+            $teacher = get_user_info($v['teacher_id']);
+            $teacherinfo =D('TeacherInformation')->where(array('user_id'=>$v['teacher_id']))->find();
+            $teacherSpeciality =D('TeacherInformationSpeciality')->where(array('course_id'=>$v['course_id'],"information_id"=>$teacherinfo['id']))->find();
+            $requirement = D('RequirementRequirement')->where(array('id'=>$v['requirement_id']))->find();
+            $orders[] = array(
+                'teacher_id'            => $teacher['id'],
+                'teacher_name'          => empty($teacher['nickname'])?"教师{$v['teacher_id']}":$teacher['nickname'],
+                'teacher_headimg'        =>\Extend\Lib\PublicTool::complateUrl($teacher['headimg']),
+                'placer_id'             => $placer['id'],
+                'placer_username'       => $placer['username'],
+                'placer_name'           => $placer['nickname'],
+                'placer_headimg'        => \Extend\Lib\PublicTool::complateUrl($placer['headimg']),
+                'requirement_id'        => $requirement['id'],
+                'requirement_content'   => $requirement['content'],
+                'requirement_grade'     => get_grade_name($requirement['grade_id']),
+                'requirement_course'    => get_course_name($requirement['course_id']),
+                'id'                    => $v['id'],
+                'fee'                   => $v['fee'],
+                'discount_fee'          => $v['discount_fee'],
+                'credit'                => $v['credit'],
+                'duration'              => $v['duration'],
+                'total_fee'             => $v['fee'] * $v['duration'],
+                'order_fee'             => $v['order_fee'],
+                'order_price'           => $v['order_price'],
+                'status'                => $v['status'],
+                'created'               => $v['created'],
+                'rank'                  => $v['rank'],
+                'rank1'                 => $v['rank1'],
+                'rank2'                 => $v['rank2'],
+                'rank3'                 => $v['rank3'],
+                'refund_fee'            => $v['refund_fee'],
+                'grade_id'              => $v['grade_id'],
+                'grade_name'            => $v['grade_id']?get_grade_name($v['grade_id']):"",
+                'course_id'             => $v['course_id'],
+                'course_name'           => $v['course_id']?get_course_name($v['course_id']):"",
+                'address'               => $v['address'],
+                'service_type'          =>$v['service_type'],
+                'is_complete'           =>$v['is_complete'],
+                'teach_time'            =>$v['teach_time'],
+            );
+        }
+        $this->ajaxReturn(array('error' => 'ok', 'content' => $orders));
+    }
+    /**
+     * 完成订单的老师
+     * index.php?s=/Service/Order/complete_order_teacher
+     * @return json
+     * {
+     *     error        : "string"  // ok:成功 no:失败
+     *     errmsg       : "string"  // 错误信息
+     *     content      : "array"
+     *         {
+     *             teacher_id           : 教师id
+     *             teacher_name         : 教师昵称
+     *             placer_id            : 下单人id
+     *             placer_name          : 下单人昵称
+     *             requirement_id       : 需求id
+     *             requirement_content  : 需求内容
+     *             requirement_grade    : 需求年级
+     *             requirement_course   : 需求科目
+     *             id                   : 订单id
+     *             fee                  : 金额
+     *             status               : 订单状态  1:未付款 2:进行中 3:交易完成 4:申请退款 5:同意退款 6:拒绝退款
+     *             created              : 下单时间
+     *             rank1                : 教学质量
+     *             rank2                : 备课评分
+     *             rank3                : 教学范围
+     *             refund_fee           : 退款金额
+     *         }
+     * }
+     */
+    public function complete_order_teacher() {
+//        $uid = $this->getRequestData('uid',0);
+        $filter_type = $this->getRequestData('filter_type',0); //筛选条件
+        $status = $this->getRequestData('status',0); //订单状态
+//        $page = $this->getRequestData('page',1); //页面数
+        $requirement_id = $this->getRequestData('requirement_id',0);
+        $order_rank = $this->getRequestData('order_rank',0);//订单是否被评分 0 交易完成已评价 1获取待评价列表
+//        $user = get_user_info($uid); //获取用户信息
+//        if (!$user) { //用户不存在
+//            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '用户不存在'));
+//        }
+
+
+        $map['status'] =3;
+
+        $map['is_delete']=0;
+//        $this->ajaxReturn(array('error' => 'no', 'errmsg' => $map));
+
+
+        $order="id desc";
+
+        $tmp = D('OrderOrder')->where($map)->order($order)->limit(20)->group("teacher_id")->select();
+
+        $order_num=array_rand($tmp,1);
+        $order=$tmp[$order_num];
+
+
+        $teacher = get_user_info($order['teacher_id']);
+        $teacher_info = M("teacher_information")->where(array("user_id"=>$order['teacher_id']))->find();
+
+        $informations[] = array(
+            'user_id'           => $teacher['user_id'],
+            'username'          => $teacher['username'],
+            'nickname'          => $teacher['nickname'] ? $teacher['nickname'] : '教师'.$teacher['id'],
+            'gender'            => $teacher['gender'],
+            'education'         => $teacher['education_id'] ? get_education_name($teacher['education_id']) : '未知',
+            'user_headimg'      => \Extend\Lib\PublicTool::complateUrl($teacher['headimg']),
+            'date_joined'       => date('Y-m-d',$teacher['date_joined']),
+            'speciality'        => $teacher_info['speciality'],
+            'speciality_name'   => get_course_name($teacher_info['speciality']),
+            'fee'               => $teacher_info['fee'],
+            'years'             => $teacher_info['years'],
+            'apply_job'         => $teacher_info['apply_job'],
+            'demand_fee'        => $teacher_info['demand_fee'],
+            'service_type'      => $order['service_type'],
+            'service_type_txt'  => get_config_name($order['service_type'],C('SERVICE_TYPE2'),'/'),
+            'grade_id'        => $order['grade_id'],
+            'grade_type_txt'    => get_config_name($order['grade_id'],C('GRADE_TYPE')),
+            'is_passed'         => $teacher_info['is_passed'],
+//            'haoping_num'       => $haoping_num,
+//            'haoping_rate'      => round($haoping_num/$total_num,2)*100,//好评率
+            'order_rank'        => round($teacher_info['order_rank']),//星级分数
+//            'status1'           => $v['status1'],
+//            'status2'           => $v['status2'],
+            'signature'         => $teacher['signature'],//个性签名
+//            'distance'          => $order['distance'],
+            'address'           => $teacher['address'], //地区
+            'click'             => $teacher_info['click'],
+//            'information_temp'  => $information_temp,
+            'resume'            => $teacher_info['resume'],
+            'province'          => $teacher['province'],//省
+            'city'              => $teacher['city'],//市
+            'state'             => $teacher['state'],//区
+        );
+        $this->ajaxReturn(array('error' => 'ok', 'content' => $informations));
+    }
 }

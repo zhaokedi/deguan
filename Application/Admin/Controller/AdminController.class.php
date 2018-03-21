@@ -80,6 +80,7 @@ class AdminController extends Controller {
         $agentinfo['city']=$adminuser['city'];
         $agentinfo['state']=$adminuser['state'];
         $agentinfo['agent_level']=$adminuser['agent_level'];
+        $agentinfo['show_level']=$adminuser['show_level'];
         session('isagent',$isagent);
         session('agentinfo',$agentinfo);
     }

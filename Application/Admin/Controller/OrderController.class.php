@@ -30,7 +30,12 @@ class OrderController extends AdminController {
 //    	}
         $map=agent_map('o');
         //根据当前用户设置查询权限 add by lijun 20170421
-
+        if(!empty($map)&&  session('agentinfo.isagent')==1   ){
+            if(session('agentinfo.show_level')==2){
+                $map['o.city']=array("like","%".session('agentinfo.city')."%");
+                unset($map['o.state']);
+            }
+        }
         $username       =  trim($username);
         /* 查询条件初始化 */
         if(isset($username)){

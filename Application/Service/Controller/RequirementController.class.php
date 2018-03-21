@@ -81,6 +81,7 @@ class RequirementController extends BaseController {
         $map['r.is_delete'] = 0;
 
 
+
         if($order==1){
             $order=' if(distance < 250000,"distance asc","r.created desc") ';
 //            $order='case when distance<250000 then r.created desc else distance asc end ';
@@ -112,8 +113,10 @@ class RequirementController extends BaseController {
 
         if ($publisher_id) {
             $map['r.publisher_id'] = $publisher_id;
+
         }else{
             $map['r.`status`'] = 0;
+            $map['r.tips'] = array("lt",3);
         }
         if ($gender) {
             $map['r.gender'] = $gender;
@@ -404,7 +407,7 @@ class RequirementController extends BaseController {
         $course_id = $this->getRequestData('course_id', 0);
         $map['is_delete'] = 0;
         $map['status'] = 0;
-
+        $map['tips'] = array("lt",3);
         //查询教师的 课程id add by lijun 20170512
         $information = D('TeacherInformation')->where(array('user_id'=>$uid))->find();
         if(!empty($information['id']))
@@ -720,6 +723,7 @@ class RequirementController extends BaseController {
             'publisher_mobile'          => $publisher['mobile'],
             'publisher_signature'       => $publisher['signature'],
             'publisher_level'           => $publisher['level'],
+            'disturb'                   =>$publisher['disturb'],//是否开启免打扰
             'id'                        => $requirement['id'],
             'content'                   => $requirement['content'],
             'grade_id'                  => $requirement['grade_id'],

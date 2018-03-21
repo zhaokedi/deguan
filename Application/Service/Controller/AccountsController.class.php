@@ -512,7 +512,12 @@ class AccountsController extends BaseController {
         }else{
         	$user = get_user_info($id); //获取用户信息
         }
-        $click=0;
+
+        if (!$user) {
+            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '用户不存在'));
+        }
+
+            $click=0;
         $is_passed=0;
         if($user['role']==2){
            $teacher_infomation= M('teacher_information')->where(array('user_id'=>$user['id']))->find();
@@ -553,73 +558,75 @@ class AccountsController extends BaseController {
         $TotalUser2 = D('Accounts')->where(array('second_leader'=>$user['username']))->count();
         $requirement = D('RequirementRequirement')->where(array('publisher_id'=>$user['id']))->find();
 
-        if (!empty($user)) { //用户不存在
-           /*整合数据*/
-            $content = array(
-                'id'                 => $user['id'],
-                'nickname'           => $user['nickname'],
-                'role'               => $user['role'],
+       /*整合数据*/
+        $content = array(
+            'id'                 => $user['id'],
+            'nickname'           => $user['nickname'],
+            'role'               => $user['role'],
 //                'headimg'   => \Extend\Lib\PublicTool::complateUrl($user['headimg']),
-                'name'               => $user['name'],
-                'gender'             => $user['gender'],
-                'age'                => $user['age'],
-                'mobile'             => $user['mobile'],
-                'province'           => $user['province'],
-                'city'               => $user['city'],
-                'state'              => $user['state'],
-                'address'            => $user['address'],
-                'fullAddress'        => $user['province'].$user['city'].$user['state'].$user['address'],
-                'home'               => $user['home_province'].$user['home_city'],
-                'signature'          => $user['signature'],
-                'bank'               => $user['bank'],
-                'cert_p'             => \Extend\Lib\PublicTool::complateUrl($user['cert_p']),
-                'cert_f'             => \Extend\Lib\PublicTool::complateUrl($user['cert_f']),
-                'education_id'       => $user['education_id'],
-                'education_name'     => get_education_name($user['education_id']),
-                'grade_type'         => $user['grade_type'],
-                'grade_type_txt'     => get_config_name($user['grade_type'],C('GRADE_TYPE')),
-                'certs'              => get_config_name($user['certs'],C('CERT_CHOOSE')),
+            'name'               => $user['name'],
+            'gender'             => $user['gender'],
+            'age'                => $user['age'],
+            'mobile'             => $user['mobile'],
+            'province'           => $user['province'],
+            'city'               => $user['city'],
+            'state'              => $user['state'],
+            'address'            => $user['address'],
+            'fullAddress'        => $user['province'].$user['city'].$user['state'].$user['address'],
+            'home'               => $user['home_province'].$user['home_city'],
+            'signature'          => $user['signature'],
+            'bank'               => $user['bank'],
+            'cert_p'             => \Extend\Lib\PublicTool::complateUrl($user['cert_p']),
+            'cert_f'             => \Extend\Lib\PublicTool::complateUrl($user['cert_f']),
+            'education_id'       => $user['education_id'],
+            'education_name'     => get_education_name($user['education_id']),
+            'grade_type'         => $user['grade_type'],
+            'grade_type_txt'     => get_config_name($user['grade_type'],C('GRADE_TYPE')),
+            'certs'              => get_config_name($user['certs'],C('CERT_CHOOSE')),
 //                'is_passed'          => $user['is_passed'],
-                'idcard'             => $user['idcard'],
-                'click'              => $click,
-                'has_paypassword'    => !empty($user['pay_password'])?1:0,
-                'totaluser'          => intval($TotalUser2+$TotalUser1),
-                'order_working'      => $order_working,
-                'order_nopay'        => $order_nopay,
-                'order_nopingjia'    => $order_nopingjia,
-                'order_working_red'      => $order_working_red,
-                'order_nopay_red'        => $order_nopay_red,
-                'order_nopingjia_red'    => $order_nopingjia_red,
-                'order_complete'     => $order_complete,
-                'requirement_count'     => $requirement_count,
-                'level'              => $user['level'],
-                'publish_requirement'     =>1,//学生是否有发布需求
-                'is_passed'          =>1,//学生是否有发布需求
+            'idcard'             => $user['idcard'],
+            'click'              => $click,
+            'has_paypassword'    => !empty($user['pay_password'])?1:0,
+            'totaluser'          => intval($TotalUser2+$TotalUser1),
+            'order_working'      => $order_working,
+            'order_nopay'        => $order_nopay,
+            'order_nopingjia'    => $order_nopingjia,
+            'order_working_red'  => $order_working_red,
+            'order_nopay_red'    => $order_nopay_red,
+            'order_nopingjia_red'=> $order_nopingjia_red,
+            'order_complete'     => $order_complete,
+            'requirement_count'     => $requirement_count,
+            'level'              => $user['level'],
+            'publish_requirement'     =>1,//学生是否有发布需求
+//           'publish_requirement'     =>$requirement?1:2,//学生是否有发布需求
 
-            );
-            if(!$user['headimg']){
-                $content['headimg']="http://deguanjiaoyu.com/Uploads/App/headimg/personPhoto.png";
-            }else{
-                $content['headimg']=\Extend\Lib\PublicTool::complateUrl($user['headimg']);
+            'is_passed'          =>1,//是否通过审核
+            'is_forbid'          =>$user['is_forbid'],//黑名单
+            'limit_function'          =>$user['limit_function'],//限制的功能1通话2聊天3购买课程4登录5提现
+            'disturb'          =>$user['disturb'],//是否开启免打扰
+
+        );
+        if(!$user['headimg']){
+            $content['headimg']="http://deguanjiaoyu.com/Uploads/App/headimg/personPhoto.png";
+        }else{
+            $content['headimg']=\Extend\Lib\PublicTool::complateUrl($user['headimg']);
+        }
+        if ($user['role'] == 2) {
+            $information = D('TeacherInformation')->where(array('user_id'=>$id))->find();
+            $content['status1'] = $information['status1'];
+            $content['status2'] = $information['status2'];
+
+            //更新地理位置
+            $lat = $this->getRequestData('lat');
+            $lng = $this->getRequestData('lng');
+
+            if ($lat && $lng) {
+                D('TeacherInformation')->where(array('user_id' => $id))->save(array('lat'=>$lat,'lng'=>$lng));
             }
-            if ($user['role'] == 2) {
-                $information = D('TeacherInformation')->where(array('user_id'=>$id))->find();
-                $content['status1'] = $information['status1'];
-                $content['status2'] = $information['status2'];
+        }
 
-                //更新地理位置
-                $lat = $this->getRequestData('lat');
-                $lng = $this->getRequestData('lng');
+        $this->ajaxReturn(array('error' => 'ok', 'content' => $content));
 
-                if ($lat && $lng) {
-                    D('TeacherInformation')->where(array('user_id' => $id))->save(array('lat'=>$lat,'lng'=>$lng));
-                }
-            }
-
-            $this->ajaxReturn(array('error' => 'ok', 'content' => $content));
-        } else { //用户不存在
-            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '用户不存在'));
-        }  
     }
     /**
      * 登录记录

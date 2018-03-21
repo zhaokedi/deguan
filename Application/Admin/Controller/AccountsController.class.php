@@ -26,6 +26,13 @@ class AccountsController extends AdminController {
 
         //是否为代理商
         $map=agent_map('');
+        if(!empty($map)&&  session('agentinfo.isagent')==1   ){
+            if(session('agentinfo.show_level')==2){
+                $map['city']=array("like","%".session('agentinfo.city')."%");
+                unset($map['state']);
+            }
+        }
+
 //        if(session('isagent') == 1)
 //        {
 //            $map['area_username'] = session('user_auth.username');
@@ -720,12 +727,12 @@ class AccountsController extends AdminController {
         	$educations = D('SetupEducation')->field('id,name')->where(array('is_valid'=>1))->select();
 //            $info['endtime']=$info['vip_endtime']?time_format($info['vip_endtime']):'';
 
-            if(stripos($info[limit_function],'1') >=0){
-
-                dump(stripos($info[limit_function],'2') !==false);
-            }else{
-                dump('qwe');
-            }
+//            if(stripos($info[limit_function],'1') >=0){
+//
+//                dump(stripos($info[limit_function],'2') !==false);
+//            }else{
+//                dump('qwe');
+//            }
 			$this->assign('educations',$educations);
             $this->assign('info',$info);
             $this->assign('wortharr',$this->wortharr);
@@ -1104,6 +1111,12 @@ class AccountsController extends AdminController {
 //    	{
 //    		$map['a.area_username'] = session('user_auth.username');
 //    	}
+        if(!empty($map)&&  session('agentinfo.isagent')==1   ){
+            if(session('agentinfo.show_level')==2){
+                $map['a.city']=array("like","%".session('agentinfo.city')."%");
+                unset($map['a.state']);
+            }
+        }
         if (isset($status)) {
             $map['t.is_passed'] = array('eq',"$status");
         }
@@ -2804,9 +2817,14 @@ class AccountsController extends AdminController {
                 $map['role']=1;
                 $list=M("accounts")->field('username')->where($map)->select();
             }elseif($type==3){
+                if ( !empty($data['course']) && !empty($data['course']) ) {
+                    $map['s.course_id'] = $data['course'];
+                    $mapa['s.course_id'] = $data['course'];
+                }
                 $mapa['a.role']=2;
                 $mapa['t.is_passed']=1;
-                $list=M("accounts")->alias('a')->join('hly_teacher_information AS t on t.user_id = a.id ')->field('a.username')->where($mapa)->select();
+                $list=M("accounts")->distinct(true)->alias('a')->join('hly_teacher_information AS t on t.user_id = a.id ')->join('hly_teacher_information_speciality AS s on s.information_id = t.id ','left')->field('a.username')->where($mapa)->select();
+
             }elseif($type==4){
                 $mapa['a.role']=2;
                 $mapa['t.is_passed']=array("neq",1);
@@ -2820,8 +2838,13 @@ class AccountsController extends AdminController {
                 $mapa['_string']= 'r.id is not null' ;
                 $list=M("accounts")->distinct(true)->alias('a')->join('hly_requirement_requirement AS r on r.publisher_id = a.id ','left')->field('a.username')->where($mapa)->select();
             }elseif($type==7){
-                $map['role']=2;
-                $list=M("accounts")->field('username')->where($map)->select();
+                if ( !empty($data['course']) && !empty($data['course']) ) {
+                    $map['s.course_id'] = $data['course'];
+                    $mapa['s.course_id'] = $data['course'];
+                }
+                $mapa['a.role']=2;
+                $list=M("accounts")->distinct(true)->alias('a')->join('hly_teacher_information AS r on r.user_id = a.id ','left')->join('hly_teacher_information_speciality AS s on s.information_id = r.id ','left')->field('a.username')->where($map)->select();
+
             }elseif($type==8){
                 $map['a.role']=2;
                 $map['t.is_passed']=1;
@@ -2830,6 +2853,7 @@ class AccountsController extends AdminController {
 
             }
 //            $list=M("accounts")->alias('a')->join('hly_teacher_information AS t on t.user_id = a.id ')->field('a.username')->where($map)->select(false);
+//            exit();
             foreach ($list as $k=>$v){
                 $r=\Extend\Lib\ImTool::sendText(array("type"=>'admin','id'=>$data['username']),array("type"=>'single','id'=>$v['username']),array("text"=>$data['content']));
                 if(!isset($r['body']['error'])) {
@@ -2839,17 +2863,19 @@ class AccountsController extends AdminController {
 
              $this->success('消息群发成功');
         } else {
-
+            $CoursesList= D('SetupCourse')->where(array('is_valid'=>1,'pid'=>array("gt",0)))->getField("id,name");
             $m=M('MessageLog')->where(array("operator"=>array('neq','system')))->order("id desc")->find();
             $map=agent_map('c');
             $list=M('customservice')->alias('c')->join("hly_accounts a on c.user_id = a.id")->field('a.nickname,a.headimg,a.mobile as tel,c.province,c.city,c.state')->where($map)->order('c.orderby desc')->select();
 
             $this->assign('list',$list);
+            $this->assign('courseslist',$CoursesList);
             $this->assign('m',$m);
 
             $this->display();
         }
     }
+
     /**
      * 单个聊天消息发送
      */
@@ -3253,9 +3279,7 @@ class AccountsController extends AdminController {
         $this->assign('role',$role_choose);
         $map=agent_map('a');
         $username       =  trim($_GET['username']);
-        if (isset($_GET['username'])) {
-            $map['t.username']    =   array('like', '%'.(string)$username.'%');
-        }
+
         if(isset($_GET['role'])){
             $rolekey=array_search($_GET['role'], $role_choose);
             $map['a.role']=$rolekey;
@@ -3286,9 +3310,45 @@ class AccountsController extends AdminController {
         }
 
         $map['t.type']=0;
-        $mod = M('AccountsLogin')->alias('t')->join('__ACCOUNTS__ AS a on t.user_id = a.id ');
+        $REQUEST    =   (array)I('request.');
+        if( isset($REQUEST['r']) ){
+            $listRows = (int)$REQUEST['r'];
+        }else{
+            $listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
+        }
 
-        $list   = $this->lists($mod, $map, 't.login_time desc',"t.*,a.nickname,a.name,a.role,a.date_joined");
+
+        if (isset($_GET['username'])) {
+            $map['t.username']    =   array('like', '%'.(string)$username.'%');
+            $mod = M('AccountsLogin')->alias('t')->join('__ACCOUNTS__ AS a on t.user_id = a.id ');
+            $list   = $this->lists($mod, $map, 't.login_time desc',"t.*,a.nickname,a.name,a.role,a.date_joined");
+
+        }else{
+            $mod = M('AccountsLogin')->alias('t')->join('__ACCOUNTS__ AS a on t.user_id = a.id ');
+            $total        =   $mod->where($map)->count("DISTINCT t.username");
+
+//            dump(M()->getLastSql());
+            $page = new \Think\Page($total, $listRows, $REQUEST);
+
+            $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER% %GO%');
+
+            $p =$page->show();
+            //todo 子查询的应用
+
+//            $list1=M('AccountsLogin')->field("id,username,type")->order("id desc")->buildSql();
+            $list   = M('AccountsLogin')->alias('t')->join('__ACCOUNTS__ AS a on t.user_id = a.id ')->field("t.*,a.nickname,a.name,a.role,a.date_joined")->where($map)->order("t.id desc")->buildSql();
+            $sql=" SELECT * FROM {$list} tt GROUP BY tt.username ORDER BY tt.id desc LIMIT $page->firstRow,$page->listRows";
+            $list=M()->query($sql);
+
+//            $list   = M()->table("hly_accounts_login a,$list tt")->group("tt.username")->limit( $page->firstRow.','.$page->listRows)->buildSql();
+//            $list   = M('AccountsLogin')->alias('t')->join('__ACCOUNTS__ AS a on t.user_id = a.id ')->field("t.*,a.nickname,a.name,a.role,a.date_joined")->where($map)->group("t.username")->order("t.login_time desc")->limit( $page->firstRow.','.$page->listRows)->select(false);
+
+            $this->assign('_page', $p? $p: '');
+            $this->assign('_total',$total);
+        }
+
+
+//        $list   = $this->lists($mod, $map, 't.login_time desc',"t.*,a.nickname,a.name,a.role,a.date_joined");
         int_to_string($list,array('role'=>C('ROLE_CHOOSE')));
 
 //        int_to_string($list,array('is_dealed'=>C('DEALED_CHOICE')));
@@ -3743,4 +3803,55 @@ class AccountsController extends AdminController {
         $this->display();
 
     }
+
+    //每天登录次数统计
+    public function daily_statistics_login(){
+        //todo 每天登录次数统计方法
+        $lastweek = date('Y-m-d',strtotime("-1 month"));//30天前
+        $begin = I('timestart',$lastweek);
+        $end =  I('timeend',date('Y-m-d'));
+
+        $begin = strtotime($begin);
+        $end = strtotime($end)+86399;
+        $this->assign('timegap',date('Y-m-d',$this->begin).' - '.date('Y-m-d',$this->end));
+
+
+        $sql = "SELECT count(*) as acount,count(DISTINCT user_id) as bcount,FROM_UNIXTIME(a.login_time,'%Y-%m-%d') as gap from  __PREFIX__accounts_login a  ";
+        $sql .= " where a.login_time>$begin and a.login_time<$end AND a.type=0  group by gap order by a.login_time";
+//        dump($sql);
+        $res = M()->cache(true)->query($sql);//物流费,交易额,成本价
+
+        foreach ($res as $val){
+            $arr[$val['gap']] = $val['acount'];
+            $brr[$val['gap']] = $val['bcount'];
+            $crr[$val['gap']] = $val['order_fee_amount'];
+
+        }
+
+        for($i=$begin;$i<=$end;$i=$i+24*3600){
+            $date = $day[] = date('Y-m-d',$i);
+            $tmp_goods_amount = empty($arr[$date]) ? 0 : $arr[$date];
+            $tmp_cost_amount = empty($brr[$date]) ? 0 : $brr[$date];
+            $tmp_shipping_amount = empty($crr[$date]) ? 0 : $crr[$date];
+            $tmp_coupon_amount = empty($drr[$date]) ? 0 : $drr[$date];
+
+            $goods_arr[] = $tmp_goods_amount;
+            $cost_arr[] = $tmp_cost_amount;
+            $shipping_arr[] = $tmp_shipping_amount;
+            $coupon_arr[] = $tmp_coupon_amount;
+            $list[] = array('day'=>$date,'logincount'=>$tmp_goods_amount,'loginusercount'=>$tmp_cost_amount,
+                'order_fee_amount'=>$tmp_shipping_amount,'teacherget'=>$tmp_coupon_amount,'end'=>date('Y-m-d',$i+24*60*60));
+        }
+//        dump($list);
+        $this->assign('list',$list);
+        $result = array('goods_arr'=>$goods_arr,'cost_arr'=>$cost_arr,'shipping_arr'=>$shipping_arr,'coupon_arr'=>$coupon_arr,'time'=>$day);
+        $this->assign('result',json_encode($result));
+        $this->meta_title = '每天登录次数统计';
+        $this->display();
+    }
+
+
+
+
+
 }

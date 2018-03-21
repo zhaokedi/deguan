@@ -116,23 +116,28 @@
 
                         <label class="item-label">学历证书1</label>
                         <div class="controls">
-
+                            <input type="file" id="upload_picture_others_1">
+                            <input type="hidden" name="others_1" id="cover_others_1" value="{$info.others_1}"/>
                             <div class="upload-img-box">
                                 <notempty name="info['others_1']">
                                     <div class="upload-pre-item">
                                         <a href="{$info.others_1}" target="_blank">
-                                        <img src="{$info.others_1}">
+                                            <img src="{$info.others_1}">
                                         </a>
                                     </div>
                                 </notempty>
-
                             </div>
 
                         </div>
                     </div>
+
+
+
                     <div class="form-item">
                         <label class="item-label">学历证书2</label>
                         <div class="controls">
+                            <input type="file" id="upload_picture_others_2">
+                            <input type="hidden" name="others_2" id="cover_others_2" value="{$info.others_2}"/>
                             <div class="upload-img-box">
                                 <notempty name="info['others_2']">
                                     <div class="upload-pre-item">
@@ -147,6 +152,8 @@
                     <div class="form-item">
                         <label class="item-label">荣誉证书1</label>
                         <div class="controls">
+                            <input type="file" id="upload_picture_others_3">
+                            <input type="hidden" name="others_3" id="cover_others_3" value="{$info.others_3}"/>
                             <div class="upload-img-box">
                                 <notempty name="info['others_3']">
                                     <div class="upload-pre-item">
@@ -161,6 +168,8 @@
                     <div class="form-item">
                         <label class="item-label">荣誉证书2</label>
                         <div class="controls">
+                            <input type="file" id="upload_picture_others_4">
+                            <input type="hidden" name="others_4" id="cover_others_4" value="{$info.others_4}"/>
                             <div class="upload-img-box">
                                 <notempty name="info['others_4']">
                                     <div class="upload-pre-item">
@@ -175,6 +184,8 @@
                     <div class="form-item">
                         <label class="item-label">身份证正面</label>
                         <div class="controls">
+                            <input type="file" id="upload_picture_others_5">
+                            <input type="hidden" name="others_5" id="cover_others_5" value="{$info.others_5}"/>
                             <div class="upload-img-box">
                                 <notempty name="info['others_5']">
                                     <div class="upload-pre-item">
@@ -189,6 +200,8 @@
                     <div class="form-item">
                     <label class="item-label">身份证反面</label>
                     <div class="controls">
+                        <input type="file" id="upload_picture_others_6">
+                        <input type="hidden" name="others_6" id="cover_others_6" value="{$info.others_6}"/>
                         <div class="upload-img-box">
                             <notempty name="info['others_6']">
                                 <div class="upload-pre-item">
@@ -203,6 +216,8 @@
                     <div class="form-item">
                         <label class="item-label">技能证书</label>
                         <div class="controls">
+                            <input type="file" id="upload_picture_others_8">
+                            <input type="hidden" name="others_8" id="cover_others_8" value="{$info.others_8}"/>
                             <div class="upload-img-box">
                                 <notempty name="info['others_8']">
                                     <div class="upload-pre-item">
@@ -334,6 +349,7 @@
 	</div>
 </block>
 <block name="script">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 Think.setValue("apply_course_id", {$info.apply_course_id|default=1});
 Think.setValue("apply_grade_id", {$info.apply_grade_id|default=1});
@@ -344,6 +360,266 @@ Think.setValue("is_passed", {$info.is_passed|default=0});
 //导航高亮
 highlight_subnav('{:U('Accounts/teacher')}');
 
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_others_1").uploadify({
+    "height"          : 30,
+    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+    "fileObjName"     : "download",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+    "width"           : 120,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadPicturecover_others_1,
+    'onFallback' : function() {
+        alert('未检测到兼容版本的Flash。');
+    }
+});
+//<!--<a href="{$info.others_1}" target="_blank">-->
+//<!--<img src="{$info.others_1}">-->
+//<!--</a>-->
+function uploadPicturecover_others_1(file, data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        $("#cover_others_1").val(data.path);
+        src = data.url || '__ROOT__' + data.path
+        $("#cover_others_1").parent().find('.upload-img-box').html(
+            '<div class="upload-pre-item"><a href="__ROOT__' + src + '" target="_blank"><img src="__ROOT__' + src + '"/></a></div>'
+        );
+    } else {
+        updateAlert(data.info);
+        setTimeout(function(){
+            $('#top-alert').find('button').click();
+            $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+}
+
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_others_2").uploadify({
+    "height"          : 30,
+    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+    "fileObjName"     : "download",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+    "width"           : 120,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadPicturecover_others_2,
+    'onFallback' : function() {
+
+    }
+});
+//<!--<a href="{$info.others_1}" target="_blank">-->
+//<!--<img src="{$info.others_1}">-->
+//<!--</a>-->
+function uploadPicturecover_others_2(file, data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        $("#cover_others_2").val(data.path);
+        src = data.url || '__ROOT__' + data.path
+        $("#cover_others_2").parent().find('.upload-img-box').html(
+            '<div class="upload-pre-item"><a href="__ROOT__' + src + '" target="_blank"><img src="__ROOT__' + src + '"/></a></div>'
+        );
+    } else {
+        updateAlert(data.info);
+        setTimeout(function(){
+            $('#top-alert').find('button').click();
+            $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+}
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_others_3").uploadify({
+    "height"          : 30,
+    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+    "fileObjName"     : "download",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+    "width"           : 120,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadPicturecover_others_3,
+    'onFallback' : function() {
+
+    }
+});
+//<!--<a href="{$info.others_1}" target="_blank">-->
+//<!--<img src="{$info.others_1}">-->
+//<!--</a>-->
+function uploadPicturecover_others_3(file, data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        $("#cover_others_3").val(data.path);
+        src = data.url || '__ROOT__' + data.path
+        $("#cover_others_3").parent().find('.upload-img-box').html(
+            '<div class="upload-pre-item"><a href="__ROOT__' + src + '" target="_blank"><img src="__ROOT__' + src + '"/></a></div>'
+        );
+    } else {
+        updateAlert(data.info);
+        setTimeout(function(){
+            $('#top-alert').find('button').click();
+            $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+}
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_others_4").uploadify({
+    "height"          : 30,
+    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+    "fileObjName"     : "download",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+    "width"           : 120,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadPicturecover_others_4,
+    'onFallback' : function() {
+
+    }
+});
+//<!--<a href="{$info.others_1}" target="_blank">-->
+//<!--<img src="{$info.others_1}">-->
+//<!--</a>-->
+function uploadPicturecover_others_4(file, data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        $("#cover_others_4").val(data.path);
+        src = data.url || '__ROOT__' + data.path
+        $("#cover_others_4").parent().find('.upload-img-box').html(
+            '<div class="upload-pre-item"><a href="__ROOT__' + src + '" target="_blank"><img src="__ROOT__' + src + '"/></a></div>'
+        );
+    } else {
+        updateAlert(data.info);
+        setTimeout(function(){
+            $('#top-alert').find('button').click();
+            $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+}
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_others_5").uploadify({
+    "height"          : 30,
+    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+    "fileObjName"     : "download",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+    "width"           : 120,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadPicturecover_others_5,
+    'onFallback' : function() {
+
+    }
+});
+//<!--<a href="{$info.others_1}" target="_blank">-->
+//<!--<img src="{$info.others_1}">-->
+//<!--</a>-->
+function uploadPicturecover_others_5(file, data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        $("#cover_others_5").val(data.path);
+        src = data.url || '__ROOT__' + data.path
+        $("#cover_others_5").parent().find('.upload-img-box').html(
+            '<div class="upload-pre-item"><a href="__ROOT__' + src + '" target="_blank"><img src="__ROOT__' + src + '"/></a></div>'
+        );
+    } else {
+        updateAlert(data.info);
+        setTimeout(function(){
+            $('#top-alert').find('button').click();
+            $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+}
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_others_6").uploadify({
+    "height"          : 30,
+    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+    "fileObjName"     : "download",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+    "width"           : 120,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadPicturecover_others_6,
+    'onFallback' : function() {
+
+    }
+});
+//<!--<a href="{$info.others_1}" target="_blank">-->
+//<!--<img src="{$info.others_1}">-->
+//<!--</a>-->
+function uploadPicturecover_others_6(file, data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        $("#cover_others_6").val(data.path);
+        src = data.url || '__ROOT__' + data.path
+        $("#cover_others_6").parent().find('.upload-img-box').html(
+            '<div class="upload-pre-item"><a href="__ROOT__' + src + '" target="_blank"><img src="__ROOT__' + src + '"/></a></div>'
+        );
+    } else {
+        updateAlert(data.info);
+        setTimeout(function(){
+            $('#top-alert').find('button').click();
+            $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+}
+
+//上传图片
+/* 初始化上传插件 */
+$("#upload_picture_others_8").uploadify({
+    "height"          : 30,
+    "swf"             : "__STATIC__/uploadify/uploadify.swf",
+    "fileObjName"     : "download",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+    "width"           : 120,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadPicturecover_others_8,
+    'onFallback' : function() {
+
+    }
+});
+//<!--<a href="{$info.others_1}" target="_blank">-->
+//<!--<img src="{$info.others_1}">-->
+//<!--</a>-->
+function uploadPicturecover_others_8(file, data){
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.status){
+        $("#cover_others_8").val(data.path);
+        src = data.url || '__ROOT__' + data.path
+        $("#cover_others_8").parent().find('.upload-img-box').html(
+            '<div class="upload-pre-item"><a href="__ROOT__' + src + '" target="_blank"><img src="__ROOT__' + src + '"/></a></div>'
+        );
+    } else {
+        updateAlert(data.info);
+        setTimeout(function(){
+            $('#top-alert').find('button').click();
+            $(that).removeClass('disabled').prop('disabled',false);
+        },1500);
+    }
+}
 </script>
 </block>
 

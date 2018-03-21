@@ -251,10 +251,10 @@ class AccountsModel extends Model {
 
             if($vipbuyinfo['level']==1){
                 //学生购买200会员赠送课时体验券
-                $r1= D("Admin/CouponList")->addCouponList($uid,80);
-                if (!$r1){
-                    return array("error"=>'发放体验券失败');
-                }
+//                $r1= D("Admin/CouponList")->addCouponList($uid,80);//取消
+//                if (!$r1){
+//                    return array("error"=>'发放体验券失败');
+//                }
 //                D("Admin/FinanceReward")->createReward($uid,100,-9,0,'reward_fee');
             }elseif ($vipbuyinfo['level']==2){  //购买500的会员赠送300现金券
 

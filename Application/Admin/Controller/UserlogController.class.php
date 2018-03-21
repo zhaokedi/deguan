@@ -41,12 +41,12 @@ class UserlogController extends AdminController {
         $type=array(1=>'搜索',2=>'电话',3=>'聊天');
         $mod = M('UserLog')->alias('t')->join('__ACCOUNTS__ AS a on t.user_id = a.id ')->join('__ACCOUNTS__ AS b on t.content = b.username ');
 
-        $list   = $this->lists($mod, $map, 't.id desc',"t.*,a.nickname,a.username,a.address uaddress,b.address baddress");
+        $list   = $this->lists($mod, $map, 't.id desc',"t.*,a.nickname,a.username,a.role,a.address uaddress,b.address baddress,b.role brole,b.nickname bnickname");
         foreach ($list as $k=>$v){
             $list[$k]['typename']=$type[$v['type']];
         }
 //        int_to_string($list,array('is_dealed'=>C('DEALED_CHOICE')));
-
+        int_to_string($list,array('role'=>C('ROLE_CHOOSE'),'brole'=>C('ROLE_CHOOSE')));
         $this->assign('_list', $list);
         $this->meta_title = '用户操作记录';
         $this->display();

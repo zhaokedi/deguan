@@ -33,7 +33,7 @@
                     <div class="form-item">
                         <label class="item-label">对象</label>
                         <div class="controls">
-                            <select name="type">
+                            <select name="type" id="object">
                                 <option value="1">全部</option>
                                 <option value="2">所有学生</option>
                                 <option value="5">学生未发布</option>
@@ -42,6 +42,29 @@
                                 <option value="4">未通过老师</option>
                                 <option value="8">未发布课程老师</option>
                                 <option value="7">所有老师</option>
+                            </select>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $("select#object").click(function(){
+                            var type=$(this).val();
+                                if (type== 3 || type== 7){
+                                    $("#course").css("display","block");
+                                }else {
+                                    $("#course").css("display","none");
+                                }
+                                 console.log($(this).val());
+                             });
+                    </script>
+                    <div class="form-item" style="display: none;" id="course">
+                        <label class="item-label">科目</label>
+                        <div class="controls">
+                            <select name="course">
+                                <option value="">无</option>
+                                <volist name="courseslist" id="vo">
+                                <option value="{$key}">{$vo}</option>
+                                </volist>
+
                             </select>
                             <!--全部 <input type="radio" name="type" checked="checked" value="1">-->
                             <!--学生 <input type="radio" name="type"  value="2">-->

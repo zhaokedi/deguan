@@ -179,7 +179,8 @@
             <td>{$vo.id} </td>
             <td>{$vo.role_text}</td>
             <td>用户名 <a href="{:U('Accounts/user_detail',array('id'=>$vo['username'],'type'=>2))}">{$vo.username}</a><br/>
-                邀请人 <if condition="$vo.recom_username eq 88888888888">无<else/> {$vo.recom_username}</if>
+                邀请人 <if condition="$vo.recom_username eq 88888888888">无<else/> {$vo.recom_username}</if><br/>
+                会员邀请人 <if condition="($vo.vip_first_leader eq 88888888888) or ($vo.vip_first_leader eq '')">无<else/> {$vo.vip_first_leader}</if>
             </td>
             <td>{$vo.appversion} </td>
             <td>{$vo.model} </td>
@@ -236,7 +237,7 @@
                 <a href="{:U('Accounts/user_edit',array('id'=>$vo['id']))}" class="authorize">修改密码</a>
                 <a href="{:U('Accounts/profile_edit',array('id'=>$vo['id']))}"  class="authorize">编辑</a>
 
-                <!--<a href="{:U('Accounts/account_edit',array('id'=>$vo['id']))}"  class="authorize">资金调节</a>-->
+                <a href="{:U('Accounts/account_edit',array('id'=>$vo['id']))}"  class="authorize">资金调节</a>
                 <!--<a href="javascript:;" onclick="com(this);"  data-href="{:U('Accounts/profile_edit',array('id'=>$vo['id']))}" class="authorize">编辑</a>-->
                 <a href="{:U('Accounts/nextuser',array('username'=>$vo['username']))}" class="authorize">下级</a>
                 <a href="{:U('Accounts/send_singlemessage',array('username'=>$vo['username']))}" class="authorize">发送消息</a>

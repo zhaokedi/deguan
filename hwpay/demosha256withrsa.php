@@ -72,7 +72,7 @@ if($ok)
             if($orderinfo ){
                 $res= $mod->where('id = '.$orderinfo['id'])->save(array('status'=>1));
                 if($res){
-                    $r= D('Admin/FinanceBilling')->createBilling($orderinfo['uid'], $orderinfo['fee'], 1, 1, 1);
+                    $r= D('Admin/FinanceBilling')->createBilling($orderinfo['uid'], $orderinfo['fee'], 1, 1, 7);
                 }
             }
         }
@@ -126,7 +126,7 @@ if($ok)
                         'beforefee' => $balance['fee'],
                         'balancefee' => $balance['fee'],
                         'user_id' => $order['placer_id'],
-                        'channel' => 2,
+                        'channel' => 7,
                         'level' => 0,
                         'order_id' => $order['id'],
                     );

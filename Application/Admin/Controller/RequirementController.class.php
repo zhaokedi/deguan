@@ -24,6 +24,12 @@ class RequirementController extends AdminController {
 //    		$map['a.area_username'] = session('user_auth.username');
 //    	}
         $map=agent_map('a');
+        if(!empty($map)&&  session('agentinfo.isagent')==1   ){
+            if(session('agentinfo.show_level')==2){
+                $map['a.city']=array("like","%".session('agentinfo.city')."%");
+                unset($map['a.state']);
+            }
+        }
      /*    //根据当前用户设置查询权限 add by lijun 20170421
         if(session('user_auth.username')!='xuelema')
         {   
@@ -87,6 +93,7 @@ class RequirementController extends AdminController {
                 $list[$k]['tusername']=$user['username'];
                 $list[$k]['service_address']=$order['address'];
                 $list[$k]['order_id']=$order['id'];
+                $list[$k]['updatetime']=empty($v['updatetime'])?"":time_format($v['updatetime']);
                 if($order['service_type']==1){
                     $list[$k]['distance']=0;
                 }elseif ($order['service_type']==2){
@@ -162,7 +169,12 @@ class RequirementController extends AdminController {
             $Requirement = D('RequirementRequirement');
             $data = $Requirement->create();
             if($data){
-                if($Requirement->save()!== false){
+                $data['updatetime'] = time();
+                $data['editor'] = session('user_auth.username');
+//                dump($data);
+//                exit();
+                $r=M('RequirementRequirement')->where(array("id"=>$id))->save($data);
+                if($r!== false){
                     $this->success('更新成功');
                 } else {
                     $this->error('更新失败');
