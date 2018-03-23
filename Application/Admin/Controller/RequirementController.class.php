@@ -76,6 +76,18 @@ class RequirementController extends AdminController {
             $map['t.state']=array('like', '%'.(string)$state.'%');
         }
 
+        if (isset($_GET['coursename'])) {
+            $coursename=$_GET['coursename'];
+            $uidss=M('setup_course')->field('id')->where(array('name'=>array('like', '%'.(string)$coursename.'%')))->select();
+            $uidss=array_column($uidss,'id');
+            if(empty($uidss)){
+                $uidss='';
+            }
+            $map['t.course_id']    =   array('in',$uidss);
+        }
+
+
+
         $map['t.is_delete']=0;
         $mod = M('RequirementRequirement')->alias('t')->join('__ACCOUNTS__ AS a on t.publisher_id = a.id ');
          
@@ -101,13 +113,15 @@ class RequirementController extends AdminController {
                 }
             }
             $ilist=array();
-            $r=M("order_order")->alias('o')->join(C('DB_PREFIX')."accounts a on o.teacher_id = a.id",'left')->field("a.headimg,a.username,a.nickname")->where(array('o.placer_id'=>$v['publisher_id'],'o.requirement_id'=>$v['id'],'o.status'=>9))->select();
+            $r=M("order_order")->alias('o')->join(C('DB_PREFIX')."accounts a on o.teacher_id = a.id",'left')->field("a.headimg,a.username,a.nickname,o.id,o.send")->where(array('o.placer_id'=>$v['publisher_id'],'o.requirement_id'=>$v['id'],'o.status'=>9))->select();
             if(!empty($r)){
                 foreach ($r as $k1=>$v1){
                     $ilist[]=array(
 //                        'img'   =>\Extend\Lib\PublicTool::complateUrl($v1['headimg']),
                         'username'=>$v1['username'],
                         'nickname'=>$v1['nickname'],
+                        'send'=>$v1['send'],
+                        'id'=>$v1['id'],
                     );
 
 
@@ -115,9 +129,6 @@ class RequirementController extends AdminController {
 
             }
             $list[$k]['ilist']=$ilist;
-//            dump($ilist);
-
-
 
         }
         int_to_string($list,array('service_type'=>C('SERVICE_TYPE'),'level'=>C('LEVEL')));
@@ -125,6 +136,104 @@ class RequirementController extends AdminController {
         $this->assign('_list', $list);
         $this->meta_title = '需求列表';
         $this->display();
+    }
+    public function tooglesend($id,$value = 1){
+
+//        $this->editRow('order_order', array('send'=>$value==1?0:1), array('id'=>$id));
+        $where=array('id'=>$id);
+        $id    = array_unique((array)I('id',0));
+        $id    = is_array($id) ? implode(',',$id) : $id;
+        //如存在id字段，则加入该条件
+        $fields = M('order_order')->getDbFields();
+        if(in_array('id',$fields) && !empty($id)){
+            $where = array_merge( array('id' => array('in', $id )) ,(array)$where );
+        }
+        $order = M('order_order')->where(array('id'=>$id))->find();
+        $teacher = D('TeacherInformation')->where(array('user_id'=>$order['teacher_id']))->find();
+        $tinfo = get_user_info($order['teacher_id']);
+        $mapa['course_id']=$order['course_id'];
+        $mapa['information_id']=$teacher['id'];
+
+        if(in_array($order['grade_id'],array("30","31","32","33","34","35"))){
+            $mapa['grade_id']=1;
+        }elseif(in_array($order['grade_id'],array("36","37","38"))){
+            $mapa['grade_id']=2;
+        }elseif(in_array($order['grade_id'],array("39","40","41"))){
+            $mapa['grade_id']=3;
+        }elseif(in_array($order['grade_id'],array("42"))){
+            $mapa['grade_id']=4;
+        }else{
+            $mapa['grade_id']=$order['grade_id'];
+        }
+
+        $course = D('TeacherInformationSpeciality')->where($mapa)->find();
+
+        $msg   = array( 'success'=>'操作成功！', 'error'=>'操作失败！', 'url'=>'' ,'ajax'=>IS_AJAX) ;
+        $this->error('暂不可用',$msg['url'],$msg['ajax']);
+        $requirement = M('requirement_requirement')->where(array('id'=>$order['requirement_id']))->find();
+        $teach_count=M("order_order")->where(array("status"=>3,"is_complete"=>1,'teacher_id'=>$order['teacher_id']))->count();
+        //计算距离
+        if ($order['lat'] == 0.0000000000 || $order['lng'] == 0.0000000000 || $requirement['lat'] == 0.0000000000 || $requirement['lng'] == 0.0000000000) {
+            $distance = '';
+        }else{
+            $distance=getDistance($order['lat'],$order['lng'],$requirement['lat'],$requirement['lng']);
+        }
+//        $extras=array(
+//            "fee"                   =>$requirement['fee'],
+//            "sp_id"                 =>$course['id'],//教师课程编号id
+//            'user_id'               => $order['teacher_id'],
+//            'teacher_id'            => $order['teacher_id'],
+//            'teach_count'           => $teach_count,
+//            'teacher_resume'        => $teacher['resume'],
+//            'content'               => $requirement['content'],
+//            'signature'             => $tinfo['signature'],
+//            'order_rank'            => number_format($teacher['order_rank'],1),
+//            'id'                    => $order['requirement_id'],
+//            'course_id'             => $requirement['course_id'],
+//            'course_name'           => get_course_name($requirement['course_id']),
+//            'grade_id'              => $requirement['grade_id'],
+//            'grade_name'            => get_grade_name($requirement['grade_id']),
+//            'distance'              => $distance,
+//            'nickname'              => $tinfo['nickname'],
+//            'user_headimg'          => \Extend\Lib\PublicTool::complateUrl($tinfo['headimg']),
+//            'visit_fee'             => $course['visit_fee'],
+//            'unvisit_fee'           => $course['unvisit_fee'],
+//            'course_remark'         => $course['course_remark'],
+//        );
+//        $r= \Extend\Lib\JpushTool::sendCustomMessage($order['placer_id'],'type1','你好',$extras);
+//        dump($extras);
+//        exit();
+
+        if( M('order_order')->where($where)->save(array('send'=>$value))!==false ) {
+            $extras=array(
+                "fee"                   =>$requirement['fee'],
+                "sp_id"                 =>$course['id'],//教师课程编号id
+                'user_id'               => $order['teacher_id'],
+                'teacher_id'            => $order['teacher_id'],
+                'teach_count'           => $teach_count,
+                'teacher_resume'        => $teacher['resume'],
+                'content'               => $requirement['content'],
+                'signature'             => $tinfo['signature'],
+                'order_rank'            => number_format($teacher['order_rank'],1),
+                'id'                    => $order['requirement_id'],
+                'course_id'             => $requirement['course_id'],
+                'course_name'           => get_course_name($requirement['course_id']),
+                'grade_id'              => $requirement['grade_id'],
+                'grade_name'            => get_grade_name($requirement['grade_id']),
+                'distance'              => $distance,
+                'nickname'              => $tinfo['nickname'],
+                'user_headimg'          => \Extend\Lib\PublicTool::complateUrl($tinfo['headimg']),
+                'visit_fee'             => $course['visit_fee'],
+                'unvisit_fee'           => $course['unvisit_fee'],
+                'course_remark'         => $course['course_remark'],
+            );
+            $r= \Extend\Lib\JpushTool::sendCustomMessage($order['placer_id'],'type1','你好',$extras);
+            jpush_log(array( "title"=> "type1","content"=>'你好',"remark"=> '教师接取需求推送',"user_id"=> $order['placer_id'],"extras"=> json_encode($extras)));
+
+            $this->success($msg['success'],$msg['url'],$msg['ajax']);
+        }else{
+            $this->error($msg['error'],$msg['url'],$msg['ajax']);
+        }
     }
     /**
      * 需求备注
@@ -222,7 +331,7 @@ class RequirementController extends AdminController {
         $list = D('teacher_information_speciality')->alias('s')->field($field)->
         join('__TEACHER_INFORMATION__ AS t on s.information_id = t.id')->
         where($map)->group('s.information_id')->order($order)->select();
-//        dump($map);
+
         foreach ($list as $k=>$v){
             $rr=bd_encrypt($v['lng'],$v['lat']);
             $user=get_user_info($v['user_id']);
@@ -247,7 +356,10 @@ class RequirementController extends AdminController {
         $info['content']=trim($info['content']);
 
         $data=json_encode($data);
+//        $str = str_replace(array("/r/n", "/r", "/n"), '', $str);
+//        $info['content']=str_replace(array("/r/n", "/r", "/n"), '', $info['content']);
 //        int_to_string($info,array('service_type'=>C('SERVICE_TYPE'),'gender'=>C('GENDER_FILTER')),2);
+//        dump($info);
         $this->assign('info', $info);
         $this->assign('userinfo', $userinfo);
         $this->assign('data', $data);

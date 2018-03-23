@@ -1168,7 +1168,7 @@ class AccountsController extends AdminController {
         }
 
         $mod = M('TeacherInformation')->alias('t')->join('__ACCOUNTS__ AS a on t.user_id = a.id ');
-        $list   = $this->lists($mod, $map, $order.' '.$order_type,'t.*,a.username,a.nickname,a.province,a.city,a.state,a.name,a.recom_username,a.date_joined,a.last_login,a.is_worth,a.is_forbid');
+        $list   = $this->lists($mod, $map, $order.' '.$order_type,'t.*,a.username,a.nickname,a.province,a.city,a.state,a.name,a.recom_username,a.date_joined,a.last_login,a.is_worth,a.is_forbid,a.remark');
         foreach ($list as $k =>$v){
             $list[$k]['course_count']=M("teacher_information_speciality")->where(array("information_id"=>$v['id']))->count();
             $refund_counts=M("order_order")->where(array("teacher_id"=>$v['user_id'],'status'=>array("in",'5')))->count();
@@ -1335,6 +1335,9 @@ class AccountsController extends AdminController {
             $this->assign('educations',$educations);
         	$courses = D('SetupCourse')->field('id,name')->where(array('is_valid'=>1))->select();
         	$grades = D('SetupGrade')->field('id,name')->where(array('is_valid'=>1))->select();
+            $specialitys=array();
+            $specialitys= M('teacher_information_speciality')->where(array("information_id"=>$info['id']))->select();
+            $this->assign('specialitys',$specialitys?$specialitys:array());
 			$this->assign('courses',$courses);
 			$this->assign('grades',$grades);
             $this->assign('info',$info);
@@ -3350,7 +3353,7 @@ class AccountsController extends AdminController {
 
 //        $list   = $this->lists($mod, $map, 't.login_time desc',"t.*,a.nickname,a.name,a.role,a.date_joined");
         int_to_string($list,array('role'=>C('ROLE_CHOOSE')));
-
+//        dump($list);
 //        int_to_string($list,array('is_dealed'=>C('DEALED_CHOICE')));
 
         $this->assign('_list', $list);
@@ -3820,14 +3823,18 @@ class AccountsController extends AdminController {
         $sql .= " where a.login_time>$begin and a.login_time<$end AND a.type=0  group by gap order by a.login_time";
 //        dump($sql);
         $res = M()->cache(true)->query($sql);//物流费,交易额,成本价
-
+        $total_count=M("accounts_login")->where(array("type"=>0))->count();
+//        $total_count_user        =   M("accounts_login")->where(array("type"=>0))->count("DISTINCT username");
+//        dump($total_count_user);
+        $total_login_count=0;
+        $total_login_user=0;
         foreach ($res as $val){
             $arr[$val['gap']] = $val['acount'];
+            $total_login_count+=$val['acount'];
             $brr[$val['gap']] = $val['bcount'];
-            $crr[$val['gap']] = $val['order_fee_amount'];
+            $total_login_user+=$val['bcount'];
 
         }
-
         for($i=$begin;$i<=$end;$i=$i+24*3600){
             $date = $day[] = date('Y-m-d',$i);
             $tmp_goods_amount = empty($arr[$date]) ? 0 : $arr[$date];
@@ -3844,6 +3851,9 @@ class AccountsController extends AdminController {
         }
 //        dump($list);
         $this->assign('list',$list);
+        $this->assign('total_login_count',$total_login_count);
+        $this->assign('total_login_user',$total_login_user);
+        $this->assign('total_count',$total_count);
         $result = array('goods_arr'=>$goods_arr,'cost_arr'=>$cost_arr,'shipping_arr'=>$shipping_arr,'coupon_arr'=>$coupon_arr,'time'=>$day);
         $this->assign('result',json_encode($result));
         $this->meta_title = '每天登录次数统计';

@@ -51,17 +51,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-item">
-                        <label class="item-label">在校时间</label>
-                        <!--<div class="controls">-->
-                            <!--<input type="text" name="starttime" class="text input-large" value="{$info.starttime|default=''}">-->
+                    <!--<div class="form-item">-->
+                        <!--<label class="item-label">在校时间</label>-->
+                        <!--&lt;!&ndash;<div class="controls">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<input type="text" name="starttime" class="text input-large" value="{$info.starttime|default=''}">&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                         <!--<input type="text"  name="starttime" class="text input-2x" value="{$info.starttime|default=''}" placeholder="" /> - -->
+                        <!--<div class="input-append date" id="datetimepicker"  style="display:inline-block">-->
+                            <!--<input type="text"  name="endtime" class="text input-2x" value="{$info.endtime|default=''}" placeholder="" />-->
+                            <!--<span class="add-on"><i class="icon-th"></i></span>-->
                         <!--</div>-->
-                         <input type="text"  name="starttime" class="text input-2x" value="{$info.starttime|default=''}" placeholder="" /> -
-                        <div class="input-append date" id="datetimepicker"  style="display:inline-block">
-                            <input type="text"  name="endtime" class="text input-2x" value="{$info.endtime|default=''}" placeholder="" />
-                            <span class="add-on"><i class="icon-th"></i></span>
-                        </div>
-                    </div>
+                    <!--</div>-->
                     <div class="form-item">
                         <label class="item-label">学历</label>
                         <div class="controls">
@@ -229,12 +229,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-item">
-                        <label class="item-label">课时费</label>
-                        <div class="controls">
-                            <input type="text" name="fee" class="text input-large" value="{$info.fee|default=''}">
-                        </div>
-                    </div>
+                    <!--<div class="form-item">-->
+                        <!--<label class="item-label">课时费</label>-->
+                        <!--<div class="controls">-->
+                            <!--<input type="text" name="fee" class="text input-large" value="{$info.fee|default=''}">-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="form-item">
                         <label class="item-label">工作年限</label>
                         <div class="controls">
@@ -332,6 +332,7 @@
                         </label>
                         <span>审核不通过时需填</span>
                     </div>
+
                 </div>
                 <!-- 按钮 -->
                 <div class="form-item cf">
@@ -343,6 +344,19 @@
                         <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
                     </div>
                 </div>
+                <notempty name="specialitys">
+                    <div class="form-item">
+                        <label class="item-label">发布的课程:</label>
+                        <div class="controls">
+                            <span>
+                                <volist name="specialitys" id="vo">
+                                 {$vo.grade_id|get_grade_name} {$vo.course_id|get_course_name} 老师上门:{$vo.visit_fee} 学生上门:{$vo.unvisit_fee}<br/>
+                                </volist>
+                            </span>
+                        </div>
+                    </div>
+
+                </notempty>
             </form>
         </div>
         <div style="clear: both"></div>

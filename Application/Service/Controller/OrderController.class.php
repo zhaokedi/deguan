@@ -2289,4 +2289,45 @@ class OrderController extends BaseController {
         );
         $this->ajaxReturn(array('error' => 'ok', 'content' => $informations));
     }
+    /**
+     * 拒绝后台的匹配老师
+     * index.php?s=/Service/Order/refuse_teacher
+     * @param int $uid      用户id
+     * @param int $id       订单id
+     * @return json
+     * {
+     *     error        : "string"  // ok:成功 no:失败
+     *     errmsg       : "string"  // 错误信息
+     */
+    public function refuse_teacher(){
+        $uid = $this->getRequestData('uid',0);
+        $id = $this->getRequestData('id',0);
+
+        $user = get_user_info($uid); //获取用户信息
+
+        if (!$user) { //用户不存在
+            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '用户不存在'));
+        }
+
+        /*获取订单*/
+        $order = D('OrderOrder')->where(array('id'=>$id))->find();
+
+        if (!$order) {
+            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '订单不存在'));
+        }
+
+        if ($order['placer_id'] != $uid) {
+            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '没有权限'));
+        }
+        if ($order['send'] == 2) {
+            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '已经拒绝过该老师'));
+        }
+
+        $result = D('OrderOrder')->where(array('id'=>$id))->save(array('send'=>2));
+
+        if (!$result) {
+            $this->ajaxReturn(array('error' => 'no', 'errmsg' => '操作失败'));
+        }
+        $this->ajaxReturn(array('error' => 'ok'));
+    }
 }

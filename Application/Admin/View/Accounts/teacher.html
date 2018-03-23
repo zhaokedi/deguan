@@ -125,6 +125,7 @@
         <th class="">备注</th>
             <th class="">消息发送</th>
             <th class="">黑名单</th>
+            <th class="">详细</th>
 
         <th class="">操作</th>
         </tr>
@@ -165,6 +166,7 @@
             <td>{$vo.worth_text}</td>
             <td>{$vo.is_send}</td>
             <td>{$vo.is_forbid}</td>
+            <td>{$vo.remark}</td>
             <td>
                 <!--<a href="{:U('Accounts/shenhe_edit',array('id'=>$vo['id']))}" class="authorize">审核</a>-->
                 <a href="{:U('Accounts/send_singlemessage',array('username'=>$vo['username']))}" class="authorize">发送消息</a>

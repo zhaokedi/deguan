@@ -86,7 +86,8 @@
             <td>{$vo.id} </td>
 
             <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['username'],'type'=>2))}">{$vo.username}</a></td>
-            <td> {$vo.role_text} </td>
+            <td>
+                <if condition="$vo.role eq 2"><a href="{:U('Accounts/teacher_edit',array('user_id'=>$vo['user_id']))}" class="authorize">{$vo.role_text}</a><else/>{$vo.role_text}</if> </td>
             <td> {$vo.nickname} </td>
 
             <td> {$vo.name} </td>

@@ -12,6 +12,9 @@
         <!-- 高级搜索 -->
         <div class="search-form fr cf">
             <div class="sleft">
+                <input style="margin-right: 5px;" type="text"  name="coursename" class="search-input" value="{:I('coursename')}" placeholder="请输入科目">
+            </div>
+            <div class="sleft">
                 <div class="drop-down" style="width: 85px;">
                     <span id="sch-sort-txt" class="sort-txt" data="{$service_type}" style="width:60px;"><if condition="get_service_title($service_type) eq ''">所有<else/>{:get_service_title($service_type)}</if></span>
                     <i class="arrow arrow-down"></i>
@@ -85,7 +88,7 @@
         <tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
             <td>{$vo.id} </td>
-            <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['publisher_id'],'type'=>1))}">{$vo.username}</a> <br/>
+            <td><a href="{:U('Accounts/user_detail',array('id'=>$vo['publisher_id'],'type'=>1))}">{$vo.username}</a><br/>
                 {$vo.nickname}<br/>
                 {$vo.level_text}<br/>
 
@@ -101,7 +104,17 @@
             <td>
                 <if condition="$vo.ilist neq ''">
                     <volist name="vo.ilist" id="vo1" >
-                    抢单人: <a href="{:U('Accounts/user_detail',array('id'=>$vo1['username'],'type'=>2))}">{$vo1.username}</a> {$vo1.nickname} <br/>
+                    抢单人: <a href="{:U('Accounts/user_detail',array('id'=>$vo1['username'],'type'=>2))}">{$vo1.username}</a> {$vo1.nickname}
+                        <if condition="$vo1.send eq 0">
+                            <a href="{:U('tooglesend',array('id'=>$vo1['id'],'value'=>$vo1['1']))}" class="ajax-get">
+                                推送
+                            </a>
+                            <elseif condition="$vo1.send eq 1"/>
+                            已推送
+                            <elseif/>
+                            已拒绝
+                        </if>
+                        <br/>
                     <!--服务地址: {$vo1.service_address}<br/>-->
                     <!--距离: {$vo.distance}-->
                     </volist>
